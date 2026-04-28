@@ -1,2 +1,6 @@
-BASELINE_DB = {"uri": "bolt://localhost:7687", "user": "neo4j", "password": "12345678"}
-REFACTOR_DB = {"uri": "bolt://localhost:7688", "user": "neo4j", "password": "12345678"}
+NEO4J_CONFIG = {
+    "uri": "bolt://localhost:7687",
+    "user": "neo4j",
+    "password": "12345678",
+    "database": "neo4j"
+}

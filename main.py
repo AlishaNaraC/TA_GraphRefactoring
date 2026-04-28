@@ -1,0 +1,84 @@
+from config import NEO4J_CONFIG
+from importer.neo4j_importer import Neo4jImporter
+from importer.schema_initializer import create_indexes
+from importer.label_manager import (
+    drop_temp_indexes,
+    remove_temp_labels
+)
+from query.query_loader import QueryLoader
+from query.query_parser import QueryParser
+from query.property_analyzer import PropertyAnalyzer
+
+def import_data_imdb():
+    importer = Neo4jImporter(**NEO4J_CONFIG)
+    print("Import movies...")
+    importer.import_movies()
+    print("Import peoples...")
+    importer.import_peoples()
+    print("Create indexes...")
+    create_indexes(importer)
+    print("Import edges...")
+    edges_result = importer.import_edges()
+    print(f"Hasil import_edges: {edges_result}")
+    total_edges = 0
+    if edges_result and isinstance(edges_result, list):
+        if isinstance(edges_result[0], dict):
+            total_edges = edges_result[0].get('total', 0)
+    if not total_edges:
+        print("Tidak ada edge yang berhasil diimpor. Proses dihentikan.")
+        importer.close()
+        return
+    print("Remove temp labels...")
+    drop_temp_indexes(importer)
+    remove_temp_labels(importer, "TMP_PEOPLES")
+    remove_temp_labels(importer, "TMP_MOVIES")
+    importer.close()
+    print("Import selesai")
+
+def read_and_analyze_query():
+
+    loader = QueryLoader("data/queries")
+    queries = loader.load_queries()
+
+    parser = QueryParser()
+    all_conditions = []
+
+    for q in queries:
+        conditions = parser.extract_conditions(q["query"])
+        all_conditions.extend(conditions)
+
+    analyzer = PropertyAnalyzer()
+
+    property_counter, value_counter = analyzer.analyze(all_conditions)
+
+    report = analyzer.generate_report(property_counter, value_counter)
+
+    print("\n=== QUERY ANALYZING REPORT ===\n")
+
+    for item in report:
+        print(f"Property key \"{item['property']}\":")
+        print(f"{item['total_redundancy']} redundancy")
+        if item['is_redundant']:
+            print(f"\"{item['most_called_value']}\" is the most called ({item['value_redundancy']} redundancy)\n")
+        else:
+            print("No redundant values (all values are unique)\n")
+
+
+def main():
+    print("Pilih mode eksekusi:")
+    print("0. Jalankan semua proses")
+    print("1. Import skema data")
+    print("2. Import dan analisis kueri")
+    pilihan = input("Masukkan pilihan [contoh: 0]: ").strip()
+    if pilihan == '0':
+        import_data_imdb()
+        read_and_analyze_query()
+    elif pilihan == '1':
+        import_data_imdb()
+    elif pilihan == '2':
+        read_and_analyze_query()
+    else:
+        print("Pilihan tidak valid.")
+
+if __name__ == "__main__":
+    main()
