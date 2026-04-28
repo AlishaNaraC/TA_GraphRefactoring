@@ -1,19 +1,48 @@
-def remove_temp_labels(importer):
+def drop_temp_indexes(importer):
 
     queries = [
 
         """
-        MATCH (n:TMP_PEOPLES)
-        REMOVE n:TMP_PEOPLES
+        DROP INDEX people_id_index
+        IF EXISTS
         """,
 
         """
-        MATCH (n:TMP_MOVIES)
-        REMOVE n:TMP_MOVIES
+        DROP INDEX movie_id_index
+        IF EXISTS
         """
 
     ]
 
-    for q in queries:
 
+    for q in queries:
         importer.execute_query(q)
+
+def remove_temp_labels(importer, label):
+
+    while True:
+
+        query = f"""
+        MATCH (n:{label})
+
+        WITH n
+        LIMIT 10000
+
+        REMOVE n:{label}
+
+        RETURN count(*) AS updated
+        """
+
+
+        result = importer.execute_query(query)
+
+
+        updated = result[0]["updated"]
+
+
+        print(
+            f"{label} updated: {updated}"
+        )
+
+        if updated == 0:
+            break

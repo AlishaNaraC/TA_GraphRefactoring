@@ -43,7 +43,6 @@ class Neo4jImporter:
     # =====================================
 
     def import_movies(self):
-
         query = """
         LOAD CSV WITH HEADERS
         FROM 'file:///movies.csv'
@@ -80,7 +79,7 @@ class Neo4jImporter:
             RETURN count(node) AS total
         }
 
-        IN TRANSACTIONS OF 5000 ROWS
+        IN TRANSACTIONS OF 10000 ROWS
 
         RETURN sum(total)
         AS totalImported
@@ -139,7 +138,7 @@ class Neo4jImporter:
             RETURN count(node) AS total
         }
 
-        IN TRANSACTIONS OF 5000 ROWS
+        IN TRANSACTIONS OF 10000 ROWS
 
         RETURN sum(total)
         AS totalImported
@@ -153,46 +152,24 @@ class Neo4jImporter:
     # =====================================
 
     def import_edges(self):
-
         query = """
-        LOAD CSV WITH HEADERS
-        FROM 'file:///edges.csv'
-        AS row
+            LOAD CSV WITH HEADERS
+            FROM 'file:///edges.csv'
+            AS row
+            FIELDTERMINATOR ','
 
-        FIELDTERMINATOR ','
+            WITH row
+            WHERE row.source IS NOT NULL 
+            AND row.dest IS NOT NULL 
+            AND row.type IS NOT NULL
 
-        WITH row
+            MATCH (a:TMP_PEOPLES {id: row.source})
+            MATCH (b:TMP_MOVIES {id: row.dest})
 
-        WHERE row.source IS NOT NULL
-        AND row.dest IS NOT NULL
-
-        CALL (row) {
-
-            MATCH (
-                a:TMP_PEOPLES
-                {id: row.source}
-            )
-
-            MATCH (
-                b:TMP_MOVIES
-                {id: row.dest}
-            )
-
-            CALL apoc.create.relationship(
-                a,
-                row.type,
-                {},
-                b
-            )
+            CALL apoc.create.relationship(a, row.type, {}, b)
             YIELD rel
 
-            RETURN count(rel) AS total
-        }
-
-        IN TRANSACTIONS OF 5000 ROWS
-
-        RETURN sum(total)
-        AS totalImported
+            RETURN count(rel) AS totalImported
         """
-
-        return self.execute_query(query)
+        # Jalankan dengan :auto atau CALL ... IN TRANSACTIONS besar di luar
+        return self.execute_query("CALL { " + query + " } IN TRANSACTIONS OF 10000 ROWS RETURN sum(totalImported) AS total")
