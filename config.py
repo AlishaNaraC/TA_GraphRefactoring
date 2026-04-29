@@ -8,6 +8,6 @@ NEO4J_CONFIG = {
 	"password": NEO4J_PASSWORD
 }
 
-BASELINE_DB = "IMDB_Baseline"
+BASELINE_DB = "neo4j"
 PBN_DB = "IMDB_PBN"
 ES_DB = "IMDB_ES"

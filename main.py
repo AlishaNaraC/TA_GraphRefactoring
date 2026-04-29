@@ -12,22 +12,22 @@ from query.property_analyzer import PropertyAnalyzer
 def import_data_imdb():
     importer = Neo4jImporter(**NEO4J_CONFIG, database=BASELINE_DB)
     print("Import movies...")
-    importer.import_movies()
+    # importer.import_movies()
     print("Import peoples...")
-    importer.import_peoples()
+    # importer.import_peoples()
     print("Create indexes...")
-    create_indexes(importer)
+    # create_indexes(importer)
     print("Import edges...")
-    edges_result = importer.import_edges()
-    print(f"Hasil import_edges: {edges_result}")
-    total_edges = 0
-    if edges_result and isinstance(edges_result, list):
-        if isinstance(edges_result[0], dict):
-            total_edges = edges_result[0].get('total', 0)
-    if not total_edges:
-        print("Tidak ada edge yang berhasil diimpor. Proses dihentikan.")
-        importer.close()
-        return
+    # edges_result = importer.import_edges()
+    # print(f"Hasil import_edges: {edges_result}")
+    # total_edges = 0
+    # if edges_result:
+    #     total_edges = edges_result[0].get("total", 0)
+    # if total_edges <= 0:
+    #     print("Tidak ada edge yang berhasil diimpor. Proses dihentikan.")
+    #     importer.close()
+    #     return
+
     print("Remove temp labels...")
     drop_temp_indexes(importer)
     remove_temp_labels(importer, "TMP_PEOPLES")
