@@ -1,4 +1,4 @@
-from config import NEO4J_CONFIG
+from config import NEO4J_CONFIG, BASELINE_DB, PBN_DB, ES_DB
 from importer.neo4j_importer import Neo4jImporter
 from importer.schema_initializer import create_indexes
 from importer.label_manager import (
@@ -10,7 +10,7 @@ from query.query_parser import QueryParser
 from query.property_analyzer import PropertyAnalyzer
 
 def import_data_imdb():
-    importer = Neo4jImporter(**NEO4J_CONFIG)
+    importer = Neo4jImporter(**NEO4J_CONFIG, database=BASELINE_DB)
     print("Import movies...")
     importer.import_movies()
     print("Import peoples...")
@@ -56,12 +56,15 @@ def read_and_analyze_query():
     print("\n=== QUERY ANALYZING REPORT ===\n")
 
     for item in report:
-        print(f"Property key \"{item['property']}\":")
-        print(f"{item['total_redundancy']} redundancy")
+        print(f">> {item['total_redundancy']} redundancy for \"{item['property']}\" property key")
         if item['is_redundant']:
-            print(f"\"{item['most_called_value']}\" is the most called ({item['value_redundancy']} redundancy)\n")
+            print(f"> \"{item['most_called_value']}\" is the most called ({item['value_redundancy']} redundancy)")
+            for redundant in item["redundant_values"]:
+                print(f"- \"{redundant['value']}\" "f"({redundant['count']} redundancy)")
         else:
             print("No redundant values (all values are unique)\n")
+        print("-----------------------------\n")
+        
 
 
 def main():

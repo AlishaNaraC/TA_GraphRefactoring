@@ -153,23 +153,17 @@ class Neo4jImporter:
 
     def import_edges(self):
         query = """
-            LOAD CSV WITH HEADERS
-            FROM 'file:///edges.csv'
-            AS row
-            FIELDTERMINATOR ','
-
-            WITH row
-            WHERE row.source IS NOT NULL 
-            AND row.dest IS NOT NULL 
-            AND row.type IS NOT NULL
-
-            MATCH (a:TMP_PEOPLES {id: row.source})
-            MATCH (b:TMP_MOVIES {id: row.dest})
-
-            CALL apoc.create.relationship(a, row.type, {}, b)
-            YIELD rel
-
-            RETURN count(rel) AS totalImported
+            CALL apoc.periodic.iterate(
+            "LOAD CSV WITH HEADERS FROM 'file:///edges.csv' AS row FIELDTERMINATOR ','
+            RETURN row",
+            "WITH row
+            MATCH (source:PersonNode {id: row.source})
+            MATCH (dest:MovieNode {id: row.dest})
+            CALL apoc.create.relationship(source, row.type, {}, dest) YIELD rel
+            RETURN count(rel)",
+            {batchSize: 20000, parallel: false}
+            )
+            YIELD batches, total, errorMessages;
         """
         # Jalankan dengan :auto atau CALL ... IN TRANSACTIONS besar di luar
         return self.execute_query("CALL { " + query + " } IN TRANSACTIONS OF 10000 ROWS RETURN sum(totalImported) AS total")

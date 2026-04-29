@@ -19,15 +19,25 @@ class PropertyAnalyzer:
         report = []
 
         for prop in property_counter:
-            value, count = value_counter[prop].most_common(1)[0]
-            is_redundant = count > 1
+
+
+            most_common_value, most_common_count = value_counter[prop].most_common(1)[0]
+            # Ambil redundant_values, tapi exclude most_common_value
+            redundant_values = [
+                {"value": val, "count": cnt}
+                for val, cnt in value_counter[prop].items()
+                if cnt > 1 and val != most_common_value
+            ]
+            redundant_values.sort(key=lambda x: x["count"], reverse=True)
+            is_redundant = (most_common_count > 1) or (len(redundant_values) > 0)
 
             report.append({
                 "property": prop,
                 "total_redundancy": property_counter[prop],
-                "most_called_value": value,
-                "value_redundancy": count,
-                "is_redundant": is_redundant
+                "most_called_value": most_common_value,
+                "value_redundancy": most_common_count,
+                "is_redundant": is_redundant,
+                "redundant_values": redundant_values
             })
 
         return report

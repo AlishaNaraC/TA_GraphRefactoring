@@ -1,6 +1,13 @@
+NEO4J_URI = "bolt://localhost:7687"
+NEO4J_USER = "neo4j"
+NEO4J_PASSWORD = "12345678"
+
 NEO4J_CONFIG = {
-    "uri": "bolt://localhost:7687",
-    "user": "neo4j",
-    "password": "12345678",
-    "database": "neo4j"
+	"uri": NEO4J_URI,
+	"user": NEO4J_USER,
+	"password": NEO4J_PASSWORD
 }
+
+BASELINE_DB = "IMDB_Baseline"
+PBN_DB = "IMDB_PBN"
+ES_DB = "IMDB_ES"
