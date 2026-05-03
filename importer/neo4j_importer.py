@@ -1,14 +1,12 @@
 from neo4j import GraphDatabase
+from config import NEO4J_CONFIG
 
 
 class Neo4jImporter:
 
-    def __init__(self,uri,user,password,database):
-        self.driver = GraphDatabase.driver(
-            uri,
-            auth=(user, password)
-        )
-        self.database = database
+    def __init__(self):
+        self.driver = GraphDatabase.driver(**NEO4J_CONFIG)
+        self.database = NEO4J_CONFIG.get("database")
 
     def close(self):
         self.driver.close()
