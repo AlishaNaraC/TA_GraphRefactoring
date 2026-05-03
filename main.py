@@ -88,8 +88,6 @@ def choose_property(report):
 
 def refactor_pbn(manager, report):
 
-    manager.create_pbn_database()
-
     while True:
         prop = choose_property(report)
 
@@ -107,8 +105,6 @@ def refactor_pbn(manager, report):
             break
 
 def refactor_es(manager, report):
-
-    manager.create_es_database()
 
     rel_type = input("\nMasukkan relationship type [contoh: ACTED_IN]: ").strip()
 
