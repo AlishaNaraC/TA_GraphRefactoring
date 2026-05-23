@@ -39,7 +39,7 @@ def import_data_imdb():
 
 def read_and_analyze_query():
 
-    loader = QueryLoader("data/queries")
+    loader = QueryLoader("data/queries/Query_Where_80.txt")
     queries = loader.load_queries()
 
     parser = QueryParser()
@@ -80,7 +80,7 @@ def main():
     print("2. Import skema data")
     print("3. Analisis properti kueri")
     print("4. Refaktor database (property becoming a node)")
-    pilihan = input("Masukkan pilihan [contoh: 0]: ").strip()
+    pilihan = input("Masukkan pilihan [contoh: 1]: ").strip()
 
     if pilihan == '1':
         import_data_imdb()
