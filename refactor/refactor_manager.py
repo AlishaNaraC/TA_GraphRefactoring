@@ -1,34 +1,29 @@
-from config import *
-from refactor.property_becoming_node import PropertyBecomingNode
-from refactor.edge_specification import EdgeSpecification
+from importer.neo4j_importer import (
+    Neo4jImporter
+)
+
+from refactor.property_becoming_node import (
+    PropertyBecomingNode
+)
+
 
 class RefactorManager:
 
-    def run_pbn_refactor(self, properties):
+    def __init__(self):
 
-        refactor = PropertyBecomingNode(
-            NEO4J_URI,
-            NEO4J_USER,
-            NEO4J_PASSWORD,
-            PBN_DB
+        self.importer = Neo4jImporter()
+
+        self.refactor = PropertyBecomingNode(
+            self.importer
         )
 
-        refactor.refactor_properties(properties)
 
-        refactor.close()
+    def run(self):
 
-    def run_es_refactor(self, rel_type, properties):
+        print("\nProperty Becoming Node...")
 
-        refactor = EdgeSpecification(
-            NEO4J_URI,
-            NEO4J_USER,
-            NEO4J_PASSWORD,
-            ES_DB
-        )
+        self.refactor.execute()
 
-        refactor.specialize_relationships(
-            rel_type,
-            properties
-        )
+        self.importer.close()
 
-        refactor.close()
+        print("\nRefactor selesai")

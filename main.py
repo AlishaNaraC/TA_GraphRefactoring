@@ -1,4 +1,4 @@
-from config import NEO4J_CONFIG, BASELINE_DB, PBN_DB, ES_DB
+from config import NEO4J_CONFIG, DB
 from importer.neo4j_importer import Neo4jImporter
 from importer.schema_initializer import create_indexes
 from importer.label_manager import (
@@ -11,7 +11,7 @@ from query.property_analyzer import PropertyAnalyzer
 from refactor.refactor_manager import RefactorManager
 
 def import_data_imdb():
-    importer = Neo4jImporter(**NEO4J_CONFIG, database=BASELINE_DB)
+    importer = Neo4jImporter()
     print("Import movies...")
     importer.import_movies()
     print("Import peoples...")
@@ -21,6 +21,7 @@ def import_data_imdb():
     print("Import edges...")
     edges_result = importer.import_edges()
     print(f"Hasil import_edges: {edges_result}")
+    
     total_edges = 0
     if edges_result:
         total_edges = edges_result[0].get("total", 0)
@@ -50,11 +51,18 @@ def read_and_analyze_query():
 
     analyzer = PropertyAnalyzer()
     property_counter, value_counter = analyzer.analyze(all_conditions)
+
     report = analyzer.generate_report(property_counter, value_counter)
-    return report
+
+    # Simpan report ke CSV
+    import os
+    output_dir = "data/report"
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, "hasil_report.csv")
+    analyzer.save_report_to_csv(report, output_path)
+    print(f"Report telah disimpan ke {output_path}\n")
 
     print("\n=== QUERY ANALYZING REPORT ===\n")
-
     for item in report:
         print(f">> {item['total_redundancy']} redundancy for \"{item['property']}\" property key")
         if item['is_redundant']:
@@ -64,102 +72,28 @@ def read_and_analyze_query():
         else:
             print("No redundant values (all values are unique)\n")
         print("-----------------------------\n")
-        
-def show_properties(report):
 
-    print("\nDaftar properti kandidat refaktorisasi:\n")
-
-    for i, item in enumerate(report, start=1):
-        print(
-            f"{i}. {item['property']} "
-            f"({item['total_redundancy']} redundancy)"
-        )
-
-def choose_property(report):
-
-    show_properties(report)
-    choice = input("\nPilih nomor properti: ").strip()
-
-    try:
-        index = int(choice) - 1
-        return report[index]["property"]
-    except:
-        return None
-
-def refactor_pbn(manager, report):
-
-    while True:
-        prop = choose_property(report)
-
-        if not prop:
-            print("Pilihan tidak valid")
-            continue
-
-        print(f"\nRefactor PBN: {prop}")
-
-        manager.run_pbn_refactor([prop])
-
-        again = input("\nRefactor property lain? (y/n): ").strip().lower()
-
-        if again != "y":
-            break
-
-def refactor_es(manager, report):
-
-    rel_type = input("\nMasukkan relationship type [contoh: ACTED_IN]: ").strip()
-
-    while True:
-        prop = choose_property(report)
-
-        if not prop:
-            print("Pilihan tidak valid")
-            continue
-
-        print(f"\nRefactor ES: "f"{rel_type} + {prop}")
-
-        manager.run_es_refactor(rel_type,[prop])
-
-        again = input(
-            "\nRefactor property lain? (y/n): "
-        ).strip().lower()
-
-        if again != "y":
-            break
 
 def main():
     print("Pilih mode eksekusi:")
-    print("0. Jalankan semua proses")
-    print("1. Import skema data")
-    print("2. Import dan analisis kueri")
-    print("3. Refactor database")
+    print("1. Jalankan semua proses")
+    print("2. Import skema data")
+    print("3. Analisis properti kueri")
+    print("4. Refaktor database (property becoming a node)")
     pilihan = input("Masukkan pilihan [contoh: 0]: ").strip()
 
-    if pilihan == '0':
+    if pilihan == '1':
         import_data_imdb()
         report = read_and_analyze_query()
         print(report)
         manager = RefactorManager()
-    elif pilihan == '1':
-        import_data_imdb()
     elif pilihan == '2':
-        report = read_and_analyze_query()
-        print(report)
+        import_data_imdb()
     elif pilihan == '3':
-        report = read_and_analyze_query()
-        manager = RefactorManager()
-
-        print("Pilih teknik refaktorisasi:")
-        print("1. Property Becoming a Node (PBN)")
-        print("2. Edge Specification (ES)")
-        teknik = input("Masukkan pilihan teknik [contoh: 1]: ").strip()
-        if teknik == '1':
-            refactor_pbn(manager, report)
-        elif teknik == '2':
-            refactor_es(manager, report)
-        else:
-            print("Pilihan teknik tidak valid.")
-    else:
-        print("Pilihan tidak valid.")
+        read_and_analyze_query()
+    elif pilihan=='4':
+        manager=RefactorManager()
+        manager.run()
 
 if __name__ == "__main__":
     main()

@@ -5,8 +5,13 @@ from config import NEO4J_CONFIG
 class Neo4jImporter:
 
     def __init__(self):
-        self.driver = GraphDatabase.driver(**NEO4J_CONFIG)
-        self.database = NEO4J_CONFIG.get("database")
+        # Gunakan parameter yang benar untuk GraphDatabase.driver
+        uri = NEO4J_CONFIG["uri"]
+        user = NEO4J_CONFIG["user"]
+        password = NEO4J_CONFIG["password"]
+        self.driver = GraphDatabase.driver(uri, auth=(user, password))
+        from config import DB
+        self.database = DB  # default database dari config.py
 
     def close(self):
         self.driver.close()
@@ -16,6 +21,13 @@ class Neo4jImporter:
             database=self.database
         ) as session:
             result = session.run(query)
+            return list(result)
+    
+    def run_query(self,query,parameters=None):
+        with self.driver.session(
+            database=self.database
+        ) as session:
+            result = session.run(query,parameters)
             return list(result)
 
     def import_movies(self):
@@ -89,6 +101,17 @@ class Neo4jImporter:
         """
         return self.execute_query(query)
 
+        # SET n += {
+        #         id: row.id,
+        #         name: row.name,
+        #         birth: toInteger(
+        #             COALESCE(row.birth,row['birth:int'])
+        #         ),
+        #         death: toInteger(
+        #             COALESCE(row.death,row['death:int'])
+        #         )
+        #     }
+
     def import_edges(self):
         query = """
             CALL apoc.periodic.iterate(
@@ -104,3 +127,22 @@ class Neo4jImporter:
             YIELD batches, total, errorMessages;
         """
         return self.execute_query(query)
+
+        # LOAD CSV WITH HEADERS FROM 'file:///edges.csv' AS row 
+        # FIELDTERMINATOR ';'
+        
+        # WITH row
+        # WHERE row.source IS NOT NULL AND row.dest IS NOT NULL
+        
+        # CALL (row) {
+        #     MATCH (source:TMP_PEOPLES {id: row.source})
+        #     MATCH (dest:TMP_MOVIES {id: row.dest})
+            
+        #     // Menggunakan pembuat relasi dinamis bawaan Cypher versi baru
+        #     CREATE (source)-[r:$(row.type)]->(dest)
+            
+        #     RETURN count(r) AS total
+        # }
+        # IN TRANSACTIONS OF 1000 ROWS
+        
+        # RETURN sum(total) AS totalImported
