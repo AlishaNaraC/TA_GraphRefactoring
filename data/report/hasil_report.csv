@@ -1,6 +1,0 @@
-property,total_redundancy,most_called_value,value_redundancy,is_redundant,redundant_values
-name,27,,0,False,[]
-year,68,2008,4,True,"[{'value': '1999', 'count': 3}, {'value': '2010', 'count': 3}, {'value': '1997', 'count': 2}, {'value': '1973', 'count': 2}, {'value': '2006', 'count': 2}, {'value': '2004', 'count': 2}, {'value': '1985', 'count': 2}, {'value': '2007', 'count': 2}, {'value': '1990', 'count': 2}, {'value': '2016', 'count': 2}, {'value': '2011', 'count': 2}, {'value': '2005', 'count': 2}, {'value': '1996', 'count': 2}]"
-category,62,movie,29,True,"[{'value': 'video', 'count': 12}, {'value': 'tvMovie', 'count': 7}, {'value': 'short', 'count': 7}, {'value': 'tvSpecial', 'count': 3}, {'value': 'tvSeries', 'count': 3}]"
-birth,22,0,4,True,"[{'value': '1937', 'count': 2}]"
-death,21,0,10,True,"[{'value': '2009', 'count': 2}]"
