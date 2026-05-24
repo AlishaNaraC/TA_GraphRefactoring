@@ -1,7 +1,7 @@
-<<<<<<< Updated upstream
-BASELINE_DB = {"uri": "bolt://localhost:7687", "user": "neo4j", "password": "12345678"}
-REFACTOR_DB = {"uri": "bolt://localhost:7688", "user": "neo4j", "password": "12345678"}
-=======
+# <<<<<<< Updated upstream
+# BASELINE_DB = {"uri": "bolt://localhost:7687", "user": "neo4j", "password": "12345678"}
+# REFACTOR_DB = {"uri": "bolt://localhost:7688", "user": "neo4j", "password": "12345678"}
+# =======
 NEO4J_URI = "neo4j://127.0.0.1:7687"
 NEO4J_USER = "neo4j"
 NEO4J_PASSWORD = "12345678"
@@ -13,4 +13,3 @@ NEO4J_CONFIG = {
 }
 
 DB = "imdbmovie"
->>>>>>> Stashed changes

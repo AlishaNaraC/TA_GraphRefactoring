@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 from config import NEO4J_CONFIG, DB
 from importer.neo4j_importer import Neo4jImporter
 from importer.schema_initializer import create_indexes
@@ -103,4 +101,3 @@ def main():
 
 if __name__ == "__main__":
     main()
->>>>>>> Stashed changes
