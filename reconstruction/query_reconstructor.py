@@ -4,7 +4,7 @@ import csv
 PROPERTY_REFACTOR_MAP = {
     "year":     {"relation": "RELEASED_IN",  "label_format": "year_{val}"},
     "category": {"relation": "HAS_CATEGORY", "label_format": "{val}"},
-    "death":    {"relation": "DEATH_IN",     "label_format": "year_{val}"},
+    "death":    {"relation": "DIED_IN",     "label_format": "year_{val}"},
     "birth":    {"relation": "BORN_IN",      "label_format": "year_{val}"},
 }
 
@@ -167,6 +167,17 @@ def save_queries_to_csv(data, file_path):
         writer.writeheader()
         for row in data:
             writer.writerow(row)
+
+def get_where_pattern(jumlah_properti):
+    """Konversi jumlah properti WHERE ke label pola"""
+    pola = {
+        0: "-",          # tidak ada WHERE
+        1: "A",
+        2: "A AND B",
+        3: "A AND B AND C",
+        4: "A AND B AND C AND D"
+    }
+    return pola.get(jumlah_properti, f"{jumlah_properti} kondisi")
 
 def run_reconstruction():
     input_file  = "data/queries/Query_Where_80.txt"

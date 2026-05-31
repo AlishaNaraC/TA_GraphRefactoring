@@ -1,4 +1,5 @@
 from config import NEO4J_CONFIG, DB
+from execution.runner import run_baseline, run_refactored
 from importer.neo4j_importer import Neo4jImporter
 from importer.schema_initializer import create_indexes
 from importer.label_manager import (
@@ -82,6 +83,9 @@ def main():
     print("3. Analisis properti kueri")
     print("4. Refaktor database (property becoming a node)")
     print("5. Rekonstruksi kueri (property becoming a node)")
+    print("6. Jalankan kueri baseline")
+    print("7. Jalankan kueri refactored")
+
     pilihan = input("Masukkan pilihan [contoh: 1]: ").strip()
 
     if pilihan == '1':
@@ -98,6 +102,16 @@ def main():
         manager.run()
     elif pilihan=='5':
         run_reconstruction()
+    elif pilihan == '6':
+        run_baseline(
+            input_file  = "data/queries/Query_Where_80.txt",
+            output_csv  = "data/report/hasil_baseline.csv"
+        )
+    elif pilihan == '7':
+        run_refactored(
+            input_csv  = "data/report/Query_Where_80_Refactored.csv",
+            output_csv = "data/report/hasil_refactored.csv"
+        )
 
 if __name__ == "__main__":
     main()

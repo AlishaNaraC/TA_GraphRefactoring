@@ -12,4 +12,5 @@ NEO4J_CONFIG = {
 	"password": NEO4J_PASSWORD
 }
 
-DB = "imdbmovie"
+# DB = "imdbmovie"
+DB = "imdb-data"
