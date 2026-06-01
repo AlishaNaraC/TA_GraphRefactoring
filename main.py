@@ -1,4 +1,5 @@
 from config import NEO4J_CONFIG, DB
+from execution.runner import run_baseline, run_refactored
 from importer.neo4j_importer import Neo4jImporter
 from importer.schema_initializer import create_indexes
 from importer.label_manager import (
@@ -8,6 +9,7 @@ from importer.label_manager import (
 from query.query_loader import QueryLoader
 from query.query_parser import QueryParser
 from query.property_analyzer import PropertyAnalyzer
+from reconstruction.query_reconstructor import run_reconstruction
 from refactor.refactor_manager import RefactorManager
 
 def import_data_imdb():
@@ -39,7 +41,7 @@ def import_data_imdb():
 
 def read_and_analyze_query():
 
-    loader = QueryLoader("data/queries")
+    loader = QueryLoader("data/queries/Query_Where_80.txt")
     queries = loader.load_queries()
 
     parser = QueryParser()
@@ -80,7 +82,11 @@ def main():
     print("2. Import skema data")
     print("3. Analisis properti kueri")
     print("4. Refaktor database (property becoming a node)")
-    pilihan = input("Masukkan pilihan [contoh: 0]: ").strip()
+    print("5. Rekonstruksi kueri (property becoming a node)")
+    print("6. Jalankan kueri baseline")
+    print("7. Jalankan kueri refactored")
+
+    pilihan = input("Masukkan pilihan [contoh: 1]: ").strip()
 
     if pilihan == '1':
         import_data_imdb()
@@ -94,6 +100,18 @@ def main():
     elif pilihan=='4':
         manager=RefactorManager()
         manager.run()
+    elif pilihan=='5':
+        run_reconstruction()
+    elif pilihan == '6':
+        run_baseline(
+            input_file  = "data/queries/Query_Where_80.txt",
+            output_csv  = "data/report/hasil_baseline.csv"
+        )
+    elif pilihan == '7':
+        run_refactored(
+            input_csv  = "data/report/Query_Where_80_Refactored.csv",
+            output_csv = "data/report/hasil_refactored.csv"
+        )
 
 if __name__ == "__main__":
     main()
