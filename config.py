@@ -13,4 +13,5 @@ NEO4J_CONFIG = {
 }
 
 # DB = "imdbmovie"
-DB = "imdb-data"
+# DB = "imdb-data"
+DB = "neo4j"

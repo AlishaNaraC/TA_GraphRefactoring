@@ -19,7 +19,8 @@ def clean_label(value):
 
 def generate_labels(
     property_name,
-    value
+    value,
+    pbn=False
 ):
 
     if value is None:
@@ -28,12 +29,19 @@ def generate_labels(
     value=str(value).strip()
 
     # tahun
-    if property_name in [
-        "birth",
-        "death",
-        "year"
-    ]:
-        return [f"year_{value}"]
+    if property_name in ["birth", "death", "year"]:
+
+        if pbn:
+            return [f"year_{value}"]
+
+        if property_name == "year":
+            return [f"year_{value}"]
+
+        if property_name == "birth":
+            return [f"birth_{value}"]
+
+        if property_name == "death":
+            return [f"death_{value}"]
 
 
     # multiple value

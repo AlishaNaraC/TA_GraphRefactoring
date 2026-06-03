@@ -55,7 +55,8 @@ class PropertyBecomingNode:
 
                 labels=generate_labels(
                     prop,
-                    value
+                    value,
+                    pbn=True
                 )
 
                 for label in labels:

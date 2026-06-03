@@ -81,10 +81,14 @@ def main():
     print("1. Jalankan semua proses")
     print("2. Import skema data")
     print("3. Analisis properti kueri")
+    print("-------------------------------")
     print("4. Refaktor database (property becoming a node)")
     print("5. Rekonstruksi kueri (property becoming a node)")
-    print("6. Jalankan kueri baseline")
-    print("7. Jalankan kueri refactored")
+    print("6. Refaktor database (label specification)")
+    print("7. Rekonstruksi kueri (label specification)")
+    print("-------------------------------")
+    print("8. Jalankan kueri baseline")
+    print("9. Jalankan kueri refactored")
 
     pilihan = input("Masukkan pilihan [contoh: 1]: ").strip()
 
@@ -98,16 +102,21 @@ def main():
     elif pilihan == '3':
         read_and_analyze_query()
     elif pilihan=='4':
-        manager=RefactorManager()
+        manager=RefactorManager(technique="pbn")
         manager.run()
     elif pilihan=='5':
         run_reconstruction()
-    elif pilihan == '6':
+    elif pilihan=='6':
+        manager=RefactorManager(technique="ls")
+        manager.run()
+    elif pilihan=='7':
+        run_reconstruction()
+    elif pilihan == '8':
         run_baseline(
             input_file  = "data/queries/Query_Where_80.txt",
             output_csv  = "data/report/hasil_baseline.csv"
         )
-    elif pilihan == '7':
+    elif pilihan == '9':
         run_refactored(
             input_csv  = "data/report/Query_Where_80_Refactored.csv",
             output_csv = "data/report/hasil_refactored.csv"
