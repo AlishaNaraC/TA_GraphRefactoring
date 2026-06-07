@@ -19,7 +19,7 @@ class LabelSpecification:
         for prop in KANDIDAT_PROPERTI:
 
             print(
-                f"\nRefactoring {prop} with label specification..."
+                f"\nRefactoring {prop} property..."
             )
 
             query = f"""

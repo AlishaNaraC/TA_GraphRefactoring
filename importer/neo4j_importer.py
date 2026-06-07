@@ -114,17 +114,24 @@ class Neo4jImporter:
 
     def import_edges(self):
         query = """
-            CALL apoc.periodic.iterate(
-                "LOAD CSV WITH HEADERS FROM 'file:///edges.csv' AS row FIELDTERMINATOR ','
-                RETURN row",
-                "WITH row
+            LOAD CSV WITH HEADERS FROM 'file:///edges.csv' AS row 
+            FIELDTERMINATOR ';'
+            
+            WITH row
+            WHERE row.source IS NOT NULL AND row.dest IS NOT NULL
+            
+            CALL (row) {
                 MATCH (source:TMP_PEOPLES {id: row.source})
                 MATCH (dest:TMP_MOVIES {id: row.dest})
-                CALL apoc.create.relationship(source, row.type, {}, dest) YIELD rel
-                RETURN count(rel)",
-                {batchSize: 20000, parallel: false}
-            )
-            YIELD batches, total, errorMessages;
+                
+                // Menggunakan pembuat relasi dinamis bawaan Cypher versi baru
+                CREATE (source)-[r:$(row.type)]->(dest)
+                
+                RETURN count(r) AS total
+            }
+            IN TRANSACTIONS OF 10000 ROWS
+            
+            RETURN sum(total) AS totalImported
         """
         return self.execute_query(query)
 

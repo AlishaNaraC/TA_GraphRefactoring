@@ -23,7 +23,7 @@ class PropertyBecomingNode:
         for prop in KANDIDAT_PROPERTI:
 
             print(
-                f"\nRefactoring {prop} with new relationship {NAMA_RELASI_BARU[prop]}..."
+                f"\nRefactoring {prop} property with new relationship {NAMA_RELASI_BARU[prop]}..."
             )
 
             rel_name=(
@@ -68,12 +68,7 @@ class PropertyBecomingNode:
                     CALL apoc.merge.node([$label], {value: $label})
                     YIELD node
 
-                    CALL apoc.create.relationship(
-                        n,
-                        $rel,
-                        {},
-                        node
-                    )
+                    CALL apoc.merge.relationship(n,$rel,{},{},target,{})
                     YIELD rel
 
                     RETURN count(*)
