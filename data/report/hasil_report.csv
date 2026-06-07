@@ -4,3 +4,4 @@ year,68,2008,4,True,"[{'value': '1999', 'count': 3}, {'value': '2010', 'count': 
 category,62,movie,29,True,"[{'value': 'video', 'count': 12}, {'value': 'tvMovie', 'count': 7}, {'value': 'short', 'count': 7}, {'value': 'tvSpecial', 'count': 3}, {'value': 'tvSeries', 'count': 3}]"
 birth,22,0,4,True,"[{'value': '1937', 'count': 2}]"
 death,21,0,10,True,"[{'value': '2009', 'count': 2}]"
+5

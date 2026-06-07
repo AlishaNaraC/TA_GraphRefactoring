@@ -10,7 +10,10 @@ from query.query_loader import QueryLoader
 from query.query_parser import QueryParser
 from query.property_analyzer import PropertyAnalyzer
 from reconstruction.query_reconstructor import run_reconstruction
+from reconstruction.reconstructor_label_specification import run_reconstruction_label_specification
 from refactor.refactor_manager import RefactorManager
+from validation.validation_baseline import run_baseline_stats
+from validation.validation_property_becoming_a_node import run_validation_property_becoming_node
 
 def import_data_imdb():
     importer = Neo4jImporter()
@@ -89,6 +92,13 @@ def main():
     print("-------------------------------")
     print("8. Jalankan kueri baseline")
     print("9. Jalankan kueri refactored")
+    print("6. Rekonstruksi kueri (label specification)")   # ← TAMBAH INI
+    print("7. Jalankan kueri baseline")
+    print("8. Jalankan kueri refactored")
+    print("9. Baca statistik baseline (sebelum refaktorisasi)")
+    print("10. Validasi refaktorisasi (property becoming a node)")
+
+
 
     pilihan = input("Masukkan pilihan [contoh: 1]: ").strip()
 
@@ -101,17 +111,19 @@ def main():
         import_data_imdb()
     elif pilihan == '3':
         read_and_analyze_query()
-    elif pilihan=='4':
-        manager=RefactorManager(technique="pbn")
+    elif pilihan == '4':
+        manager = RefactorManager(technique="pbn")
         manager.run()
-    elif pilihan=='5':
+    elif pilihan == '5':
         run_reconstruction()
     elif pilihan=='6':
         manager=RefactorManager(technique="ls")
         manager.run()
     elif pilihan=='7':
         run_reconstruction()
-    elif pilihan == '8':
+    elif pilihan == '8':                         
+        run_reconstruction_label_specification()
+    elif pilihan == '7':
         run_baseline(
             input_file  = "data/queries/Query_Where_80.txt",
             output_csv  = "data/report/hasil_baseline.csv"
@@ -121,6 +133,10 @@ def main():
             input_csv  = "data/report/Query_Where_80_Refactored.csv",
             output_csv = "data/report/hasil_refactored.csv"
         )
+    elif pilihan == '9':
+        run_baseline_stats()
+    elif pilihan == '10':
+        run_validation_property_becoming_node()
 
 if __name__ == "__main__":
     main()
