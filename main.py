@@ -81,62 +81,56 @@ def read_and_analyze_query():
 
 def main():
     print("Pilih mode eksekusi:")
-    print("1. Jalankan semua proses")
-    print("2. Import skema data")
-    print("3. Analisis properti kueri")
+    print("1. Import skema data")
+    print("2. Analisis properti kueri")
     print("-------------------------------")
-    print("4. Refaktor database (property becoming a node)")
-    print("5. Rekonstruksi kueri (property becoming a node)")
-    print("6. Refaktor database (label specification)")
-    print("7. Rekonstruksi kueri (label specification)")
+    print("3. Refaktor database (property becoming a node)")
+    print("4. Rekonstruksi kueri (property becoming a node)")
+    print("5. Refaktor database (label specification)")
+    print("6. Rekonstruksi kueri (label specification)")
     print("-------------------------------")
-    print("8. Jalankan kueri baseline")
-    print("9. Jalankan kueri refactored")
-    print("6. Rekonstruksi kueri (label specification)")   # ← TAMBAH INI
     print("7. Jalankan kueri baseline")
-    print("8. Jalankan kueri refactored")
-    print("9. Baca statistik baseline (sebelum refaktorisasi)")
-    print("10. Validasi refaktorisasi (property becoming a node)")
-
+    print("8. Jalankan kueri refactored (property becoming a node)")
+    print("9. Jalankan kueri refactored (label specification)")
+    print("-------------------------------")
+    print("10. Baca statistik baseline (sebelum refaktorisasi)")
+    print("11. Validasi refaktorisasi (property becoming a node)")
+    print("12. Validasi refaktorisasi (label specification)")
 
 
     pilihan = input("Masukkan pilihan [contoh: 1]: ").strip()
 
     if pilihan == '1':
         import_data_imdb()
-        report = read_and_analyze_query()
-        print(report)
-        manager = RefactorManager()
     elif pilihan == '2':
-        import_data_imdb()
-    elif pilihan == '3':
         read_and_analyze_query()
-    elif pilihan == '4':
+    elif pilihan == '3':
         manager = RefactorManager(technique="pbn")
         manager.run()
-    elif pilihan == '5':
+    elif pilihan == '4':
         run_reconstruction()
-    elif pilihan=='6':
+    elif pilihan == '5':
         manager=RefactorManager(technique="ls")
         manager.run()
-    elif pilihan=='7':
-        run_reconstruction()
-    elif pilihan == '8':                         
+    elif pilihan=='6':
         run_reconstruction_label_specification()
-    elif pilihan == '7':
+    elif pilihan=='7':
         run_baseline(
             input_file  = "data/queries/Query_Where_80.txt",
             output_csv  = "data/report/hasil_baseline.csv"
         )
-    elif pilihan == '9':
+    elif pilihan == '8':
         run_refactored(
             input_csv  = "data/report/Query_Where_80_Refactored.csv",
             output_csv = "data/report/hasil_refactored.csv"
         )
     elif pilihan == '9':
-        run_baseline_stats()
     elif pilihan == '10':
+        run_baseline_stats()
+    elif pilihan == '11':
         run_validation_property_becoming_node()
+    elif pilihan == '12':
+        run_validation_label_specification()
 
 if __name__ == "__main__":
     main()
