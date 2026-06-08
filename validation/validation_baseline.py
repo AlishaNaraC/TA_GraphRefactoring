@@ -89,7 +89,7 @@ class BaselineStatsReader:
     # ------------------------------------------------------------------
     # Simpan CSV
     # ------------------------------------------------------------------
-    def save_csv(self, data: dict, output_dir: str = "data/report"):
+    def save_csv(self, data: dict, output_dir: str = "data/report/validation"):
         os.makedirs(output_dir, exist_ok=True)
         path = os.path.join(output_dir, "baseline_property_stats.csv")
 
@@ -146,7 +146,7 @@ class BaselineStatsReader:
     # ------------------------------------------------------------------
     # Simpan JSON
     # ------------------------------------------------------------------
-    def save_json(self, data: dict, output_dir: str = "data/report"):
+    def save_json(self, data: dict, output_dir: str = "data/report/validation"):
         os.makedirs(output_dir, exist_ok=True)
         path = os.path.join(output_dir, "baseline_property_stats.json")
 
@@ -178,7 +178,7 @@ class BaselineStatsReader:
     # ------------------------------------------------------------------
     # Main
     # ------------------------------------------------------------------
-    def run(self, output_dir: str = "data/report"):
+    def run(self, output_dir: str = "data/report/validation"):
         print("=" * 50)
         print("  MEMBACA STATISTIK BASELINE")
         print("=" * 50)

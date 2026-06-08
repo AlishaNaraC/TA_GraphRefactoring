@@ -3,7 +3,7 @@ import csv
 import json
 from importer.neo4j_importer import Neo4jImporter
 
-JSON_PATH = "data/report/baseline_property_stats.json"
+JSON_PATH = "data/report/validation/baseline_property_stats.json"
 
 # Mapping properti -> relasi baru
 PROPERTY_RELATION = {
@@ -81,7 +81,7 @@ class PropertyBecomingNodeValidator:
     # ------------------------------------------------------------------
     # Simpan CSV
     # ------------------------------------------------------------------
-    def save_csv(self, baseline: dict, refactored: dict, output_dir: str = "data/report"):
+    def save_csv(self, baseline: dict, refactored: dict, output_dir: str = "data/report/validation"):
         os.makedirs(output_dir, exist_ok=True)
         path = os.path.join(output_dir, "validasi_property_becoming_node.csv")
 
@@ -249,7 +249,7 @@ class PropertyBecomingNodeValidator:
     # ------------------------------------------------------------------
     # Main
     # ------------------------------------------------------------------
-    def run(self, output_dir: str = "data/report"):
+    def run(self, output_dir: str = "data/report/validation"):
         print("=" * 55)
         print("  VALIDASI: Property Becoming a Node")
         print("=" * 55)

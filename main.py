@@ -61,7 +61,7 @@ def read_and_analyze_query():
 
     # Simpan report ke CSV
     import os
-    output_dir = "data/report"
+    output_dir = "data/report/analisis_properti"
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, "hasil_report.csv")
     analyzer.save_report_to_csv(report, output_path)
@@ -117,14 +117,18 @@ def main():
     elif pilihan=='7':
         run_baseline(
             input_file  = "data/queries/Query_Where_80.txt",
-            output_csv  = "data/report/hasil_baseline.csv"
+            output_csv  = "data/report/baseline/hasil_baseline.csv"
         )
     elif pilihan == '8':
         run_refactored(
-            input_csv  = "data/report/Query_Where_80_Refactored.csv",
-            output_csv = "data/report/hasil_refactored.csv"
+            input_csv  = "data/queries/Query_Where_80_Refactored.csv",
+            output_csv = "data/report/property_becoming_node/hasil_refactored_PBN.csv"
         )
     elif pilihan == '9':
+        run_refactored(
+            input_csv  = "data/queries/Query_LabelSpec_Refactored.csv",
+            output_csv = "data/report/label_specification/hasil_refactored_LS.csv"
+        )
     elif pilihan == '10':
         run_baseline_stats()
     elif pilihan == '11':

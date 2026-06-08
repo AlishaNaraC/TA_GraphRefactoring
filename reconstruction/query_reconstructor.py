@@ -181,8 +181,8 @@ def get_where_pattern(jumlah_properti):
 
 def run_reconstruction():
     input_file  = "data/queries/Query_Where_80.txt"
-    output_txt  = "data/report/Query_Where_80_Refactored.txt"
-    output_csv  = "data/report/Query_Where_80_Refactored.csv"
+    output_txt  = "data/queries/Query_Where_80_Refactored.txt"
+    output_csv  = "data/queries/Query_Where_80_Refactored.csv"
 
     queries = read_queries_from_file(input_file)
     print(f"Berhasil membaca {len(queries)} query dari {input_file}\n")

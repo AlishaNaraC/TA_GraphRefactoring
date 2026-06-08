@@ -112,8 +112,8 @@ def save_queries_to_csv(data, file_path):
 
 def run_reconstruction_label_specification():
     input_file  = "data/queries/Query_Where_80.txt"
-    output_txt  = "data/report/Query_LabelSpec_Refactored.txt"
-    output_csv  = "data/report/Query_LabelSpec_Refactored.csv"
+    output_txt  = "data/queries/Query_LabelSpec_Refactored.txt"
+    output_csv  = "data/queries/Query_LabelSpec_Refactored.csv"
 
     queries = read_queries_from_file(input_file)
     print(f"Berhasil membaca {len(queries)} query dari {input_file}\n")
