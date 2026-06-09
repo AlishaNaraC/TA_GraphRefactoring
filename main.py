@@ -134,7 +134,7 @@ def main():
     elif pilihan == '11':
         run_validation_property_becoming_node()
     elif pilihan == '12':
-        run_validation_label_specification()
+        print("Validasi refaktorisasi dengan label specification belum diimplementasikan.")
 
 if __name__ == "__main__":
     main()

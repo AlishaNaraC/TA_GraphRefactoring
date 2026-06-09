@@ -2,7 +2,6 @@ import threading
 
 from neo4j import GraphDatabase
 from config import NEO4J_CONFIG, DB
-import threading
 
 
 def total_db_hits(profile):
@@ -11,6 +10,7 @@ def total_db_hits(profile):
     for child in profile.get("children", []):
         total += total_db_hits(child)
     return total
+
 
 class DBConnection:
     def __init__(self):
@@ -22,7 +22,6 @@ class DBConnection:
 
     def close(self):
         self.driver.close()
-    
 
     def run_profile(self, query, timeout_sec=300):
         result_container = {}
@@ -31,12 +30,17 @@ class DBConnection:
         def execute():
             try:
                 with self.driver.session(database=self.db) as session:
-                    result  = session.run(f"PROFILE {query}")
-                    record  = result.single()
-                    jumlah_hasil = record[0] if record else 0
-                    summary = result.consume()
+                    result = session.run(f"PROFILE {query}")
+
+                    # Kumpulkan semua records dulu sebelum consume()
+                    records = list(result)
+                    jumlah_hasil = records[0][0] if records else 0
+
+                    # Baru consume() — summary.profile sekarang terisi lengkap
+                    summary  = result.consume()
                     db_hits  = total_db_hits(summary.profile)
                     run_time = summary.result_available_after + summary.result_consumed_after
+
                     result_container["data"] = {
                         "jumlah_hasil": jumlah_hasil,
                         "db_hits":      db_hits,
@@ -47,10 +51,9 @@ class DBConnection:
 
         thread = threading.Thread(target=execute)
         thread.start()
-        thread.join(timeout=timeout_sec)  # tunggu maksimal timeout_sec detik
+        thread.join(timeout=timeout_sec)
 
         if thread.is_alive():
-            # Query masih jalan setelah timeout, anggap timeout
             raise TimeoutError(f"Query timeout setelah {timeout_sec} detik")
 
         if "error" in error_container:
