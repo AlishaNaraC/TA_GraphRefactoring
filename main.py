@@ -14,6 +14,7 @@ from reconstruction.reconstructor_label_specification import run_reconstruction_
 from refactor.refactor_manager import RefactorManager
 from validation.validation_baseline import run_baseline_stats
 from validation.validation_property_becoming_a_node import run_validation_property_becoming_node
+from validation.validation_label_specification import run_validation_label_specification
 
 def import_data_imdb():
     importer = Neo4jImporter()
@@ -127,7 +128,7 @@ def main():
     elif pilihan == '9':
         run_refactored(
             input_csv  = "data/queries/Query_LabelSpec_Refactored.csv",
-            output_csv = "data/report/label_specification/hasil_refactored_LS.csv"
+            output_csv = "data/report/label_specification/hasil_refactored_LS_1.csv"
         )
     elif pilihan == '10':
         run_baseline_stats()

@@ -5,14 +5,6 @@ from importer.neo4j_importer import Neo4jImporter
 
 JSON_PATH = "data/report/validation/baseline_property_stats.json"
 
-# Mapping properti -> relasi baru
-PROPERTY_RELATION = {
-    "category": "HAS_CATEGORY",
-    "year":     "RELEASED_IN",
-    "birth":    "BORN_IN",
-    "death":    "DIED_IN",
-}
-
 # Prefix label baru untuk year/death/birth
 YEAR_PREFIX = "year_"
 
