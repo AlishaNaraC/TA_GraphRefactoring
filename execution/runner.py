@@ -148,7 +148,7 @@ import csv
 import os
 from query.query_loader import QueryLoader
 from execution.db import DBConnection
-from reconstruction.query_reconstructor import get_where_pattern
+from reconstruction.pbn_query_reconstructor import get_where_pattern
 
 REPEAT = 10  # Jumlah pengulangan eksekusi per kueri
 
