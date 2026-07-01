@@ -6,11 +6,8 @@ from importer.label_manager import (
     drop_temp_indexes,
     remove_temp_labels
 )
-from query.query_loader import QueryLoader
-from query.query_parser import QueryParser
-from query.property_analyzer import PropertyAnalyzer
-from reconstruction.query_reconstructor import run_reconstruction
-from reconstruction.reconstructor_label_specification import run_reconstruction_label_specification
+from reconstruction.pbn_query_reconstructor import run_reconstruction
+from reconstruction.ls_query_reconstructor import run_reconstruction_label_specification
 from refactor.refactor_manager import RefactorManager
 from validation.validation_baseline import run_baseline_stats
 from validation.validation_property_becoming_a_node import run_validation_property_becoming_node
@@ -43,60 +40,22 @@ def import_data_imdb():
     importer.close()
     print("Import selesai")
 
-def read_and_analyze_query():
-
-    loader = QueryLoader("data/queries/Query_Where_80.txt")
-    queries = loader.load_queries()
-
-    parser = QueryParser()
-    all_conditions = []
-
-    for q in queries:
-        conditions = parser.extract_conditions(q["query"])
-        all_conditions.extend(conditions)
-
-    analyzer = PropertyAnalyzer()
-    property_counter, value_counter = analyzer.analyze(all_conditions)
-
-    report = analyzer.generate_report(property_counter, value_counter)
-
-    # Simpan report ke CSV
-    import os
-    output_dir = "data/report/analisis_properti"
-    os.makedirs(output_dir, exist_ok=True)
-    output_path = os.path.join(output_dir, "hasil_report.csv")
-    analyzer.save_report_to_csv(report, output_path)
-    print(f"Report telah disimpan ke {output_path}\n")
-
-    print("\n=== QUERY ANALYZING REPORT ===\n")
-    for item in report:
-        print(f">> {item['total_redundancy']} redundancy for \"{item['property']}\" property key")
-        if item['is_redundant']:
-            print(f"> \"{item['most_called_value']}\" is the most called ({item['value_redundancy']} redundancy)")
-            for redundant in item["redundant_values"]:
-                print(f"- \"{redundant['value']}\" "f"({redundant['count']} redundancy)")
-        else:
-            print("No redundant values (all values are unique)\n")
-        print("-----------------------------\n")
-
-
 def main():
     print("Pilih mode eksekusi:")
     print("1. Import skema data")
-    print("2. Analisis properti kueri")
     print("-------------------------------")
-    print("3. Refaktor database (property becoming a node)")
-    print("4. Rekonstruksi kueri (property becoming a node)")
-    print("5. Refaktor database (label specification)")
-    print("6. Rekonstruksi kueri (label specification)")
+    print("2. Refaktor database (property becoming a node)")
+    print("3. Rekonstruksi kueri (property becoming a node)")
+    print("4. Refaktor database (label specification)")
+    print("5. Rekonstruksi kueri (label specification)")
     print("-------------------------------")
-    print("7. Jalankan kueri baseline")
-    print("8. Jalankan kueri refactored (property becoming a node)")
-    print("9. Jalankan kueri refactored (label specification)")
+    print("6. Jalankan kueri baseline")
+    print("7. Jalankan kueri refactored (property becoming a node)")
+    print("8. Jalankan kueri refactored (label specification)")
     print("-------------------------------")
-    print("10. Baca statistik baseline (sebelum refaktorisasi)")
-    print("11. Validasi refaktorisasi (property becoming a node)")
-    print("12. Validasi refaktorisasi (label specification)")
+    print("9. Baca statistik baseline (sebelum refaktorisasi)")
+    print("10. Validasi refaktorisasi (property becoming a node)")
+    print("11. Validasi refaktorisasi (label specification)")
 
 
     pilihan = input("Masukkan pilihan [contoh: 1]: ").strip()
@@ -104,38 +63,37 @@ def main():
     if pilihan == '1':
         import_data_imdb()
     elif pilihan == '2':
-        read_and_analyze_query()
-    elif pilihan == '3':
         manager = RefactorManager(technique="pbn")
         manager.run()
-    elif pilihan == '4':
+    elif pilihan == '3':
         run_reconstruction()
-    elif pilihan == '5':
+    elif pilihan == '4':
         manager=RefactorManager(technique="ls")
         manager.run()
-    elif pilihan=='6':
+    elif pilihan=='5':
         run_reconstruction_label_specification()
-    elif pilihan=='7':
+    elif pilihan=='6':
         run_baseline(
             input_file  = "data/queries/Query_Where_80.txt",
-            output_csv  = "data/report/baseline/hasil_baseline.csv"
+            output_csv  = "data/report/baseline/hasil_baseline_index_prop_Nara.csv"
+        )
+    elif pilihan == '7':
+        run_refactored(
+            input_csv  = "data/queries/Query_Where_80_Refactored.csv",
+            output_csv = "data/report/property_becoming_node/hasil_refactored_PBN_index_default_Nara.csv"
         )
     elif pilihan == '8':
         run_refactored(
-            input_csv  = "data/queries/Query_Where_80_Refactored.csv",
-            output_csv = "data/report/property_becoming_node/hasil_refactored_PBN.csv"
+            input_csv  = "data/queries/Query_LabelSpec_Refactored.csv",
+            output_csv = "data/report/label_specification/hasil_refactored_LS_index_default_Nara.csv"
         )
     elif pilihan == '9':
-        run_refactored(
-            input_csv  = "data/queries/Query_LabelSpec_Refactored.csv",
-            output_csv = "data/report/label_specification/hasil_refactored_LS_1.csv"
-        )
-    elif pilihan == '10':
         run_baseline_stats()
-    elif pilihan == '11':
+    elif pilihan == '10':
         run_validation_property_becoming_node()
-    elif pilihan == '12':
+    elif pilihan == '11':
         run_validation_label_specification()
-
+    else:
+        print("Pilihan tidak valid. Silakan pilih nomor yang sesuai.")
 if __name__ == "__main__":
     main()

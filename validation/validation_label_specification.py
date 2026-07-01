@@ -29,6 +29,49 @@ class LabelSpecificationValidator:
         with open(JSON_PATH, "r", encoding="utf-8") as f:
             return json.load(f)
 
+    def get_gabungan_unique_value(self, baseline: dict) -> int:
+        """
+        Hitung distinct value gabungan dari properti year, birth, death.
+        Jika baseline sudah menyediakan baseline["gabungan"]["unique_value"],
+        nilai tersebut dipakai. Jika tidak ada, hitung dari value_counts.
+        """
+        gabungan = baseline.get("gabungan", {})
+        if isinstance(gabungan, dict) and "unique_value" in gabungan:
+            return int(gabungan["unique_value"])
+
+        unique_values = set()
+        for prop in ["year", "birth", "death"]:
+            for value, _ in baseline.get("value_counts", {}).get(prop, []):
+                unique_values.add(str(value))
+
+        return len(unique_values)
+
+    def get_gabungan_label_baru(
+        self,
+        labels_year: list,
+        labels_birth: list,
+        labels_death: list,
+    ) -> int:
+        """
+        Hitung total unique value gabungan dari label year, birth, death
+        dengan cara melepas prefix-nya terlebih dahulu, sehingga label
+        seperti 'year_1980', 'birth_1980', 'death_1980' dihitung sebagai
+        satu unique value ('1980'), konsisten dengan perhitungan
+        get_gabungan_unique_value() pada baseline.
+        """
+        stripped_values = set()
+
+        for label in labels_year:
+            stripped_values.add(label[len(YEAR_PREFIX):])
+
+        for label in labels_birth:
+            stripped_values.add(label[len(BIRTH_PREFIX):])
+
+        for label in labels_death:
+            stripped_values.add(label[len(DEATH_PREFIX):])
+
+        return len(stripped_values)
+
     # ------------------------------------------------------------------
     # Query Neo4j refactored
     # ------------------------------------------------------------------
@@ -143,15 +186,14 @@ class LabelSpecificationValidator:
         os.makedirs(output_dir, exist_ok=True)
         path = os.path.join(
             output_dir,
-            "validasi_label_specification.csv"
+            "validasi_label_specification_newest.csv"
         )
 
         # ── Siapkan data ringkasan ──────────────────────────────────
+        gabungan_unique_value = self.get_gabungan_unique_value(baseline)
         total_unique_baseline = (
             baseline["summaries"]["category"]["unique_value"] +
-            baseline["summaries"]["year"]["unique_value"] +
-            baseline["summaries"]["birth"]["unique_value"] +
-            baseline["summaries"]["death"]["unique_value"]
+            gabungan_unique_value
         )
         total_node_category = baseline["summaries"]["category"]["jumlah_node"]
         total_node_year     = baseline["summaries"]["year"]["jumlah_node"]
@@ -355,11 +397,15 @@ class LabelSpecificationValidator:
         print("  - Label death (death_)...")
         labels_death = self.get_new_labels_by_prefix(DEATH_PREFIX)
 
+        gabungan_label_baru = self.get_gabungan_label_baru(
+            labels_year,
+            labels_birth,
+            labels_death,
+        )
+
         total_label_baru = (
             len(labels_category) +
-            len(labels_year) +
-            len(labels_birth) +
-            len(labels_death)
+            gabungan_label_baru
         )
 
         # 3. Hitung node per label
@@ -413,11 +459,10 @@ class LabelSpecificationValidator:
         # 7. Print ringkasan ke terminal
         print("\n── Ringkasan Validasi ──")
 
+        gabungan_unique_value = self.get_gabungan_unique_value(baseline)
         total_unique_baseline = (
             baseline["summaries"]["category"]["unique_value"] +
-            baseline["summaries"]["year"]["unique_value"] +
-            baseline["summaries"]["birth"]["unique_value"] +
-            baseline["summaries"]["death"]["unique_value"]
+            gabungan_unique_value
         )
 
         checks = [
