@@ -52,8 +52,25 @@ class LabelSpecificationValidator:
         labels_birth: list,
         labels_death: list,
     ) -> int:
-        """Hitung total label gabungan dari hasil label specification."""
-        return len(set(labels_year) | set(labels_birth) | set(labels_death))
+        """
+        Hitung total unique value gabungan dari label year, birth, death
+        dengan cara melepas prefix-nya terlebih dahulu, sehingga label
+        seperti 'year_1980', 'birth_1980', 'death_1980' dihitung sebagai
+        satu unique value ('1980'), konsisten dengan perhitungan
+        get_gabungan_unique_value() pada baseline.
+        """
+        stripped_values = set()
+
+        for label in labels_year:
+            stripped_values.add(label[len(YEAR_PREFIX):])
+
+        for label in labels_birth:
+            stripped_values.add(label[len(BIRTH_PREFIX):])
+
+        for label in labels_death:
+            stripped_values.add(label[len(DEATH_PREFIX):])
+
+        return len(stripped_values)
 
     # ------------------------------------------------------------------
     # Query Neo4j refactored
@@ -169,7 +186,7 @@ class LabelSpecificationValidator:
         os.makedirs(output_dir, exist_ok=True)
         path = os.path.join(
             output_dir,
-            "validasi_label_specification_new.csv"
+            "validasi_label_specification_newest.csv"
         )
 
         # ── Siapkan data ringkasan ──────────────────────────────────

@@ -63,37 +63,35 @@ def main():
     if pilihan == '1':
         import_data_imdb()
     elif pilihan == '2':
-        read_and_analyze_query()
-    elif pilihan == '3':
         manager = RefactorManager(technique="pbn")
         manager.run()
-    elif pilihan == '4':
+    elif pilihan == '3':
         run_reconstruction()
-    elif pilihan == '5':
+    elif pilihan == '4':
         manager=RefactorManager(technique="ls")
         manager.run()
-    elif pilihan=='6':
+    elif pilihan=='5':
         run_reconstruction_label_specification()
-    elif pilihan=='7':
+    elif pilihan=='6':
         run_baseline(
             input_file  = "data/queries/Query_Where_80.txt",
             output_csv  = "data/report/baseline/hasil_baseline_index_prop_Nara.csv"
         )
-    elif pilihan == '8':
+    elif pilihan == '7':
         run_refactored(
             input_csv  = "data/queries/Query_Where_80_Refactored.csv",
             output_csv = "data/report/property_becoming_node/hasil_refactored_PBN_index_default_Nara.csv"
         )
-    elif pilihan == '9':
+    elif pilihan == '8':
         run_refactored(
             input_csv  = "data/queries/Query_LabelSpec_Refactored.csv",
             output_csv = "data/report/label_specification/hasil_refactored_LS_index_default_Nara.csv"
         )
-    elif pilihan == '10':
+    elif pilihan == '9':
         run_baseline_stats()
-    elif pilihan == '11':
+    elif pilihan == '10':
         run_validation_property_becoming_node()
-    elif pilihan == '12':
+    elif pilihan == '11':
         run_validation_label_specification()
     else:
         print("Pilihan tidak valid. Silakan pilih nomor yang sesuai.")
