@@ -151,10 +151,10 @@ def save_queries_to_csv(data, file_path):
     """
     with open(file_path, 'w', newline='', encoding='utf-8') as f:
         fieldnames = [
-            'Kueri Awal',
-            'Kueri Baru',
-            'Jumlah Properti WHERE Awal',
-            'Jumlah Properti WHERE Sesudah',
+            'Kueri Baseline',
+            'Kueri Refactored',
+            'Jumlah Properti WHERE Baseline',
+            'Jumlah Properti WHERE Refactored',
             'Persentase Penurunan'
         ]
         writer = csv.DictWriter(f, fieldnames=fieldnames, delimiter=';')
@@ -199,17 +199,17 @@ def run_reconstruction():
 
         refactored_queries.append(result)
         csv_data.append({
-            'Kueri Awal'                    : query,
-            'Kueri Baru'                    : result,
-            'Jumlah Properti WHERE Awal'    : count_before,
-            'Jumlah Properti WHERE Sesudah' : count_after,
+            'Kueri Baseline'                    : query,
+            'Kueri Refactored'                    : result,
+            'Jumlah Properti WHERE Baseline'    : count_before,
+            'Jumlah Properti WHERE Refactored' : count_after,
             'Persentase Penurunan'          : persentase
         })
 
         print(f"Query {i} Input      : {query}")
         print(f"Query {i} Output     : {result}")
-        print(f"         WHERE Awal  : {count_before} properti")
-        print(f"         WHERE Baru  : {count_after} properti")
+        print(f"         WHERE Baseline  : {count_before} properti")
+        print(f"         WHERE Refactored  : {count_after} properti")
         print(f"         Penurunan   : {persentase}")
         print()
 

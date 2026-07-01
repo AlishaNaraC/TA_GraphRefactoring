@@ -229,10 +229,10 @@ def run_refactored(input_csv, output_csv):
     results = []
 
     for i, row in enumerate(rows, 1):
-        kueri_asal       = row["Kueri Awal"]
+        kueri_asal       = row["Kueri Baseline"]
         kueri_refactored = row["Kueri Baru"]
-        jumlah_awal      = int(row["Jumlah Properti WHERE Awal"])
-        jumlah_baru      = int(row["Jumlah Properti WHERE Sesudah"])
+        jumlah_awal      = int(row["Jumlah Properti WHERE Baseline"])
+        jumlah_baru      = int(row["Jumlah Properti WHERE Refactored"])
         persentase       = row["Persentase Penurunan"]
 
         pola_awal = get_where_pattern(jumlah_awal)
@@ -266,7 +266,7 @@ def run_refactored(input_csv, output_csv):
 
         if error_flag:
             results.append({
-                "Kueri Asal"             : kueri_asal,
+                "Kueri Baseline"             : kueri_asal,
                 "Kueri Refactored"       : kueri_refactored,
                 "Pola Properti Awal"     : pola_awal,
                 "Pola Properti Baru"     : pola_baru,
@@ -281,7 +281,7 @@ def run_refactored(input_csv, output_csv):
             print(f"  DBHits       : {db_hits}")
             print(f"  Running Time : {round(avg_run_time, 4)} ms")
             results.append({
-                "Kueri Asal"             : kueri_asal,
+                "Kueri Baseline"             : kueri_asal,
                 "Kueri Refactored"       : kueri_refactored,
                 "Pola Properti Awal"     : pola_awal,
                 "Pola Properti Baru"     : pola_baru,
@@ -296,7 +296,7 @@ def run_refactored(input_csv, output_csv):
     os.makedirs(os.path.dirname(output_csv), exist_ok=True)
     with open(output_csv, 'w', newline='', encoding='utf-8') as f:
         fieldnames = [
-            "Kueri Asal", "Kueri Refactored", "Pola Properti Awal",
+            "Kueri Baseline", "Kueri Refactored", "Pola Properti Awal",
             "Pola Properti Baru", "Persentase Pengurangan",
             "Jumlah Hasil", "DBHits", "Running Time"
         ]
