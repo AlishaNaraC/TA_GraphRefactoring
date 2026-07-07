@@ -15,4 +15,6 @@ NEO4J_CONFIG = {
 # DB = "imdbmovie"
 # DB = "imdb-data"
 # DB = "ls-idxprop"
-DB = "neo4j"
+# DB = "neo4j"
+DB = "neo4j-ls"
+# DB = "neo4j-pbn"

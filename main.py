@@ -49,14 +49,14 @@ def main():
     print("4. Refaktor database (label specification)")
     print("5. Rekonstruksi kueri (label specification)")
     print("-------------------------------")
-    print("6. Jalankan kueri baseline")
-    print("7. Jalankan kueri refactored (property becoming a node)")
-    print("8. Jalankan kueri refactored (label specification)")
+    print("6. Baca statistik baseline (sebelum refaktorisasi)")
+    print("7. Validasi refaktorisasi (property becoming a node)")
+    print("8. Validasi refaktorisasi (label specification)")
     print("-------------------------------")
-    print("9. Baca statistik baseline (sebelum refaktorisasi)")
-    print("10. Validasi refaktorisasi (property becoming a node)")
-    print("11. Validasi refaktorisasi (label specification)")
-
+    print("9. Jalankan kueri baseline")
+    print("10. Jalankan kueri refactored (property becoming a node)")
+    print("11. Jalankan kueri refactored (label specification)")
+    
 
     pilihan = input("Masukkan pilihan [contoh: 1]: ").strip()
 
@@ -72,27 +72,27 @@ def main():
         manager.run()
     elif pilihan=='5':
         run_reconstruction_label_specification()
-    elif pilihan=='6':
-        run_baseline(
-            input_file  = "data/queries/Query_Where_80.txt",
-            output_csv  = "data/report/baseline/hasil_baseline_index_prop_Nara.csv"
-        )
-    elif pilihan == '7':
-        run_refactored(
-            input_csv  = "data/queries/Query_Where_80_Refactored.csv",
-            output_csv = "data/report/property_becoming_node/hasil_refactored_PBN_index_default_Nara.csv"
-        )
-    elif pilihan == '8':
-        run_refactored(
-            input_csv  = "data/queries/Query_LabelSpec_Refactored.csv",
-            output_csv = "data/report/label_specification/hasil_refactored_LS_index_default_Nara.csv"
-        )
-    elif pilihan == '9':
+    elif pilihan == '6':
         run_baseline_stats()
-    elif pilihan == '10':
+    elif pilihan == '7':
         run_validation_property_becoming_node()
-    elif pilihan == '11':
+    elif pilihan == '8':
         run_validation_label_specification()
+    elif pilihan=='9':
+        run_baseline(
+            input_file  = "data/queries/Query_Where_Demo.txt",
+            output_csv  = "data/report/baseline/hasil_baseline_demo.csv"
+        )
+    elif pilihan == '10':
+        run_refactored(
+            input_csv  = "data/queries/Query_PBN_Demo.csv",
+            output_csv = "data/report/property_becoming_node/hasil_refactored_PBN_demo.csv"
+        )
+    elif pilihan == '11':
+        run_refactored(
+            input_csv  = "data/queries/Query_LS_Demo.csv",
+            output_csv = "data/report/label_specification/hasil_refactored_LS_demo.csv"
+        )
     else:
         print("Pilihan tidak valid. Silakan pilih nomor yang sesuai.")
 if __name__ == "__main__":

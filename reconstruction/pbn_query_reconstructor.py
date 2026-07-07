@@ -174,8 +174,8 @@ def get_where_pattern(jumlah_properti):
     return pola.get(jumlah_properti, f"{jumlah_properti} kondisi")
 
 def run_reconstruction():
-    input_file  = "data/queries/Query_Where_80.txt"
-    output_csv  = "data/queries/Query_Where_80_Refactored.csv"
+    input_file  = "data/queries/Query_Where_Demo.txt"
+    output_csv  = "data/queries/Query_PBN_Demo.csv"
 
     queries = read_queries_from_file(input_file)
     print(f"Berhasil membaca {len(queries)} query dari {input_file}\n")

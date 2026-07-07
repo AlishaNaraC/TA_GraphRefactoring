@@ -94,7 +94,7 @@ def save_queries_to_csv(data, file_path):
     with open(file_path, 'w', newline='', encoding='utf-8') as f:
         fieldnames = [
             'Kueri Baseline',
-            'Kueri Baru',
+            'Kueri Refactored',
             'Jumlah Properti WHERE Baseline',
             'Jumlah Properti WHERE Refactored',
             'Persentase Penurunan'
@@ -105,8 +105,8 @@ def save_queries_to_csv(data, file_path):
             writer.writerow(row)
 
 def run_reconstruction_label_specification():
-    input_file  = "data/queries/Query_Where_80.txt"
-    output_csv  = "data/queries/Query_LabelSpec_Refactored.csv"
+    input_file  = "data/queries/Query_Where_Demo.txt"
+    output_csv  = "data/queries/Query_LS_Demo.csv"
 
     queries = read_queries_from_file(input_file)
     print(f"Berhasil membaca {len(queries)} query dari {input_file}\n")

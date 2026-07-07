@@ -1,0 +1,6 @@
+"Kueri";"Jumlah Hasil";"DBHits";"Running Time"
+"MATCH (n2:soundtrack)-[:ACTED_IN]->(n1:thriller), (n2:actress)-[:ACTED_IN]->(n3:comedy) WHERE (n2.name=""Molly Ringwald"") RETURN count(n1)";"336";"121785";"233.5"
+"MATCH (n1:producer)-[:ACTED_IN]->(n2:news), (n1:actor)-[:ACTED_IN]->(n3:documentary) WHERE (n3.year=1997) RETURN count(n1)";"36015";"2664738";"1947.9"
+"MATCH (n2:actor)-[:ACTED_IN]->(n3:drama), (n2:actor)-[:ACTED_IN]->(n1:game_show) WHERE (n2.death=2009 AND n2.birth=1923) RETURN count(n1)";"2107";"7812595";"1772.0"
+"MATCH (n3:music_department)-[:COMPOSED]->(n2:documentary), (n3:music_department)-[:COMPOSED]->(n1:documentary) WHERE (n3.name=""Philip Glass"" AND n3.birth=1937 AND n1.category=""video"") RETURN count(n1)";"603";"157514";"121.0"
+"MATCH (n2:soundtrack)-[:ACTED_IN]->(n3:music), (n2:soundtrack)-[:ACTED_IN]->(n1:music) WHERE (n1.year=1996 AND n2.birth=1947 AND n3.year=1983 AND n2.name=""Elton John"") RETURN count(n1)";"24";"215725";"156.5"

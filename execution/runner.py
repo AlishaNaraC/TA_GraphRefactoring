@@ -230,7 +230,7 @@ def run_refactored(input_csv, output_csv):
 
     for i, row in enumerate(rows, 1):
         kueri_asal       = row["Kueri Baseline"]
-        kueri_refactored = row["Kueri Baru"]
+        kueri_refactored = row["Kueri Refactored"]
         jumlah_awal      = int(row["Jumlah Properti WHERE Baseline"])
         jumlah_baru      = int(row["Jumlah Properti WHERE Refactored"])
         persentase       = row["Persentase Penurunan"]
