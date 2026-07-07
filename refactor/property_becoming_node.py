@@ -4,11 +4,12 @@ from refactor.label_utils import (generate_labels)
 
 
 class PropertyBecomingNode:
-    def __init__(self, importer):
+    def __init__(self, importer, kandidat_properti):
         self.importer = importer
+        self.kandidat_properti = kandidat_properti
 
     def execute(self):
-        for prop in KANDIDAT_PROPERTI:
+        for prop in self.kandidat_properti:
             print(f"\nRefactoring {prop} property with new relationship {NAMA_RELASI_BARU[prop]}...")
             rel_name = NAMA_RELASI_BARU[prop]
 

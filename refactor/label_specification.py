@@ -3,12 +3,15 @@ from refactor.label_utils import generate_labels
 
 
 class LabelSpecification:
-    def __init__(self, importer):
+    def __init__(self, importer, kandidat_properti, limit=100):
         self.importer = importer
+        self.kandidat_properti = kandidat_properti
+        self.limit = limit
 
     def execute(self):
-        for prop in KANDIDAT_PROPERTI:
+        for prop in self.kandidat_properti:
             print(f"\nRefactoring {prop} property...")
+            limit_clause = f"LIMIT {self.limit}" if self.limit else ""
             query = f"""
             MATCH (n)
             WHERE n.{prop} IS NOT NULL
@@ -16,6 +19,7 @@ class LabelSpecification:
             RETURN
                 id(n) as id,
                 n.{prop} as value
+                {limit_clause}
             """
             rows = self.importer.run_query(query)
             total = 0
