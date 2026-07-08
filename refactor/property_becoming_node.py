@@ -1,18 +1,18 @@
-from refactor.kandidat_properti import (KANDIDAT_PROPERTI)
-from refactor.nama_relasi_baru import (NAMA_RELASI_BARU)
 from refactor.label_utils import (generate_labels)
 
 
 class PropertyBecomingNode:
-    def __init__(self, importer, kandidat_properti):
+     def __init__(self, importer, kandidat_properti, nama_relasi_baru, limit=100):
         self.importer = importer
         self.kandidat_properti = kandidat_properti
+        self.nama_relasi_baru = nama_relasi_baru
+        self.limit = limit
 
-    def execute(self):
+     def execute(self):
         for prop in self.kandidat_properti:
-            print(f"\nRefactoring {prop} property with new relationship {NAMA_RELASI_BARU[prop]}...")
-            rel_name = NAMA_RELASI_BARU[prop]
-
+            rel_name = self.nama_relasi_baru[prop]
+            print(f"\nRefactoring {prop} property with new relationship {rel_name}...")
+            limit_clause = f"LIMIT {self.limit}" if self.limit else ""
             query = f"""
             MATCH (n)
             WHERE n.{prop} IS NOT NULL
@@ -20,6 +20,7 @@ class PropertyBecomingNode:
             RETURN
                 id(n) as id,
                 n.{prop} as value
+                {limit_clause}
             """
             rows = self.importer.run_query(query)
             total = 0
