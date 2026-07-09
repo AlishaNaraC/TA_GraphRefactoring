@@ -4,6 +4,7 @@ from importer.neo4j_importer import (
 from time import perf_counter
 
 from refactor.identify_candidate_property import IdentifyCandidateProperty
+from refactor.label_utils import get_label_config
 from refactor.property_becoming_node import (
     PropertyBecomingNode
 )
@@ -25,19 +26,44 @@ class RefactorManager:
         print(f"\n=== Kandidat Properti (DVR < 1%) ===")
         print(kandidat_properti)
 
+        # if technique == "pbn":
+        #     nama_relasi_baru = get_relation_names(kandidat_properti)
+        #     print(f"\nNama relasi yang akan dibentuk: {nama_relasi_baru}")
+
+        #     input("\nMulai Refactoring? (Tekan Enter untuk lanjut) ")
+
+        #     self.refactor = PropertyBecomingNode(self.importer, kandidat_properti, nama_relasi_baru)
+        #     self.name = "Property Becoming a Node"
         if technique == "pbn":
-            nama_relasi_baru = get_relation_names(kandidat_properti)
-            print(f"\nNama relasi yang akan dibentuk: {nama_relasi_baru}")
+            print("\n=== Penentuan Konfigurasi PBN ===")
+            pbn_configs = {} 
+            
+            for prop in kandidat_properti:
+                # 1. Panggil fungsi kodemu yang modular
+                config = get_label_config(prop)
+                
+                # 2. Tambahkan input khusus PBN (nama relasi) ke dalam dict config
+                rel_name = input(f"Masukkan nama relasi untuk properti '{prop}' (contoh: HAS_{prop.upper()}): ")
+                config["rel"] = rel_name
+                
+                pbn_configs[prop] = config
 
             input("\nMulai Refactoring? (Tekan Enter untuk lanjut) ")
 
-            self.refactor = PropertyBecomingNode(self.importer, kandidat_properti, nama_relasi_baru)
+            self.refactor = PropertyBecomingNode(self.importer, kandidat_properti, pbn_configs)
             self.name = "Property Becoming a Node"
 
         elif technique == "ls":
-            input("\nMulai Refactoring? (Tekan Enter untuk lanjut) ")
-
-            self.refactor = LabelSpecification(self.importer, kandidat_properti)
+            print("\n=== Penentuan Konfigurasi Label (LS) ===")
+            label_configs = {}
+            
+            for prop in kandidat_properti:
+                # Panggil fungsi get_label_config yang sudah kamu buat
+                config = get_label_config(prop)
+                label_configs[prop] = config
+            
+            # Masukkan config ke dalam LabelSpecification
+            self.refactor = LabelSpecification(self.importer, kandidat_properti, label_configs)
             self.name = "Label Specification"
 
     def run(self):
