@@ -6,6 +6,8 @@ from importer.label_manager import (
     drop_temp_indexes,
     remove_temp_labels
 )
+from query.transform_query_to_numeric import transform_file_kueri_baseline_to_numeric
+from query.transform_query_to_numeric_pbn import transform_file_kueri_pbn_to_numeric
 from reconstruction.pbn_query_reconstructor import run_reconstruction
 from reconstruction.ls_query_reconstructor import run_reconstruction_label_specification
 from refactor.refactor_manager import RefactorManager
@@ -53,47 +55,84 @@ def main():
     print("7. Validasi refaktorisasi (property becoming a node)")
     print("8. Validasi refaktorisasi (label specification)")
     print("-------------------------------")
-    print("9. Jalankan kueri baseline")
-    print("10. Jalankan kueri refactored (property becoming a node)")
-    print("11. Jalankan kueri refactored (label specification)")
-    
+    print("9. Transformasi kueri baseline ke numerik")
+    print("10. Transformasi kueri refactored (property becoming a node) ke numerik")
+    print("11. Transformasi kueri refactored (label specification) ke numerik")
+    print("-------------------------------")
+    print("12. Jalankan kueri baseline")
+    print("13. Jalankan kueri refactored (property becoming a node)")
+    print("14. Jalankan kueri refactored (label specification)")
 
     pilihan = input("Masukkan pilihan [contoh: 1]: ").strip()
 
-    if pilihan == '1':
-        import_data_imdb()
-    elif pilihan == '2':
-        manager = RefactorManager(technique="pbn")
-        manager.run()
-    elif pilihan == '3':
-        run_reconstruction()
-    elif pilihan == '4':
-        manager=RefactorManager(technique="ls")
-        manager.run()
-    elif pilihan=='5':
-        run_reconstruction_label_specification()
-    elif pilihan == '6':
-        run_baseline_stats()
-    elif pilihan == '7':
-        run_validation_property_becoming_node()
-    elif pilihan == '8':
-        run_validation_label_specification()
-    elif pilihan=='9':
-        run_baseline(
-            input_file  = "data/queries/Query_Where_Demo.txt",
-            output_csv  = "data/report/baseline/hasil_baseline_demo.csv"
-        )
-    elif pilihan == '10':
-        run_refactored(
-            input_csv  = "data/queries/Query_PBN_Demo.csv",
-            output_csv = "data/report/property_becoming_node/hasil_refactored_PBN_demo.csv"
-        )
-    elif pilihan == '11':
-        run_refactored(
-            input_csv  = "data/queries/Query_LS_Demo.csv",
-            output_csv = "data/report/label_specification/hasil_refactored_LS_demo.csv"
-        )
-    else:
-        print("Pilihan tidak valid. Silakan pilih nomor yang sesuai.")
+    match pilihan:
+        case '1':
+            import_data_imdb()
+
+        case '2':
+            manager = RefactorManager(technique="pbn")
+            manager.run()
+
+        case '3':
+            run_reconstruction()
+
+        case '4':
+            manager = RefactorManager(technique="ls")
+            manager.run()
+
+        case '5':
+            run_reconstruction_label_specification()
+
+        case '6':
+            run_baseline_stats()
+
+        case '7':
+            run_validation_property_becoming_node()
+
+        case '8':
+            run_validation_label_specification()
+
+        case '9':
+            transform_file_kueri_baseline_to_numeric(
+                input_file="data/queries/Query_Where.txt",
+                output_file="data/report/baseline/Query_Where_Baseline_Numerik.csv"
+            )
+
+        case '10':
+            transform_file_kueri_pbn_to_numeric(
+                input_file="data/queries/Query_Where_80_Refactored.txt",
+                output_file="data/report/property_becoming_node/Refactored_Query_Where_PBN_Numerik.csv"
+            )
+    # HARUS DIGANTI CODENYA============================================================
+    # HARUS DIGANTI CODENYA============================================================
+    # HARUS DIGANTI CODENYA============================================================
+        case '11':
+            transform_file_kueri_pbn_to_numeric(
+                input_file="data/queries/Query_Where_80_Refactored_LS.txt",
+                output_file="data/report/label_specification/Refactored_Query_Where_LS_Numerik.csv"
+            )
+
+        case '12':
+            run_baseline(
+                input_file="data/queries/Query_Where_Demo.txt",
+                output_csv="data/report/baseline/hasil_baseline_demo.csv"
+            )
+
+        case '13':
+            run_refactored(
+                input_csv="data/queries/Query_PBN_Demo.csv",
+                output_csv="data/report/property_becoming_node/hasil_refactored_PBN_demo.csv"
+            )
+
+        case '14':
+            run_refactored(
+                input_csv="data/queries/Query_LS_Demo.csv",
+                output_csv="data/report/label_specification/hasil_refactored_LS_demo.csv"
+            )
+
+        case _:
+            print("Pilihan tidak valid. Silakan pilih nomor yang sesuai.")
+
+
 if __name__ == "__main__":
     main()
