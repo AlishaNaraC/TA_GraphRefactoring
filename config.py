@@ -13,10 +13,10 @@ NEO4J_CONFIG = {
 }
 
 # DB = "imdbmovie"
-# DB = "imdb-data"
+# DB = "imdb-data-pbn"
 # DB = "ls-idxprop"
 # DB = "neo4j"
-# DB = "imdb-data-baseline-nara"
+DB = "imdb-data-baseline-nara"
 # DB = "neo4j-ls"
 # DB = "neo4j-pbn"
-DB="baseline-idxproperty"
+# DB="baseline-idxproperty"
