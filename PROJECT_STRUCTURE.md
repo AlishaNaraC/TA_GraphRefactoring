@@ -1,0 +1,77 @@
+# Struktur Proyek
+
+Berikut adalah struktur folder dan file untuk proyek ini:
+
+```
+config.py
+delete_db_content.py
+main.py
+test_db_connection.py
+data/
+	queries/
+		Query_LabelSpec_Refactored.csv
+		Query_LabelSpec_Refactored.txt
+		Query_LS_Demo.csv
+		Query_PBN_Demo.csv
+		Query_Where_80_Refactored.csv
+		Query_Where_80_Refactored.txt
+		Query_Where_80.txt
+		Query_Where_Demo.txt
+		Query_Where.txt
+	report/
+		analisis_properti/
+			analisis_properti_skema_base.csv
+		baseline/
+			baseline.csv
+			hasil_baseline_demo.csv
+			hasil_baseline_index_Nara.csv
+			hasil_baseline_index_prop_Nara.csv
+			hasil_baseline_Nara.csv
+		label_specification/
+			hasil_refactored_LS_1.csv
+			hasil_refactored_LS_demo.csv
+			hasil_refactored_LS_index_default_Nara.csv
+			hasil_refactored_LS_index_prop_Nara.csv
+			hasil_refactored_LS_Nara_1.csv
+			hasil_refactored_LS_Nara.csv
+		property_becoming_node/
+			hasil_refactored_PBN_demo.csv
+			hasil_refactored_PBN_index_default_Nara.csv
+			hasil_refactored_PBN_index_prop_Nara.csv
+			hasil_refactored_PBN_Nara_1.csv
+			hasil_refactored_PBN_Nara.csv
+			hasil_refactored_PBN.csv
+			hasil_refactored.csv
+		validation/
+			baseline_property_stats.csv
+			baseline_property_stats.json
+			validasi_label_specification_new.csv
+			validasi_label_specification_newest.csv
+			validasi_label_specification.csv
+			validasi_property_becoming_node.csv
+execution/
+	db.py
+	runner.py
+importer/
+	label_manager.py
+	neo4j_importer.py
+	schema_initializer.py
+query/
+	query_loader.py
+reconstruction/
+	ls_query_reconstructor.py
+	pbn_query_reconstructor.py
+refactor/
+	identify_candidate_property.py
+	kandidat_properti.py
+	label_specification.py
+	label_utils.py
+	nama_relasi_baru.py
+	property_becoming_node.py
+	refactor_manager.py
+	relation_input.py
+validation/
+	validation_baseline.py
+	validation_label_specification.py
+	validation_property_becoming_a_node.py
+```
