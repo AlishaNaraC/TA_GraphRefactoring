@@ -115,7 +115,7 @@ def main():
         case '12':
             run_baseline(
                 input_file="data/queries/Query_Where.txt",
-                output_csv="data/report/baseline/executed_190_baseline.csv"
+                output_csv="data/report/baseline/executed_190_baseline_daffa.csv"
             )
 
         case '13':
