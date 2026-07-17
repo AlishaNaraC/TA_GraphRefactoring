@@ -26,14 +26,6 @@ class RefactorManager:
         print(f"\n=== Kandidat Properti (DVR < 1%) ===")
         print(kandidat_properti)
 
-        # if technique == "pbn":
-        #     nama_relasi_baru = get_relation_names(kandidat_properti)
-        #     print(f"\nNama relasi yang akan dibentuk: {nama_relasi_baru}")
-
-        #     input("\nMulai Refactoring? (Tekan Enter untuk lanjut) ")
-
-        #     self.refactor = PropertyBecomingNode(self.importer, kandidat_properti, nama_relasi_baru)
-        #     self.name = "Property Becoming a Node"
         if technique == "pbn":
             print("\n=== Penentuan Konfigurasi PBN ===")
             pbn_configs = {} 

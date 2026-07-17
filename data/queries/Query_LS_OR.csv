@@ -1,0 +1,2233 @@
+Kueri Baseline;Kueri Refactored;Jumlah Properti WHERE Baseline;Jumlah Properti WHERE Refactored;Persentase Penurunan
+MATCH (n4:writer)-[:ACTED_IN]->(n3:comedy), (n4:actor)-[:ACTED_IN]->(n1:drama), (n4:actor)-[:ACTED_IN]->(n2:drama) WHERE (n4.birth=1877) OR (n4.death=1950) RETURN count(n1);"CALL () {
+  MATCH (n4:writer:birth_1877)-[:ACTED_IN]->(n3:comedy), (n4:actor:birth_1877)-[:ACTED_IN]->(n1:drama), (n4:actor:birth_1877)-[:ACTED_IN]->(n2:drama)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:writer:death_1950)-[:ACTED_IN]->(n3:comedy), (n4:actor:death_1950)-[:ACTED_IN]->(n1:drama), (n4:actor:death_1950)-[:ACTED_IN]->(n2:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:writer:birth_1877:death_1950)-[:ACTED_IN]->(n3:comedy), (n4:actor:birth_1877:death_1950)-[:ACTED_IN]->(n1:drama), (n4:actor:birth_1877:death_1950)-[:ACTED_IN]->(n2:drama)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n3:actor)-[:ACTED_IN]->(n2:animation), (n3:soundtrack)-[:ACTED_IN]->(n1:comedy) WHERE (n3.birth=1908) OR (n2.category=""short"") RETURN count(n1)";"CALL () {
+  MATCH (n3:actor:birth_1908)-[:ACTED_IN]->(n2:animation), (n3:soundtrack:birth_1908)-[:ACTED_IN]->(n1:comedy)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n2:animation:short), (n3:soundtrack)-[:ACTED_IN]->(n1:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actor:birth_1908)-[:ACTED_IN]->(n2:animation:short), (n3:soundtrack:birth_1908)-[:ACTED_IN]->(n1:comedy)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n4:actress)-[:ACTED_IN]->(n1:adventure), (n4:actress)-[:ACTED_IN]->(n2:drama), (n4:actress)-[:ACTED_IN]->(n3:drama) WHERE (n3.category=""movie"") OR (n4.birth=1950) RETURN count(n1)";"CALL () {
+  MATCH (n4:actress)-[:ACTED_IN]->(n1:adventure), (n4:actress)-[:ACTED_IN]->(n2:drama), (n4:actress)-[:ACTED_IN]->(n3:drama:movie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:actress:birth_1950)-[:ACTED_IN]->(n1:adventure), (n4:actress:birth_1950)-[:ACTED_IN]->(n2:drama), (n4:actress:birth_1950)-[:ACTED_IN]->(n3:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:actress:birth_1950)-[:ACTED_IN]->(n1:adventure), (n4:actress:birth_1950)-[:ACTED_IN]->(n2:drama), (n4:actress:birth_1950)-[:ACTED_IN]->(n3:drama:movie)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n3:writer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:sci_fi), (n3:writer)-[:ACTED_IN]->(n2:action) WHERE (n3.birth=1942) OR (n3.name=""Harrison Ford"") RETURN count(n1)";"CALL () {
+  MATCH (n3:writer:birth_1942)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:sci_fi), (n3:writer:birth_1942)-[:ACTED_IN]->(n2:action)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:writer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:sci_fi), (n3:writer)-[:ACTED_IN]->(n2:action)
+  WHERE n3.name=""Harrison Ford""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:writer:birth_1942)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:sci_fi), (n3:writer:birth_1942)-[:ACTED_IN]->(n2:action)
+  WHERE n3.name=""Harrison Ford""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;1;50%
+"MATCH (n3:miscellaneous)-[:ACTED_IN]->(n1:drama), (n3:miscellaneous)-[:ACTED_IN]->(n2:comedy) WHERE (n1.category=""tvSeries"") OR (n2.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n3:miscellaneous)-[:ACTED_IN]->(n1:drama:tvSeries), (n3:miscellaneous)-[:ACTED_IN]->(n2:comedy)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:miscellaneous)-[:ACTED_IN]->(n1:drama), (n3:miscellaneous)-[:ACTED_IN]->(n2:comedy:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:miscellaneous)-[:ACTED_IN]->(n1:drama:tvSeries), (n3:miscellaneous)-[:ACTED_IN]->(n2:comedy:movie)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n2:director)-[:CINEMATOGRAPHER_OF]->(n1:comedy), (n2:director)-[:CINEMATOGRAPHER_OF]->(n3:drama) WHERE (n1.category=""short"") OR (n3.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n2:director)-[:CINEMATOGRAPHER_OF]->(n1:comedy:short), (n2:director)-[:CINEMATOGRAPHER_OF]->(n3:drama)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:director)-[:CINEMATOGRAPHER_OF]->(n1:comedy), (n2:director)-[:CINEMATOGRAPHER_OF]->(n3:drama:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:director)-[:CINEMATOGRAPHER_OF]->(n1:comedy:short), (n2:director)-[:CINEMATOGRAPHER_OF]->(n3:drama:movie)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n1:director)-[:PRODUCED]->(n4:horror), (n1:producer)-[:PRODUCED]->(n2:documentary), (n1:writer)-[:DIRECTED]->(n3:documentary) WHERE (n2.category=""video"") OR (n3.category=""tvMovie"") RETURN count(n1)";"CALL () {
+  MATCH (n1:director)-[:PRODUCED]->(n4:horror), (n1:producer)-[:PRODUCED]->(n2:documentary:video), (n1:writer)-[:DIRECTED]->(n3:documentary)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:director)-[:PRODUCED]->(n4:horror), (n1:producer)-[:PRODUCED]->(n2:documentary), (n1:writer)-[:DIRECTED]->(n3:documentary:tvMovie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:director)-[:PRODUCED]->(n4:horror), (n1:producer)-[:PRODUCED]->(n2:documentary:video), (n1:writer)-[:DIRECTED]->(n3:documentary:tvMovie)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n3:actress)-[:ACTED_IN]->(n1:music), (n3:soundtrack)-[:ACTED_IN]->(n2:music), (n3:actress)-[:ACTED_IN]->(n4:music) WHERE (n4.category=""tvSeries"") OR (n1.category=""tvMovie"") RETURN count(n1)";"CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:music), (n3:soundtrack)-[:ACTED_IN]->(n2:music), (n3:actress)-[:ACTED_IN]->(n4:music:tvSeries)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:music:tvMovie), (n3:soundtrack)-[:ACTED_IN]->(n2:music), (n3:actress)-[:ACTED_IN]->(n4:music)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:music:tvMovie), (n3:soundtrack)-[:ACTED_IN]->(n2:music), (n3:actress)-[:ACTED_IN]->(n4:music:tvSeries)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n2:director)-[:CINEMATOGRAPHER_OF]->(n4:adult), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:adult), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n1:comedy) WHERE (n1.category=""video"") OR (n3.category=""video"") RETURN count(n1)";"CALL () {
+  MATCH (n2:director)-[:CINEMATOGRAPHER_OF]->(n4:adult), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:adult), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n1:comedy:video)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:director)-[:CINEMATOGRAPHER_OF]->(n4:adult), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:adult:video), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n1:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:director)-[:CINEMATOGRAPHER_OF]->(n4:adult), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:adult:video), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n1:comedy:video)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n3:music_department)-[:COMPOSED]->(n2:documentary), (n3:soundtrack)-[:COMPOSED]->(n1:drama) WHERE (n3.death=2019) OR (n2.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n3:music_department:death_2019)-[:COMPOSED]->(n2:documentary), (n3:soundtrack:death_2019)-[:COMPOSED]->(n1:drama)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:music_department)-[:COMPOSED]->(n2:documentary:movie), (n3:soundtrack)-[:COMPOSED]->(n1:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:music_department:death_2019)-[:COMPOSED]->(n2:documentary:movie), (n3:soundtrack:death_2019)-[:COMPOSED]->(n1:drama)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n3:music_department)-[:ACTED_IN]->(n1:music), (n3:soundtrack)-[:COMPOSED]->(n2:romance) WHERE (n2.year=1990) OR (n1.category=""tvSpecial"") RETURN count(n1)";"CALL () {
+  MATCH (n3:music_department)-[:ACTED_IN]->(n1:music), (n3:soundtrack)-[:COMPOSED]->(n2:romance:year_1990)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:music_department)-[:ACTED_IN]->(n1:music:tvSpecial), (n3:soundtrack)-[:COMPOSED]->(n2:romance)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:music_department)-[:ACTED_IN]->(n1:music:tvSpecial), (n3:soundtrack)-[:COMPOSED]->(n2:romance:year_1990)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n1:composer)-[:COMPOSED]->(n3:western), (n1:composer)-[:COMPOSED]->(n2:drama) WHERE (n3.year=1969) OR (n3.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n1:composer)-[:COMPOSED]->(n3:western:year_1969), (n1:composer)-[:COMPOSED]->(n2:drama)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:composer)-[:COMPOSED]->(n3:western:movie), (n1:composer)-[:COMPOSED]->(n2:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:composer)-[:COMPOSED]->(n3:western:year_1969:movie), (n1:composer)-[:COMPOSED]->(n2:drama)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n1:actress)-[:ACTED_IN]->(n3:sport), (n1:actress)-[:ACTED_IN]->(n4:comedy), (n1:actress)-[:ACTED_IN]->(n2:documentary) WHERE (n3.year=1993) OR (n2.category=""video"") RETURN count(n1)";"CALL () {
+  MATCH (n1:actress)-[:ACTED_IN]->(n3:sport:year_1993), (n1:actress)-[:ACTED_IN]->(n4:comedy), (n1:actress)-[:ACTED_IN]->(n2:documentary)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:actress)-[:ACTED_IN]->(n3:sport), (n1:actress)-[:ACTED_IN]->(n4:comedy), (n1:actress)-[:ACTED_IN]->(n2:documentary:video)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:actress)-[:ACTED_IN]->(n3:sport:year_1993), (n1:actress)-[:ACTED_IN]->(n4:comedy), (n1:actress)-[:ACTED_IN]->(n2:documentary:video)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n3:actor)-[:ACTED_IN]->(n1:reality_tv), (n3:actor)-[:ACTED_IN]->(n2:documentary), (n4:producer)-[:ACTED_IN]->(n1:reality_tv) WHERE (n1.category=""tvSpecial"") OR (n2.year=0) RETURN count(n1)";"CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n1:reality_tv:tvSpecial), (n3:actor)-[:ACTED_IN]->(n2:documentary), (n4:producer)-[:ACTED_IN]->(n1:reality_tv:tvSpecial)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n1:reality_tv), (n3:actor)-[:ACTED_IN]->(n2:documentary:year_0), (n4:producer)-[:ACTED_IN]->(n1:reality_tv)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n1:reality_tv:tvSpecial), (n3:actor)-[:ACTED_IN]->(n2:documentary:year_0), (n4:producer)-[:ACTED_IN]->(n1:reality_tv:tvSpecial)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n2:writer)-[:CINEMATOGRAPHER_OF]->(n4:adult), (n2:camera_department)-[:CINEMATOGRAPHER_OF]->(n3:adult), (n2:director)-[:DIRECTED]->(n1:adult) WHERE (n2.name=""James Avalon"") OR (n2.death=0) RETURN count(n1)";"CALL () {
+  MATCH (n2:writer)-[:CINEMATOGRAPHER_OF]->(n4:adult), (n2:camera_department)-[:CINEMATOGRAPHER_OF]->(n3:adult), (n2:director)-[:DIRECTED]->(n1:adult)
+  WHERE n2.name=""James Avalon""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:writer:death_0)-[:CINEMATOGRAPHER_OF]->(n4:adult), (n2:camera_department:death_0)-[:CINEMATOGRAPHER_OF]->(n3:adult), (n2:director:death_0)-[:DIRECTED]->(n1:adult)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:writer:death_0)-[:CINEMATOGRAPHER_OF]->(n4:adult), (n2:camera_department:death_0)-[:CINEMATOGRAPHER_OF]->(n3:adult), (n2:director:death_0)-[:DIRECTED]->(n1:adult)
+  WHERE n2.name=""James Avalon""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;1;50%
+MATCH (n2:music_department)-[:ACTED_IN]->(n3:crime), (n2:music_department)-[:ACTED_IN]->(n1:romance) WHERE (n3.year=1981) OR (n2.death=2012) RETURN count(n1);"CALL () {
+  MATCH (n2:music_department)-[:ACTED_IN]->(n3:crime:year_1981), (n2:music_department)-[:ACTED_IN]->(n1:romance)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:music_department:death_2012)-[:ACTED_IN]->(n3:crime), (n2:music_department:death_2012)-[:ACTED_IN]->(n1:romance)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:music_department:death_2012)-[:ACTED_IN]->(n3:crime:year_1981), (n2:music_department:death_2012)-[:ACTED_IN]->(n1:romance)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+MATCH (n4:director)-[:PRODUCED]->(n3:drama), (n4:producer)-[:DIRECTED]->(n1:drama), (n4:director)-[:PRODUCED]->(n2:documentary) WHERE (n1.year=1997) OR (n4.death=0) RETURN count(n1);"CALL () {
+  MATCH (n4:director)-[:PRODUCED]->(n3:drama), (n4:producer)-[:DIRECTED]->(n1:drama:year_1997), (n4:director)-[:PRODUCED]->(n2:documentary)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:director:death_0)-[:PRODUCED]->(n3:drama), (n4:producer:death_0)-[:DIRECTED]->(n1:drama), (n4:director:death_0)-[:PRODUCED]->(n2:documentary)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:director:death_0)-[:PRODUCED]->(n3:drama), (n4:producer:death_0)-[:DIRECTED]->(n1:drama:year_1997), (n4:director:death_0)-[:PRODUCED]->(n2:documentary)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n3:actor)-[:ACTED_IN]->(n2:documentary), (n3:producer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:music) WHERE (n1.year=2007) OR (n3.name=""Jack Nicholson"") RETURN count(n1)";"CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n2:documentary), (n3:producer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:music:year_2007)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n2:documentary), (n3:producer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:music)
+  WHERE n3.name=""Jack Nicholson""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n2:documentary), (n3:producer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:music:year_2007)
+  WHERE n3.name=""Jack Nicholson""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;1;50%
+MATCH (n2:writer)-[:ACTED_IN]->(n3:music), (n2:producer)-[:PRODUCED]->(n1:thriller) WHERE (n1.year=2001) OR (n3.year=2016) RETURN count(n1);"CALL () {
+  MATCH (n2:writer)-[:ACTED_IN]->(n3:music), (n2:producer)-[:PRODUCED]->(n1:thriller:year_2001)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:writer)-[:ACTED_IN]->(n3:music:year_2016), (n2:producer)-[:PRODUCED]->(n1:thriller)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:writer)-[:ACTED_IN]->(n3:music:year_2016), (n2:producer)-[:PRODUCED]->(n1:thriller:year_2001)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+MATCH (n1:writer)-[:ACTED_IN]->(n4:documentary), (n1:actor)-[:ACTED_IN]->(n2:documentary), (n1:director)-[:ACTED_IN]->(n3:comedy) WHERE (n3.year=1985) OR (n4.year=2008) RETURN count(n1);"CALL () {
+  MATCH (n1:writer)-[:ACTED_IN]->(n4:documentary), (n1:actor)-[:ACTED_IN]->(n2:documentary), (n1:director)-[:ACTED_IN]->(n3:comedy:year_1985)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:writer)-[:ACTED_IN]->(n4:documentary:year_2008), (n1:actor)-[:ACTED_IN]->(n2:documentary), (n1:director)-[:ACTED_IN]->(n3:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:writer)-[:ACTED_IN]->(n4:documentary:year_2008), (n1:actor)-[:ACTED_IN]->(n2:documentary), (n1:director)-[:ACTED_IN]->(n3:comedy:year_1985)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";2;0;100%
+"MATCH (n2:composer)-[:COMPOSED]->(n3:comedy), (n2:music_department)-[:COMPOSED]->(n1:animation) WHERE (n2.death=0) OR (n2.birth=0) OR (n3.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n2:composer:death_0)-[:COMPOSED]->(n3:comedy), (n2:music_department:death_0)-[:COMPOSED]->(n1:animation)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:composer:birth_0)-[:COMPOSED]->(n3:comedy), (n2:music_department:birth_0)-[:COMPOSED]->(n1:animation)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:composer)-[:COMPOSED]->(n3:comedy:movie), (n2:music_department)-[:COMPOSED]->(n1:animation)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:composer:death_0:birth_0)-[:COMPOSED]->(n3:comedy), (n2:music_department:death_0:birth_0)-[:COMPOSED]->(n1:animation)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:composer:death_0)-[:COMPOSED]->(n3:comedy:movie), (n2:music_department:death_0)-[:COMPOSED]->(n1:animation)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:composer:birth_0)-[:COMPOSED]->(n3:comedy:movie), (n2:music_department:birth_0)-[:COMPOSED]->(n1:animation)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:composer:death_0:birth_0)-[:COMPOSED]->(n3:comedy:movie), (n2:music_department:death_0:birth_0)-[:COMPOSED]->(n1:animation)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n3:assistant_director)-[:ACTED_IN]->(n1:musical), (n3:assistant_director)-[:ACTED_IN]->(n2:comedy) WHERE (n3.birth=1899) OR (n1.category=""short"") OR (n3.name=""Robert Agnew"") RETURN count(n1)";"CALL () {
+  MATCH (n3:assistant_director:birth_1899)-[:ACTED_IN]->(n1:musical), (n3:assistant_director:birth_1899)-[:ACTED_IN]->(n2:comedy)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:assistant_director)-[:ACTED_IN]->(n1:musical:short), (n3:assistant_director)-[:ACTED_IN]->(n2:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:assistant_director)-[:ACTED_IN]->(n1:musical), (n3:assistant_director)-[:ACTED_IN]->(n2:comedy)
+  WHERE n3.name=""Robert Agnew""
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:assistant_director:birth_1899)-[:ACTED_IN]->(n1:musical:short), (n3:assistant_director:birth_1899)-[:ACTED_IN]->(n2:comedy)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:assistant_director:birth_1899)-[:ACTED_IN]->(n1:musical), (n3:assistant_director:birth_1899)-[:ACTED_IN]->(n2:comedy)
+  WHERE n3.name=""Robert Agnew""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:assistant_director)-[:ACTED_IN]->(n1:musical:short), (n3:assistant_director)-[:ACTED_IN]->(n2:comedy)
+  WHERE n3.name=""Robert Agnew""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:assistant_director:birth_1899)-[:ACTED_IN]->(n1:musical:short), (n3:assistant_director:birth_1899)-[:ACTED_IN]->(n2:comedy)
+  WHERE n3.name=""Robert Agnew""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;1;67%
+"MATCH (n1:actor)-[:ACTED_IN]->(n3:comedy), (n1:actor)-[:ACTED_IN]->(n4:comedy), (n1:actor)-[:ACTED_IN]->(n2:sci_fi) WHERE (n1.birth=1954) OR (n3.category=""movie"") OR (n1.name=""Robert Carradine"") RETURN count(n1)";"CALL () {
+  MATCH (n1:actor:birth_1954)-[:ACTED_IN]->(n3:comedy), (n1:actor:birth_1954)-[:ACTED_IN]->(n4:comedy), (n1:actor:birth_1954)-[:ACTED_IN]->(n2:sci_fi)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:actor)-[:ACTED_IN]->(n3:comedy:movie), (n1:actor)-[:ACTED_IN]->(n4:comedy), (n1:actor)-[:ACTED_IN]->(n2:sci_fi)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:actor)-[:ACTED_IN]->(n3:comedy), (n1:actor)-[:ACTED_IN]->(n4:comedy), (n1:actor)-[:ACTED_IN]->(n2:sci_fi)
+  WHERE n1.name=""Robert Carradine""
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n1:actor:birth_1954)-[:ACTED_IN]->(n3:comedy:movie), (n1:actor:birth_1954)-[:ACTED_IN]->(n4:comedy), (n1:actor:birth_1954)-[:ACTED_IN]->(n2:sci_fi)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n1:actor:birth_1954)-[:ACTED_IN]->(n3:comedy), (n1:actor:birth_1954)-[:ACTED_IN]->(n4:comedy), (n1:actor:birth_1954)-[:ACTED_IN]->(n2:sci_fi)
+  WHERE n1.name=""Robert Carradine""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n1:actor)-[:ACTED_IN]->(n3:comedy:movie), (n1:actor)-[:ACTED_IN]->(n4:comedy), (n1:actor)-[:ACTED_IN]->(n2:sci_fi)
+  WHERE n1.name=""Robert Carradine""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n1:actor:birth_1954)-[:ACTED_IN]->(n3:comedy:movie), (n1:actor:birth_1954)-[:ACTED_IN]->(n4:comedy), (n1:actor:birth_1954)-[:ACTED_IN]->(n2:sci_fi)
+  WHERE n1.name=""Robert Carradine""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;1;67%
+"MATCH (n3:writer)-[:ACTED_IN]->(n2:talk_show), (n3:actor)-[:ACTED_IN]->(n1:reality_tv) WHERE (n3.birth=1964) OR (n2.category=""tvSeries"") OR (n1.year=2011) RETURN count(n1)";"CALL () {
+  MATCH (n3:writer:birth_1964)-[:ACTED_IN]->(n2:talk_show), (n3:actor:birth_1964)-[:ACTED_IN]->(n1:reality_tv)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:writer)-[:ACTED_IN]->(n2:talk_show:tvSeries), (n3:actor)-[:ACTED_IN]->(n1:reality_tv)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:writer)-[:ACTED_IN]->(n2:talk_show), (n3:actor)-[:ACTED_IN]->(n1:reality_tv:year_2011)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:writer:birth_1964)-[:ACTED_IN]->(n2:talk_show:tvSeries), (n3:actor:birth_1964)-[:ACTED_IN]->(n1:reality_tv)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:writer:birth_1964)-[:ACTED_IN]->(n2:talk_show), (n3:actor:birth_1964)-[:ACTED_IN]->(n1:reality_tv:year_2011)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:writer)-[:ACTED_IN]->(n2:talk_show:tvSeries), (n3:actor)-[:ACTED_IN]->(n1:reality_tv:year_2011)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:writer:birth_1964)-[:ACTED_IN]->(n2:talk_show:tvSeries), (n3:actor:birth_1964)-[:ACTED_IN]->(n1:reality_tv:year_2011)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:crime), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n1:music), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance) WHERE (n4.category=""movie"") OR (n2.birth=1889) OR (n1.year=1934) RETURN count(n1)";"CALL () {
+  MATCH (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:crime), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n1:music), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance:movie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n3:crime), (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n1:music), (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n4:romance)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:crime), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n1:music:year_1934), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n3:crime), (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n1:music), (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n4:romance:movie)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:crime), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n1:music:year_1934), (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance:movie)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n3:crime), (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n1:music:year_1934), (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n4:romance)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n3:crime), (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n1:music:year_1934), (n2:cinematographer:birth_1889)-[:CINEMATOGRAPHER_OF]->(n4:romance:movie)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n1:soundtrack)-[:COMPOSED]->(n4:drama), (n1:soundtrack)-[:COMPOSED]->(n3:biography), (n1:soundtrack)-[:COMPOSED]->(n2:comedy) WHERE (n1.birth=1947) OR (n2.year=1970) OR (n4.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n1:soundtrack:birth_1947)-[:COMPOSED]->(n4:drama), (n1:soundtrack:birth_1947)-[:COMPOSED]->(n3:biography), (n1:soundtrack:birth_1947)-[:COMPOSED]->(n2:comedy)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:soundtrack)-[:COMPOSED]->(n4:drama), (n1:soundtrack)-[:COMPOSED]->(n3:biography), (n1:soundtrack)-[:COMPOSED]->(n2:comedy:year_1970)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:soundtrack)-[:COMPOSED]->(n4:drama:movie), (n1:soundtrack)-[:COMPOSED]->(n3:biography), (n1:soundtrack)-[:COMPOSED]->(n2:comedy)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n1:soundtrack:birth_1947)-[:COMPOSED]->(n4:drama), (n1:soundtrack:birth_1947)-[:COMPOSED]->(n3:biography), (n1:soundtrack:birth_1947)-[:COMPOSED]->(n2:comedy:year_1970)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n1:soundtrack:birth_1947)-[:COMPOSED]->(n4:drama:movie), (n1:soundtrack:birth_1947)-[:COMPOSED]->(n3:biography), (n1:soundtrack:birth_1947)-[:COMPOSED]->(n2:comedy)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n1:soundtrack)-[:COMPOSED]->(n4:drama:movie), (n1:soundtrack)-[:COMPOSED]->(n3:biography), (n1:soundtrack)-[:COMPOSED]->(n2:comedy:year_1970)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n1:soundtrack:birth_1947)-[:COMPOSED]->(n4:drama:movie), (n1:soundtrack:birth_1947)-[:COMPOSED]->(n3:biography), (n1:soundtrack:birth_1947)-[:COMPOSED]->(n2:comedy:year_1970)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n3:actress)-[:ACTED_IN]->(n2:thriller), (n3:producer)-[:ACTED_IN]->(n1:music), (n3:actress)-[:ACTED_IN]->(n4:drama) WHERE (n1.year=2013) OR (n1.category=""video"") OR (n3.birth=1977) RETURN count(n1)";"CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n2:thriller), (n3:producer)-[:ACTED_IN]->(n1:music:year_2013), (n3:actress)-[:ACTED_IN]->(n4:drama)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n2:thriller), (n3:producer)-[:ACTED_IN]->(n1:music:video), (n3:actress)-[:ACTED_IN]->(n4:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actress:birth_1977)-[:ACTED_IN]->(n2:thriller), (n3:producer:birth_1977)-[:ACTED_IN]->(n1:music), (n3:actress:birth_1977)-[:ACTED_IN]->(n4:drama)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n2:thriller), (n3:producer)-[:ACTED_IN]->(n1:music:year_2013:video), (n3:actress)-[:ACTED_IN]->(n4:drama)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:actress:birth_1977)-[:ACTED_IN]->(n2:thriller), (n3:producer:birth_1977)-[:ACTED_IN]->(n1:music:year_2013), (n3:actress:birth_1977)-[:ACTED_IN]->(n4:drama)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:actress:birth_1977)-[:ACTED_IN]->(n2:thriller), (n3:producer:birth_1977)-[:ACTED_IN]->(n1:music:video), (n3:actress:birth_1977)-[:ACTED_IN]->(n4:drama)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:actress:birth_1977)-[:ACTED_IN]->(n2:thriller), (n3:producer:birth_1977)-[:ACTED_IN]->(n1:music:year_2013:video), (n3:actress:birth_1977)-[:ACTED_IN]->(n4:drama)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n1:producer)-[:ACTED_IN]->(n2:sport), (n1:actor)-[:ACTED_IN]->(n3:sport), (n1:actor)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n4:sport) WHERE (n2.category=""tvSpecial"") OR (n3.category=""tvSpecial"") OR (n1.death=0) RETURN count(n1)";"CALL () {
+  MATCH (n1:producer)-[:ACTED_IN]->(n2:sport:tvSpecial), (n1:actor)-[:ACTED_IN]->(n3:sport), (n1:actor)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n4:sport)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:producer)-[:ACTED_IN]->(n2:sport), (n1:actor)-[:ACTED_IN]->(n3:sport:tvSpecial), (n1:actor)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n4:sport)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:producer:death_0)-[:ACTED_IN]->(n2:sport), (n1:actor:death_0)-[:ACTED_IN]->(n3:sport), (n1:actor:death_0)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n4:sport)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n1:producer)-[:ACTED_IN]->(n2:sport:tvSpecial), (n1:actor)-[:ACTED_IN]->(n3:sport:tvSpecial), (n1:actor)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n4:sport)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n1:producer:death_0)-[:ACTED_IN]->(n2:sport:tvSpecial), (n1:actor:death_0)-[:ACTED_IN]->(n3:sport), (n1:actor:death_0)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n4:sport)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n1:producer:death_0)-[:ACTED_IN]->(n2:sport), (n1:actor:death_0)-[:ACTED_IN]->(n3:sport:tvSpecial), (n1:actor:death_0)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n4:sport)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n1:producer:death_0)-[:ACTED_IN]->(n2:sport:tvSpecial), (n1:actor:death_0)-[:ACTED_IN]->(n3:sport:tvSpecial), (n1:actor:death_0)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n4:sport)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n4:soundtrack)-[:ACTED_IN]->(n3:music), (n4:actor)-[:ACTED_IN]->(n2:music), (n4:actor)-[:ACTED_IN]->(n1:talk_show) WHERE (n3.category=""tvSeries"") OR (n2.category=""tvSeries"") OR (n4.name=""Marcel Amont"") RETURN count(n1)";"CALL () {
+  MATCH (n4:soundtrack)-[:ACTED_IN]->(n3:music:tvSeries), (n4:actor)-[:ACTED_IN]->(n2:music), (n4:actor)-[:ACTED_IN]->(n1:talk_show)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:soundtrack)-[:ACTED_IN]->(n3:music), (n4:actor)-[:ACTED_IN]->(n2:music:tvSeries), (n4:actor)-[:ACTED_IN]->(n1:talk_show)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:soundtrack)-[:ACTED_IN]->(n3:music), (n4:actor)-[:ACTED_IN]->(n2:music), (n4:actor)-[:ACTED_IN]->(n1:talk_show)
+  WHERE n4.name=""Marcel Amont""
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n4:soundtrack)-[:ACTED_IN]->(n3:music:tvSeries), (n4:actor)-[:ACTED_IN]->(n2:music:tvSeries), (n4:actor)-[:ACTED_IN]->(n1:talk_show)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n4:soundtrack)-[:ACTED_IN]->(n3:music:tvSeries), (n4:actor)-[:ACTED_IN]->(n2:music), (n4:actor)-[:ACTED_IN]->(n1:talk_show)
+  WHERE n4.name=""Marcel Amont""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n4:soundtrack)-[:ACTED_IN]->(n3:music), (n4:actor)-[:ACTED_IN]->(n2:music:tvSeries), (n4:actor)-[:ACTED_IN]->(n1:talk_show)
+  WHERE n4.name=""Marcel Amont""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n4:soundtrack)-[:ACTED_IN]->(n3:music:tvSeries), (n4:actor)-[:ACTED_IN]->(n2:music:tvSeries), (n4:actor)-[:ACTED_IN]->(n1:talk_show)
+  WHERE n4.name=""Marcel Amont""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;1;67%
+"MATCH (n2:director)-[:ACTED_IN]->(n1:comedy), (n2:actor)-[:ACTED_IN]->(n3:drama) WHERE (n3.category=""short"") OR (n1.category=""tvSeries"") OR (n3.year=2017) RETURN count(n1)";"CALL () {
+  MATCH (n2:director)-[:ACTED_IN]->(n1:comedy), (n2:actor)-[:ACTED_IN]->(n3:drama:short)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:director)-[:ACTED_IN]->(n1:comedy:tvSeries), (n2:actor)-[:ACTED_IN]->(n3:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:director)-[:ACTED_IN]->(n1:comedy), (n2:actor)-[:ACTED_IN]->(n3:drama:year_2017)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:director)-[:ACTED_IN]->(n1:comedy:tvSeries), (n2:actor)-[:ACTED_IN]->(n3:drama:short)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:director)-[:ACTED_IN]->(n1:comedy), (n2:actor)-[:ACTED_IN]->(n3:drama:short:year_2017)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:director)-[:ACTED_IN]->(n1:comedy:tvSeries), (n2:actor)-[:ACTED_IN]->(n3:drama:year_2017)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:director)-[:ACTED_IN]->(n1:comedy:tvSeries), (n2:actor)-[:ACTED_IN]->(n3:drama:short:year_2017)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n1:miscellaneous)-[:ACTED_IN]->(n3:history), (n1:actor)-[:ACTED_IN]->(n2:documentary) WHERE (n1.death=2021) OR (n3.year=2018) OR (n2.category=""video"") RETURN count(n1)";"CALL () {
+  MATCH (n1:miscellaneous:death_2021)-[:ACTED_IN]->(n3:history), (n1:actor:death_2021)-[:ACTED_IN]->(n2:documentary)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:miscellaneous)-[:ACTED_IN]->(n3:history:year_2018), (n1:actor)-[:ACTED_IN]->(n2:documentary)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:miscellaneous)-[:ACTED_IN]->(n3:history), (n1:actor)-[:ACTED_IN]->(n2:documentary:video)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n1:miscellaneous:death_2021)-[:ACTED_IN]->(n3:history:year_2018), (n1:actor:death_2021)-[:ACTED_IN]->(n2:documentary)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n1:miscellaneous:death_2021)-[:ACTED_IN]->(n3:history), (n1:actor:death_2021)-[:ACTED_IN]->(n2:documentary:video)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n1:miscellaneous)-[:ACTED_IN]->(n3:history:year_2018), (n1:actor)-[:ACTED_IN]->(n2:documentary:video)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n1:miscellaneous:death_2021)-[:ACTED_IN]->(n3:history:year_2018), (n1:actor:death_2021)-[:ACTED_IN]->(n2:documentary:video)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n3:actor)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:crime), (n3:director)-[:ACTED_IN]->(n1:drama) WHERE (n1.year=1943) OR (n1.category=""movie"") OR (n3.death=1954) RETURN count(n1)";"CALL () {
+  MATCH (n3:actor)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:crime), (n3:director)-[:ACTED_IN]->(n1:drama:year_1943)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actor)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:crime), (n3:director)-[:ACTED_IN]->(n1:drama:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actor:death_1954)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:crime), (n3:director:death_1954)-[:ACTED_IN]->(n1:drama)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:actor)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:crime), (n3:director)-[:ACTED_IN]->(n1:drama:year_1943:movie)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:actor:death_1954)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:crime), (n3:director:death_1954)-[:ACTED_IN]->(n1:drama:year_1943)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:actor:death_1954)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:crime), (n3:director:death_1954)-[:ACTED_IN]->(n1:drama:movie)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:actor:death_1954)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:crime), (n3:director:death_1954)-[:ACTED_IN]->(n1:drama:year_1943:movie)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n4:soundtrack)-[:COMPOSED]->(n2:drama), (n4:composer)-[:COMPOSED]->(n1:documentary), (n4:composer)-[:COMPOSED]->(n3:drama) WHERE (n4.death=2006) OR (n2.year=1956) OR (n3.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n4:soundtrack:death_2006)-[:COMPOSED]->(n2:drama), (n4:composer:death_2006)-[:COMPOSED]->(n1:documentary), (n4:composer:death_2006)-[:COMPOSED]->(n3:drama)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:soundtrack)-[:COMPOSED]->(n2:drama:year_1956), (n4:composer)-[:COMPOSED]->(n1:documentary), (n4:composer)-[:COMPOSED]->(n3:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:soundtrack)-[:COMPOSED]->(n2:drama), (n4:composer)-[:COMPOSED]->(n1:documentary), (n4:composer)-[:COMPOSED]->(n3:drama:movie)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n4:soundtrack:death_2006)-[:COMPOSED]->(n2:drama:year_1956), (n4:composer:death_2006)-[:COMPOSED]->(n1:documentary), (n4:composer:death_2006)-[:COMPOSED]->(n3:drama)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n4:soundtrack:death_2006)-[:COMPOSED]->(n2:drama), (n4:composer:death_2006)-[:COMPOSED]->(n1:documentary), (n4:composer:death_2006)-[:COMPOSED]->(n3:drama:movie)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n4:soundtrack)-[:COMPOSED]->(n2:drama:year_1956), (n4:composer)-[:COMPOSED]->(n1:documentary), (n4:composer)-[:COMPOSED]->(n3:drama:movie)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n4:soundtrack:death_2006)-[:COMPOSED]->(n2:drama:year_1956), (n4:composer:death_2006)-[:COMPOSED]->(n1:documentary), (n4:composer:death_2006)-[:COMPOSED]->(n3:drama:movie)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n1:writer)-[:ACTED_IN]->(n2:sport), (n1:writer)-[:ACTED_IN]->(n3:sport) WHERE (n1.death=0) OR (n1.name=""Steve Austin"") OR (n2.category=""video"") RETURN count(n1)";"CALL () {
+  MATCH (n1:writer:death_0)-[:ACTED_IN]->(n2:sport), (n1:writer:death_0)-[:ACTED_IN]->(n3:sport)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:writer)-[:ACTED_IN]->(n2:sport), (n1:writer)-[:ACTED_IN]->(n3:sport)
+  WHERE n1.name=""Steve Austin""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:writer)-[:ACTED_IN]->(n2:sport:video), (n1:writer)-[:ACTED_IN]->(n3:sport)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n1:writer:death_0)-[:ACTED_IN]->(n2:sport), (n1:writer:death_0)-[:ACTED_IN]->(n3:sport)
+  WHERE n1.name=""Steve Austin""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n1:writer:death_0)-[:ACTED_IN]->(n2:sport:video), (n1:writer:death_0)-[:ACTED_IN]->(n3:sport)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n1:writer)-[:ACTED_IN]->(n2:sport:video), (n1:writer)-[:ACTED_IN]->(n3:sport)
+  WHERE n1.name=""Steve Austin""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n1:writer:death_0)-[:ACTED_IN]->(n2:sport:video), (n1:writer:death_0)-[:ACTED_IN]->(n3:sport)
+  WHERE n1.name=""Steve Austin""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;1;67%
+"MATCH (n3:music_department)-[:PRODUCED]->(n2:action), (n3:producer)-[:ACTED_IN]->(n1:adventure) WHERE (n2.category=""movie"") OR (n3.death=0) OR (n3.name=""Jerry Bruckheimer"") RETURN count(n1)";"CALL () {
+  MATCH (n3:music_department)-[:PRODUCED]->(n2:action:movie), (n3:producer)-[:ACTED_IN]->(n1:adventure)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:music_department:death_0)-[:PRODUCED]->(n2:action), (n3:producer:death_0)-[:ACTED_IN]->(n1:adventure)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:music_department)-[:PRODUCED]->(n2:action), (n3:producer)-[:ACTED_IN]->(n1:adventure)
+  WHERE n3.name=""Jerry Bruckheimer""
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:music_department:death_0)-[:PRODUCED]->(n2:action:movie), (n3:producer:death_0)-[:ACTED_IN]->(n1:adventure)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:music_department)-[:PRODUCED]->(n2:action:movie), (n3:producer)-[:ACTED_IN]->(n1:adventure)
+  WHERE n3.name=""Jerry Bruckheimer""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:music_department:death_0)-[:PRODUCED]->(n2:action), (n3:producer:death_0)-[:ACTED_IN]->(n1:adventure)
+  WHERE n3.name=""Jerry Bruckheimer""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:music_department:death_0)-[:PRODUCED]->(n2:action:movie), (n3:producer:death_0)-[:ACTED_IN]->(n1:adventure)
+  WHERE n3.name=""Jerry Bruckheimer""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;1;67%
+"MATCH (n1:music_department)-[:COMPOSED]->(n3:drama), (n1:soundtrack)-[:COMPOSED]->(n2:comedy) WHERE (n1.name=""Kai Normann Andersen"") OR (n3.year=1948) OR (n3.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n1:music_department)-[:COMPOSED]->(n3:drama), (n1:soundtrack)-[:COMPOSED]->(n2:comedy)
+  WHERE n1.name=""Kai Normann Andersen""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:music_department)-[:COMPOSED]->(n3:drama:year_1948), (n1:soundtrack)-[:COMPOSED]->(n2:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:music_department)-[:COMPOSED]->(n3:drama:movie), (n1:soundtrack)-[:COMPOSED]->(n2:comedy)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n1:music_department)-[:COMPOSED]->(n3:drama:year_1948), (n1:soundtrack)-[:COMPOSED]->(n2:comedy)
+  WHERE n1.name=""Kai Normann Andersen""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n1:music_department)-[:COMPOSED]->(n3:drama:movie), (n1:soundtrack)-[:COMPOSED]->(n2:comedy)
+  WHERE n1.name=""Kai Normann Andersen""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n1:music_department)-[:COMPOSED]->(n3:drama:year_1948:movie), (n1:soundtrack)-[:COMPOSED]->(n2:comedy)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n1:music_department)-[:COMPOSED]->(n3:drama:year_1948:movie), (n1:soundtrack)-[:COMPOSED]->(n2:comedy)
+  WHERE n1.name=""Kai Normann Andersen""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;1;67%
+"MATCH (n3:actress)-[:ACTED_IN]->(n1:war), (n3:actress)-[:ACTED_IN]->(n2:action), (n3:actress)-[:ACTED_IN]->(n4:drama) WHERE (n3.name=""Li Gong"") OR (n1.year=2000) OR (n4.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:war), (n3:actress)-[:ACTED_IN]->(n2:action), (n3:actress)-[:ACTED_IN]->(n4:drama)
+  WHERE n3.name=""Li Gong""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:war:year_2000), (n3:actress)-[:ACTED_IN]->(n2:action), (n3:actress)-[:ACTED_IN]->(n4:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:war), (n3:actress)-[:ACTED_IN]->(n2:action), (n3:actress)-[:ACTED_IN]->(n4:drama:movie)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:war:year_2000), (n3:actress)-[:ACTED_IN]->(n2:action), (n3:actress)-[:ACTED_IN]->(n4:drama)
+  WHERE n3.name=""Li Gong""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:war), (n3:actress)-[:ACTED_IN]->(n2:action), (n3:actress)-[:ACTED_IN]->(n4:drama:movie)
+  WHERE n3.name=""Li Gong""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:war:year_2000), (n3:actress)-[:ACTED_IN]->(n2:action), (n3:actress)-[:ACTED_IN]->(n4:drama:movie)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:war:year_2000), (n3:actress)-[:ACTED_IN]->(n2:action), (n3:actress)-[:ACTED_IN]->(n4:drama:movie)
+  WHERE n3.name=""Li Gong""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;1;67%
+"MATCH (n2:actress)-[:ACTED_IN]->(n1:drama), (n2:soundtrack)-[:ACTED_IN]->(n3:comedy) WHERE (n3.year=1989) OR (n1.year=1993) OR (n1.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n1:drama), (n2:soundtrack)-[:ACTED_IN]->(n3:comedy:year_1989)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n1:drama:year_1993), (n2:soundtrack)-[:ACTED_IN]->(n3:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n1:drama:movie), (n2:soundtrack)-[:ACTED_IN]->(n3:comedy)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n1:drama:year_1993), (n2:soundtrack)-[:ACTED_IN]->(n3:comedy:year_1989)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n1:drama:movie), (n2:soundtrack)-[:ACTED_IN]->(n3:comedy:year_1989)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n1:drama:year_1993:movie), (n2:soundtrack)-[:ACTED_IN]->(n3:comedy)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n1:drama:year_1993:movie), (n2:soundtrack)-[:ACTED_IN]->(n3:comedy:year_1989)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n2:director)-[:ACTED_IN]->(n3:drama), (n2:director)-[:ACTED_IN]->(n1:horror), (n2:soundtrack)-[:ACTED_IN]->(n4:music) WHERE (n2.name=""Juliette Lewis"") OR (n2.death=0) OR (n1.year=1996) RETURN count(n1)";"CALL () {
+  MATCH (n2:director)-[:ACTED_IN]->(n3:drama), (n2:director)-[:ACTED_IN]->(n1:horror), (n2:soundtrack)-[:ACTED_IN]->(n4:music)
+  WHERE n2.name=""Juliette Lewis""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:director:death_0)-[:ACTED_IN]->(n3:drama), (n2:director:death_0)-[:ACTED_IN]->(n1:horror), (n2:soundtrack:death_0)-[:ACTED_IN]->(n4:music)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:director)-[:ACTED_IN]->(n3:drama), (n2:director)-[:ACTED_IN]->(n1:horror:year_1996), (n2:soundtrack)-[:ACTED_IN]->(n4:music)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:director:death_0)-[:ACTED_IN]->(n3:drama), (n2:director:death_0)-[:ACTED_IN]->(n1:horror), (n2:soundtrack:death_0)-[:ACTED_IN]->(n4:music)
+  WHERE n2.name=""Juliette Lewis""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:director)-[:ACTED_IN]->(n3:drama), (n2:director)-[:ACTED_IN]->(n1:horror:year_1996), (n2:soundtrack)-[:ACTED_IN]->(n4:music)
+  WHERE n2.name=""Juliette Lewis""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:director:death_0)-[:ACTED_IN]->(n3:drama), (n2:director:death_0)-[:ACTED_IN]->(n1:horror:year_1996), (n2:soundtrack:death_0)-[:ACTED_IN]->(n4:music)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:director:death_0)-[:ACTED_IN]->(n3:drama), (n2:director:death_0)-[:ACTED_IN]->(n1:horror:year_1996), (n2:soundtrack:death_0)-[:ACTED_IN]->(n4:music)
+  WHERE n2.name=""Juliette Lewis""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;1;67%
+MATCH (n4:actress)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n3:documentary), (n4:actress)-[:ACTED_IN]->(n2:drama), (n4:actress)-[:ACTED_IN]->(n1:comedy) WHERE (n1.year=1972) OR (n4.death=0) OR (n2.year=1972) RETURN count(n1);"CALL () {
+  MATCH (n4:actress)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n3:documentary), (n4:actress)-[:ACTED_IN]->(n2:drama), (n4:actress)-[:ACTED_IN]->(n1:comedy:year_1972)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:actress:death_0)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n3:documentary), (n4:actress:death_0)-[:ACTED_IN]->(n2:drama), (n4:actress:death_0)-[:ACTED_IN]->(n1:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:actress)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n3:documentary), (n4:actress)-[:ACTED_IN]->(n2:drama:year_1972), (n4:actress)-[:ACTED_IN]->(n1:comedy)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n4:actress:death_0)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n3:documentary), (n4:actress:death_0)-[:ACTED_IN]->(n2:drama), (n4:actress:death_0)-[:ACTED_IN]->(n1:comedy:year_1972)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n4:actress)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n3:documentary), (n4:actress)-[:ACTED_IN]->(n2:drama:year_1972), (n4:actress)-[:ACTED_IN]->(n1:comedy:year_1972)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n4:actress:death_0)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n3:documentary), (n4:actress:death_0)-[:ACTED_IN]->(n2:drama:year_1972), (n4:actress:death_0)-[:ACTED_IN]->(n1:comedy)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n4:actress:death_0)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n3:documentary), (n4:actress:death_0)-[:ACTED_IN]->(n2:drama:year_1972), (n4:actress:death_0)-[:ACTED_IN]->(n1:comedy:year_1972)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";3;0;100%
+"MATCH (n1:actress)-[:ACTED_IN]->(n3:talk_show), (n1:director)-[:ACTED_IN]->(n2:comedy) WHERE (n2.year=2005 AND n1.name=""Shannen Doherty"") OR (n1.death=0 AND n2.category=""tvSpecial"") RETURN count(n1)";"CALL () {
+  MATCH (n1:actress)-[:ACTED_IN]->(n3:talk_show), (n1:director)-[:ACTED_IN]->(n2:comedy:year_2005)
+  WHERE n1.name=""Shannen Doherty""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:actress:death_0)-[:ACTED_IN]->(n3:talk_show), (n1:director:death_0)-[:ACTED_IN]->(n2:comedy:tvSpecial)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:actress:death_0)-[:ACTED_IN]->(n3:talk_show), (n1:director:death_0)-[:ACTED_IN]->(n2:comedy:year_2005:tvSpecial)
+  WHERE n1.name=""Shannen Doherty""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n3:actress)-[:ACTED_IN]->(n2:comedy), (n3:actress)-[:ACTED_IN]->(n1:comedy) WHERE (n2.year=1972 AND n3.name=""Danica Acimac"") OR (n1.year=1959 AND n3.birth=1928) RETURN count(n1)";"CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n2:comedy:year_1972), (n3:actress)-[:ACTED_IN]->(n1:comedy)
+  WHERE n3.name=""Danica Acimac""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actress:birth_1928)-[:ACTED_IN]->(n2:comedy), (n3:actress:birth_1928)-[:ACTED_IN]->(n1:comedy:year_1959)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actress:birth_1928)-[:ACTED_IN]->(n2:comedy:year_1972), (n3:actress:birth_1928)-[:ACTED_IN]->(n1:comedy:year_1959)
+  WHERE n3.name=""Danica Acimac""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n2:actor)-[:ACTED_IN]->(n1:adventure), (n2:actor)-[:ACTED_IN]->(n3:animation) WHERE (n1.year=2011 AND n3.category=""short"") OR (n3.year=1999 AND n2.death=0) RETURN count(n1)";"CALL () {
+  MATCH (n2:actor)-[:ACTED_IN]->(n1:adventure:year_2011), (n2:actor)-[:ACTED_IN]->(n3:animation:short)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:actor:death_0)-[:ACTED_IN]->(n1:adventure), (n2:actor:death_0)-[:ACTED_IN]->(n3:animation:year_1999)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:actor:death_0)-[:ACTED_IN]->(n1:adventure:year_2011), (n2:actor:death_0)-[:ACTED_IN]->(n3:animation:short:year_1999)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;0;100%
+"MATCH (n1:actor)-[:PRODUCED]->(n3:comedy), (n1:director)-[:PRODUCED]->(n2:comedy) WHERE (n1.death=1923 AND n1.name=""Siegmund Lubin"") OR (n2.category=""short"" AND n2.year=1908) RETURN count(n1)";"CALL () {
+  MATCH (n1:actor:death_1923)-[:PRODUCED]->(n3:comedy), (n1:director:death_1923)-[:PRODUCED]->(n2:comedy)
+  WHERE n1.name=""Siegmund Lubin""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:actor)-[:PRODUCED]->(n3:comedy), (n1:director)-[:PRODUCED]->(n2:comedy:short:year_1908)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:actor:death_1923)-[:PRODUCED]->(n3:comedy), (n1:director:death_1923)-[:PRODUCED]->(n2:comedy:short:year_1908)
+  WHERE n1.name=""Siegmund Lubin""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n3:soundtrack)-[:ACTED_IN]->(n1:fantasy), (n3:soundtrack)-[:ACTED_IN]->(n2:musical) WHERE (n2.category=""movie"" AND n3.name=""Ginger Rogers"") OR (n1.category=""movie"" AND n2.year=1936) RETURN count(n1)";"CALL () {
+  MATCH (n3:soundtrack)-[:ACTED_IN]->(n1:fantasy), (n3:soundtrack)-[:ACTED_IN]->(n2:musical:movie)
+  WHERE n3.name=""Ginger Rogers""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:soundtrack)-[:ACTED_IN]->(n1:fantasy:movie), (n3:soundtrack)-[:ACTED_IN]->(n2:musical:year_1936)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:soundtrack)-[:ACTED_IN]->(n1:fantasy:movie), (n3:soundtrack)-[:ACTED_IN]->(n2:musical:movie:year_1936)
+  WHERE n3.name=""Ginger Rogers""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n1:producer)-[:ACTED_IN]->(n3:adult), (n1:actress)-[:ACTED_IN]->(n2:adult) WHERE (n3.category=""video"" AND n1.death=0) OR (n2.year=2015 AND n3.year=2011) RETURN count(n1)";"CALL () {
+  MATCH (n1:producer:death_0)-[:ACTED_IN]->(n3:adult:video), (n1:actress:death_0)-[:ACTED_IN]->(n2:adult)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:producer)-[:ACTED_IN]->(n3:adult:year_2011), (n1:actress)-[:ACTED_IN]->(n2:adult:year_2015)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:producer:death_0)-[:ACTED_IN]->(n3:adult:video:year_2011), (n1:actress:death_0)-[:ACTED_IN]->(n2:adult:year_2015)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;0;100%
+"MATCH (n3:actor)-[:ACTED_IN]->(n1:comedy), (n3:actor)-[:ACTED_IN]->(n2:comedy) WHERE (n3.name=""Heinrich Schafmeister"" AND n2.year=1997) OR (n3.death=0 AND n1.year=2007) RETURN count(n1)";"CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n1:comedy), (n3:actor)-[:ACTED_IN]->(n2:comedy:year_1997)
+  WHERE n3.name=""Heinrich Schafmeister""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actor:death_0)-[:ACTED_IN]->(n1:comedy:year_2007), (n3:actor:death_0)-[:ACTED_IN]->(n2:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actor:death_0)-[:ACTED_IN]->(n1:comedy:year_2007), (n3:actor:death_0)-[:ACTED_IN]->(n2:comedy:year_1997)
+  WHERE n3.name=""Heinrich Schafmeister""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n2:director)-[:DIRECTED]->(n4:drama), (n2:writer)-[:DIRECTED]->(n3:drama), (n2:assistant_director)-[:DIRECTED]->(n1:comedy) WHERE (n2.name=""Meri Anjaparidze"" AND n3.year=1964) OR (n1.year=1964 AND n2.death=1980) RETURN count(n1)";"CALL () {
+  MATCH (n2:director)-[:DIRECTED]->(n4:drama), (n2:writer)-[:DIRECTED]->(n3:drama:year_1964), (n2:assistant_director)-[:DIRECTED]->(n1:comedy)
+  WHERE n2.name=""Meri Anjaparidze""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:director:death_1980)-[:DIRECTED]->(n4:drama), (n2:writer:death_1980)-[:DIRECTED]->(n3:drama), (n2:assistant_director:death_1980)-[:DIRECTED]->(n1:comedy:year_1964)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:director:death_1980)-[:DIRECTED]->(n4:drama), (n2:writer:death_1980)-[:DIRECTED]->(n3:drama:year_1964), (n2:assistant_director:death_1980)-[:DIRECTED]->(n1:comedy:year_1964)
+  WHERE n2.name=""Meri Anjaparidze""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n3:actress)-[:ACTED_IN]->(n1:drama), (n3:actress)-[:ACTED_IN]->(n2:comedy), (n3:actress)-[:ACTED_IN]->(n4:drama) WHERE (n3.name=""LÃ©lia Abramo"" AND n4.year=1965) OR (n3.death=2004 AND n1.year=1973) RETURN count(n1)";"CALL () {
+  MATCH (n3:actress)-[:ACTED_IN]->(n1:drama), (n3:actress)-[:ACTED_IN]->(n2:comedy), (n3:actress)-[:ACTED_IN]->(n4:drama:year_1965)
+  WHERE n3.name=""LÃ©lia Abramo""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actress:death_2004)-[:ACTED_IN]->(n1:drama:year_1973), (n3:actress:death_2004)-[:ACTED_IN]->(n2:comedy), (n3:actress:death_2004)-[:ACTED_IN]->(n4:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actress:death_2004)-[:ACTED_IN]->(n1:drama:year_1973), (n3:actress:death_2004)-[:ACTED_IN]->(n2:comedy), (n3:actress:death_2004)-[:ACTED_IN]->(n4:drama:year_1965)
+  WHERE n3.name=""LÃ©lia Abramo""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n2:director)-[:DIRECTED]->(n3:drama), (n2:actor)-[:WROTE]->(n1:western) WHERE (n2.name=""Samuel Fuller"" AND n3.year=1982) OR (n1.category=""movie"" AND n3.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n2:director)-[:DIRECTED]->(n3:drama:year_1982), (n2:actor)-[:WROTE]->(n1:western)
+  WHERE n2.name=""Samuel Fuller""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:director)-[:DIRECTED]->(n3:drama:movie), (n2:actor)-[:WROTE]->(n1:western:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:director)-[:DIRECTED]->(n3:drama:year_1982:movie), (n2:actor)-[:WROTE]->(n1:western:movie)
+  WHERE n2.name=""Samuel Fuller""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n1:composer)-[:ACTED_IN]->(n3:documentary), (n1:composer)-[:ACTED_IN]->(n2:music) WHERE (n1.name=""Marty Stuart"" AND n1.death=0) OR (n3.year=2005 AND n2.year=2016) RETURN count(n1)";"CALL () {
+  MATCH (n1:composer:death_0)-[:ACTED_IN]->(n3:documentary), (n1:composer:death_0)-[:ACTED_IN]->(n2:music)
+  WHERE n1.name=""Marty Stuart""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:composer)-[:ACTED_IN]->(n3:documentary:year_2005), (n1:composer)-[:ACTED_IN]->(n2:music:year_2016)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:composer:death_0)-[:ACTED_IN]->(n3:documentary:year_2005), (n1:composer:death_0)-[:ACTED_IN]->(n2:music:year_2016)
+  WHERE n1.name=""Marty Stuart""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+MATCH (n2:cinematographer)-[:CINEMATOGRAPHER_OF]->(n1:drama), (n2:camera_department)-[:CINEMATOGRAPHER_OF]->(n3:drama) WHERE (n3.year=1926 AND n2.birth=1884) OR (n2.death=1955 AND n1.year=1922) RETURN count(n1);"CALL () {
+  MATCH (n2:cinematographer:birth_1884)-[:CINEMATOGRAPHER_OF]->(n1:drama), (n2:camera_department:birth_1884)-[:CINEMATOGRAPHER_OF]->(n3:drama:year_1926)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:cinematographer:death_1955)-[:CINEMATOGRAPHER_OF]->(n1:drama:year_1922), (n2:camera_department:death_1955)-[:CINEMATOGRAPHER_OF]->(n3:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:cinematographer:birth_1884:death_1955)-[:CINEMATOGRAPHER_OF]->(n1:drama:year_1922), (n2:camera_department:birth_1884:death_1955)-[:CINEMATOGRAPHER_OF]->(n3:drama:year_1926)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;0;100%
+MATCH (n1:actress)-[:ACTED_IN]->(n4:biography), (n1:actress)-[:ACTED_IN]->(n3:drama), (n1:actress)-[:ACTED_IN]->(n2:drama) WHERE (n4.year=1958 AND n1.death=1970) OR (n2.year=1967 AND n1.birth=1927) RETURN count(n1);"CALL () {
+  MATCH (n1:actress:death_1970)-[:ACTED_IN]->(n4:biography:year_1958), (n1:actress:death_1970)-[:ACTED_IN]->(n3:drama), (n1:actress:death_1970)-[:ACTED_IN]->(n2:drama)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:actress:birth_1927)-[:ACTED_IN]->(n4:biography), (n1:actress:birth_1927)-[:ACTED_IN]->(n3:drama), (n1:actress:birth_1927)-[:ACTED_IN]->(n2:drama:year_1967)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:actress:death_1970:birth_1927)-[:ACTED_IN]->(n4:biography:year_1958), (n1:actress:death_1970:birth_1927)-[:ACTED_IN]->(n3:drama), (n1:actress:death_1970:birth_1927)-[:ACTED_IN]->(n2:drama:year_1967)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;0;100%
+"MATCH (n4:actor)-[:ACTED_IN]->(n1:documentary), (n4:producer)-[:ACTED_IN]->(n2:documentary), (n4:actor)-[:PRODUCED]->(n3:comedy) WHERE (n4.name=""Tariq Ali"" AND n2.year=2008) OR (n3.year=1995 AND n3.category=""tvMovie"") RETURN count(n1)";"CALL () {
+  MATCH (n4:actor)-[:ACTED_IN]->(n1:documentary), (n4:producer)-[:ACTED_IN]->(n2:documentary:year_2008), (n4:actor)-[:PRODUCED]->(n3:comedy)
+  WHERE n4.name=""Tariq Ali""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:actor)-[:ACTED_IN]->(n1:documentary), (n4:producer)-[:ACTED_IN]->(n2:documentary), (n4:actor)-[:PRODUCED]->(n3:comedy:year_1995:tvMovie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:actor)-[:ACTED_IN]->(n1:documentary), (n4:producer)-[:ACTED_IN]->(n2:documentary:year_2008), (n4:actor)-[:PRODUCED]->(n3:comedy:year_1995:tvMovie)
+  WHERE n4.name=""Tariq Ali""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n2:actor)-[:COMPOSED]->(n1:romance), (n2:composer)-[:ACTED_IN]->(n3:music), (n2:composer)-[:COMPOSED]->(n4:music) WHERE (n4.category=""video"" AND n3.category=""video"") OR (n2.birth=1943 AND n2.death=0) RETURN count(n1)";"CALL () {
+  MATCH (n2:actor)-[:COMPOSED]->(n1:romance), (n2:composer)-[:ACTED_IN]->(n3:music:video), (n2:composer)-[:COMPOSED]->(n4:music:video)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:actor:birth_1943:death_0)-[:COMPOSED]->(n1:romance), (n2:composer:birth_1943:death_0)-[:ACTED_IN]->(n3:music), (n2:composer:birth_1943:death_0)-[:COMPOSED]->(n4:music)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:actor:birth_1943:death_0)-[:COMPOSED]->(n1:romance), (n2:composer:birth_1943:death_0)-[:ACTED_IN]->(n3:music:video), (n2:composer:birth_1943:death_0)-[:COMPOSED]->(n4:music:video)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;0;100%
+"MATCH (n3:writer)-[:DIRECTED]->(n1:western), (n3:director)-[:DIRECTED]->(n4:drama), (n3:writer)-[:DIRECTED]->(n2:romance) WHERE (n3.birth=1924 AND n2.category=""movie"") OR (n1.category=""movie"" AND n4.year=1970) RETURN count(n1)";"CALL () {
+  MATCH (n3:writer:birth_1924)-[:DIRECTED]->(n1:western), (n3:director:birth_1924)-[:DIRECTED]->(n4:drama), (n3:writer:birth_1924)-[:DIRECTED]->(n2:romance:movie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:writer)-[:DIRECTED]->(n1:western:movie), (n3:director)-[:DIRECTED]->(n4:drama:year_1970), (n3:writer)-[:DIRECTED]->(n2:romance)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:writer:birth_1924)-[:DIRECTED]->(n1:western:movie), (n3:director:birth_1924)-[:DIRECTED]->(n4:drama:year_1970), (n3:writer:birth_1924)-[:DIRECTED]->(n2:romance:movie)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;0;100%
+"MATCH (n3:actor)-[:ACTED_IN]->(n4:drama), (n3:actor)-[:ACTED_IN]->(n2:documentary), (n3:stunts)-[:ACTED_IN]->(n1:crime) WHERE (n4.year=2014 AND n4.category=""short"") OR (n3.birth=0 AND n3.death=0) RETURN count(n1)";"CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n4:drama:year_2014:short), (n3:actor)-[:ACTED_IN]->(n2:documentary), (n3:stunts)-[:ACTED_IN]->(n1:crime)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actor:birth_0:death_0)-[:ACTED_IN]->(n4:drama), (n3:actor:birth_0:death_0)-[:ACTED_IN]->(n2:documentary), (n3:stunts:birth_0:death_0)-[:ACTED_IN]->(n1:crime)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actor:birth_0:death_0)-[:ACTED_IN]->(n4:drama:year_2014:short), (n3:actor:birth_0:death_0)-[:ACTED_IN]->(n2:documentary), (n3:stunts:birth_0:death_0)-[:ACTED_IN]->(n1:crime)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;0;100%
+"MATCH (n3:director)-[:PRODUCED]->(n4:comedy), (n3:producer)-[:PRODUCED]->(n2:drama), (n3:director)-[:PRODUCED]->(n1:documentary) WHERE (n1.year=1912 AND n2.year=1913) OR (n1.category=""short"" AND n4.year=1912) RETURN count(n1)";"CALL () {
+  MATCH (n3:director)-[:PRODUCED]->(n4:comedy), (n3:producer)-[:PRODUCED]->(n2:drama:year_1913), (n3:director)-[:PRODUCED]->(n1:documentary:year_1912)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:director)-[:PRODUCED]->(n4:comedy:year_1912), (n3:producer)-[:PRODUCED]->(n2:drama), (n3:director)-[:PRODUCED]->(n1:documentary:short)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:director)-[:PRODUCED]->(n4:comedy:year_1912), (n3:producer)-[:PRODUCED]->(n2:drama:year_1913), (n3:director)-[:PRODUCED]->(n1:documentary:year_1912:short)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;0;100%
+"MATCH (n2:producer)-[:WROTE]->(n3:drama), (n2:writer)-[:WROTE]->(n1:comedy), (n2:writer)-[:DIRECTED]->(n4:comedy) WHERE (n2.name=""RaÃºl de Anda"" AND n2.birth=1908) OR (n3.category=""movie"" AND n1.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n2:producer:birth_1908)-[:WROTE]->(n3:drama), (n2:writer:birth_1908)-[:WROTE]->(n1:comedy), (n2:writer:birth_1908)-[:DIRECTED]->(n4:comedy)
+  WHERE n2.name=""RaÃºl de Anda""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:producer)-[:WROTE]->(n3:drama:movie), (n2:writer)-[:WROTE]->(n1:comedy:movie), (n2:writer)-[:DIRECTED]->(n4:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:producer:birth_1908)-[:WROTE]->(n3:drama:movie), (n2:writer:birth_1908)-[:WROTE]->(n1:comedy:movie), (n2:writer:birth_1908)-[:DIRECTED]->(n4:comedy)
+  WHERE n2.name=""RaÃºl de Anda""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n2:writer)-[:ACTED_IN]->(n4:reality_tv), (n2:writer)-[:ACTED_IN]->(n3:crime), (n2:writer)-[:ACTED_IN]->(n1:drama) WHERE (n3.year=2001 AND n2.name=""Jennie Garth"") OR (n2.birth=1972 AND n2.death=0) RETURN count(n1)";"CALL () {
+  MATCH (n2:writer)-[:ACTED_IN]->(n4:reality_tv), (n2:writer)-[:ACTED_IN]->(n3:crime:year_2001), (n2:writer)-[:ACTED_IN]->(n1:drama)
+  WHERE n2.name=""Jennie Garth""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:writer:birth_1972:death_0)-[:ACTED_IN]->(n4:reality_tv), (n2:writer:birth_1972:death_0)-[:ACTED_IN]->(n3:crime), (n2:writer:birth_1972:death_0)-[:ACTED_IN]->(n1:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:writer:birth_1972:death_0)-[:ACTED_IN]->(n4:reality_tv), (n2:writer:birth_1972:death_0)-[:ACTED_IN]->(n3:crime:year_2001), (n2:writer:birth_1972:death_0)-[:ACTED_IN]->(n1:drama)
+  WHERE n2.name=""Jennie Garth""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";4;1;75%
+"MATCH (n3:actor)-[:ACTED_IN]->(n1:adult), (n3:director)-[:ACTED_IN]->(n2:adult) WHERE (n3.birth=1955 AND n1.category=""movie"") OR (n2.category=""video"" AND n3.name=""Hank Armstrong"") OR (n1.year=1997 AND n2.year=1996) RETURN count(n1)";"CALL () {
+  MATCH (n3:actor:birth_1955)-[:ACTED_IN]->(n1:adult:movie), (n3:director:birth_1955)-[:ACTED_IN]->(n2:adult)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n1:adult), (n3:director)-[:ACTED_IN]->(n2:adult:video)
+  WHERE n3.name=""Hank Armstrong""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n1:adult:year_1997), (n3:director)-[:ACTED_IN]->(n2:adult:year_1996)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:actor:birth_1955)-[:ACTED_IN]->(n1:adult:movie), (n3:director:birth_1955)-[:ACTED_IN]->(n2:adult:video)
+  WHERE n3.name=""Hank Armstrong""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:actor:birth_1955)-[:ACTED_IN]->(n1:adult:movie:year_1997), (n3:director:birth_1955)-[:ACTED_IN]->(n2:adult:year_1996)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:actor)-[:ACTED_IN]->(n1:adult:year_1997), (n3:director)-[:ACTED_IN]->(n2:adult:video:year_1996)
+  WHERE n3.name=""Hank Armstrong""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:actor:birth_1955)-[:ACTED_IN]->(n1:adult:movie:year_1997), (n3:director:birth_1955)-[:ACTED_IN]->(n2:adult:video:year_1996)
+  WHERE n3.name=""Hank Armstrong""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n1:actress)-[:ACTED_IN]->(n3:action), (n1:actress)-[:ACTED_IN]->(n2:horror) WHERE (n1.name=""Irene Arcila"" AND n1.birth=0) OR (n3.year=2004 AND n2.category=""video"") OR (n1.death=0 AND n3.category=""video"") RETURN count(n1)";"CALL () {
+  MATCH (n1:actress:birth_0)-[:ACTED_IN]->(n3:action), (n1:actress:birth_0)-[:ACTED_IN]->(n2:horror)
+  WHERE n1.name=""Irene Arcila""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:actress)-[:ACTED_IN]->(n3:action:year_2004), (n1:actress)-[:ACTED_IN]->(n2:horror:video)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:actress:death_0)-[:ACTED_IN]->(n3:action:video), (n1:actress:death_0)-[:ACTED_IN]->(n2:horror)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n1:actress:birth_0)-[:ACTED_IN]->(n3:action:year_2004), (n1:actress:birth_0)-[:ACTED_IN]->(n2:horror:video)
+  WHERE n1.name=""Irene Arcila""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n1:actress:birth_0:death_0)-[:ACTED_IN]->(n3:action:video), (n1:actress:birth_0:death_0)-[:ACTED_IN]->(n2:horror)
+  WHERE n1.name=""Irene Arcila""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n1:actress:death_0)-[:ACTED_IN]->(n3:action:year_2004:video), (n1:actress:death_0)-[:ACTED_IN]->(n2:horror:video)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n1:actress:birth_0:death_0)-[:ACTED_IN]->(n3:action:year_2004:video), (n1:actress:birth_0:death_0)-[:ACTED_IN]->(n2:horror:video)
+  WHERE n1.name=""Irene Arcila""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n3:production_manager)-[:PRODUCED]->(n1:drama), (n3:production_manager)-[:PRODUCED]->(n2:comedy) WHERE (n3.birth=1924 AND n3.name=""Ben Arbeid"") OR (n1.category=""movie"" AND n2.category=""movie"") OR (n3.death=1992 AND n1.year=1963) RETURN count(n1)";"CALL () {
+  MATCH (n3:production_manager:birth_1924)-[:PRODUCED]->(n1:drama), (n3:production_manager:birth_1924)-[:PRODUCED]->(n2:comedy)
+  WHERE n3.name=""Ben Arbeid""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:production_manager)-[:PRODUCED]->(n1:drama:movie), (n3:production_manager)-[:PRODUCED]->(n2:comedy:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:production_manager:death_1992)-[:PRODUCED]->(n1:drama:year_1963), (n3:production_manager:death_1992)-[:PRODUCED]->(n2:comedy)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:production_manager:birth_1924)-[:PRODUCED]->(n1:drama:movie), (n3:production_manager:birth_1924)-[:PRODUCED]->(n2:comedy:movie)
+  WHERE n3.name=""Ben Arbeid""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:production_manager:birth_1924:death_1992)-[:PRODUCED]->(n1:drama:year_1963), (n3:production_manager:birth_1924:death_1992)-[:PRODUCED]->(n2:comedy)
+  WHERE n3.name=""Ben Arbeid""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:production_manager:death_1992)-[:PRODUCED]->(n1:drama:movie:year_1963), (n3:production_manager:death_1992)-[:PRODUCED]->(n2:comedy:movie)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:production_manager:birth_1924:death_1992)-[:PRODUCED]->(n1:drama:movie:year_1963), (n3:production_manager:birth_1924:death_1992)-[:PRODUCED]->(n2:comedy:movie)
+  WHERE n3.name=""Ben Arbeid""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n3:editorial_department)-[:EDITED]->(n1:documentary), (n3:editorial_department)-[:EDITED]->(n2:biography) WHERE (n1.category=""movie"" AND n3.name=""Michel Klochendler"") OR (n1.year=2015 AND n2.year=2019) OR (n3.birth=1957 AND n3.death=0) RETURN count(n1)";"CALL () {
+  MATCH (n3:editorial_department)-[:EDITED]->(n1:documentary:movie), (n3:editorial_department)-[:EDITED]->(n2:biography)
+  WHERE n3.name=""Michel Klochendler""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:editorial_department)-[:EDITED]->(n1:documentary:year_2015), (n3:editorial_department)-[:EDITED]->(n2:biography:year_2019)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:editorial_department:birth_1957:death_0)-[:EDITED]->(n1:documentary), (n3:editorial_department:birth_1957:death_0)-[:EDITED]->(n2:biography)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:editorial_department)-[:EDITED]->(n1:documentary:movie:year_2015), (n3:editorial_department)-[:EDITED]->(n2:biography:year_2019)
+  WHERE n3.name=""Michel Klochendler""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:editorial_department:birth_1957:death_0)-[:EDITED]->(n1:documentary:movie), (n3:editorial_department:birth_1957:death_0)-[:EDITED]->(n2:biography)
+  WHERE n3.name=""Michel Klochendler""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:editorial_department:birth_1957:death_0)-[:EDITED]->(n1:documentary:year_2015), (n3:editorial_department:birth_1957:death_0)-[:EDITED]->(n2:biography:year_2019)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:editorial_department:birth_1957:death_0)-[:EDITED]->(n1:documentary:movie:year_2015), (n3:editorial_department:birth_1957:death_0)-[:EDITED]->(n2:biography:year_2019)
+  WHERE n3.name=""Michel Klochendler""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n3:camera_department)-[:CINEMATOGRAPHER_OF]->(n1:crime), (n3:cinematographer)-[:CINEMATOGRAPHER_OF]->(n2:adventure) WHERE (n2.year=1950 AND n3.death=1967) OR (n1.year=1941 AND n3.birth=1890) OR (n1.category=""movie"" AND n2.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n3:camera_department:death_1967)-[:CINEMATOGRAPHER_OF]->(n1:crime), (n3:cinematographer:death_1967)-[:CINEMATOGRAPHER_OF]->(n2:adventure:year_1950)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:camera_department:birth_1890)-[:CINEMATOGRAPHER_OF]->(n1:crime:year_1941), (n3:cinematographer:birth_1890)-[:CINEMATOGRAPHER_OF]->(n2:adventure)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:camera_department)-[:CINEMATOGRAPHER_OF]->(n1:crime:movie), (n3:cinematographer)-[:CINEMATOGRAPHER_OF]->(n2:adventure:movie)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:camera_department:death_1967:birth_1890)-[:CINEMATOGRAPHER_OF]->(n1:crime:year_1941), (n3:cinematographer:death_1967:birth_1890)-[:CINEMATOGRAPHER_OF]->(n2:adventure:year_1950)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:camera_department:death_1967)-[:CINEMATOGRAPHER_OF]->(n1:crime:movie), (n3:cinematographer:death_1967)-[:CINEMATOGRAPHER_OF]->(n2:adventure:year_1950:movie)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:camera_department:birth_1890)-[:CINEMATOGRAPHER_OF]->(n1:crime:year_1941:movie), (n3:cinematographer:birth_1890)-[:CINEMATOGRAPHER_OF]->(n2:adventure:movie)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:camera_department:death_1967:birth_1890)-[:CINEMATOGRAPHER_OF]->(n1:crime:year_1941:movie), (n3:cinematographer:death_1967:birth_1890)-[:CINEMATOGRAPHER_OF]->(n2:adventure:year_1950:movie)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;0;100%
+"MATCH (n2:actress)-[:ACTED_IN]->(n3:family), (n2:soundtrack)-[:ACTED_IN]->(n1:comedy) WHERE (n3.category=""tvMovie"" AND n2.birth=1941) OR (n2.name=""Senta Berger"" AND n1.year=2016) OR (n2.death=0 AND n1.category=""tvMovie"") RETURN count(n1)";"CALL () {
+  MATCH (n2:actress:birth_1941)-[:ACTED_IN]->(n3:family:tvMovie), (n2:soundtrack:birth_1941)-[:ACTED_IN]->(n1:comedy)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n3:family), (n2:soundtrack)-[:ACTED_IN]->(n1:comedy:year_2016)
+  WHERE n2.name=""Senta Berger""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:actress:death_0)-[:ACTED_IN]->(n3:family), (n2:soundtrack:death_0)-[:ACTED_IN]->(n1:comedy:tvMovie)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:actress:birth_1941)-[:ACTED_IN]->(n3:family:tvMovie), (n2:soundtrack:birth_1941)-[:ACTED_IN]->(n1:comedy:year_2016)
+  WHERE n2.name=""Senta Berger""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:actress:birth_1941:death_0)-[:ACTED_IN]->(n3:family:tvMovie), (n2:soundtrack:birth_1941:death_0)-[:ACTED_IN]->(n1:comedy:tvMovie)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:actress:death_0)-[:ACTED_IN]->(n3:family), (n2:soundtrack:death_0)-[:ACTED_IN]->(n1:comedy:year_2016:tvMovie)
+  WHERE n2.name=""Senta Berger""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:actress:birth_1941:death_0)-[:ACTED_IN]->(n3:family:tvMovie), (n2:soundtrack:birth_1941:death_0)-[:ACTED_IN]->(n1:comedy:year_2016:tvMovie)
+  WHERE n2.name=""Senta Berger""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n3:producer)-[:ACTED_IN]->(n1:documentary), (n3:soundtrack)-[:ACTED_IN]->(n2:documentary) WHERE (n3.name=""Andie MacDowell"" AND n3.death=0) OR (n1.year=2012 AND n1.category=""video"") OR (n3.birth=1958 AND n2.category=""tvMovie"") RETURN count(n1)";"CALL () {
+  MATCH (n3:producer:death_0)-[:ACTED_IN]->(n1:documentary), (n3:soundtrack:death_0)-[:ACTED_IN]->(n2:documentary)
+  WHERE n3.name=""Andie MacDowell""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:producer)-[:ACTED_IN]->(n1:documentary:year_2012:video), (n3:soundtrack)-[:ACTED_IN]->(n2:documentary)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:producer:birth_1958)-[:ACTED_IN]->(n1:documentary), (n3:soundtrack:birth_1958)-[:ACTED_IN]->(n2:documentary:tvMovie)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:producer:death_0)-[:ACTED_IN]->(n1:documentary:year_2012:video), (n3:soundtrack:death_0)-[:ACTED_IN]->(n2:documentary)
+  WHERE n3.name=""Andie MacDowell""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:producer:death_0:birth_1958)-[:ACTED_IN]->(n1:documentary), (n3:soundtrack:death_0:birth_1958)-[:ACTED_IN]->(n2:documentary:tvMovie)
+  WHERE n3.name=""Andie MacDowell""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:producer:birth_1958)-[:ACTED_IN]->(n1:documentary:year_2012:video), (n3:soundtrack:birth_1958)-[:ACTED_IN]->(n2:documentary:tvMovie)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:producer:death_0:birth_1958)-[:ACTED_IN]->(n1:documentary:year_2012:video), (n3:soundtrack:death_0:birth_1958)-[:ACTED_IN]->(n2:documentary:tvMovie)
+  WHERE n3.name=""Andie MacDowell""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n1:writer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:documentary), (n1:writer)-[:DIRECTED]->(n3:fantasy) WHERE (n2.year=1986 AND n1.name=""Kenneth Anger"") OR (n3.category=""short"" AND n2.category=""movie"") OR (n1.birth=1927 AND n3.year=2000) RETURN count(n1)";"CALL () {
+  MATCH (n1:writer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:documentary:year_1986), (n1:writer)-[:DIRECTED]->(n3:fantasy)
+  WHERE n1.name=""Kenneth Anger""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:writer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:documentary:movie), (n1:writer)-[:DIRECTED]->(n3:fantasy:short)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:writer:birth_1927)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:documentary), (n1:writer:birth_1927)-[:DIRECTED]->(n3:fantasy:year_2000)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n1:writer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:documentary:year_1986:movie), (n1:writer)-[:DIRECTED]->(n3:fantasy:short)
+  WHERE n1.name=""Kenneth Anger""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n1:writer:birth_1927)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:documentary:year_1986), (n1:writer:birth_1927)-[:DIRECTED]->(n3:fantasy:year_2000)
+  WHERE n1.name=""Kenneth Anger""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n1:writer:birth_1927)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:documentary:movie), (n1:writer:birth_1927)-[:DIRECTED]->(n3:fantasy:short:year_2000)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n1:writer:birth_1927)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:documentary:year_1986:movie), (n1:writer:birth_1927)-[:DIRECTED]->(n3:fantasy:short:year_2000)
+  WHERE n1.name=""Kenneth Anger""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n2:writer)-[:WROTE]->(n1:western), (n2:writer)-[:WROTE]->(n4:musical), (n2:writer)-[:WROTE]->(n3:western) WHERE (n2.birth=1900 AND n3.year=1964) OR (n2.name=""Gerald Drayson Adams"" AND n4.year=1945) OR (n1.category=""movie"" AND n4.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n2:writer:birth_1900)-[:WROTE]->(n1:western), (n2:writer:birth_1900)-[:WROTE]->(n4:musical), (n2:writer:birth_1900)-[:WROTE]->(n3:western:year_1964)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:writer)-[:WROTE]->(n1:western), (n2:writer)-[:WROTE]->(n4:musical:year_1945), (n2:writer)-[:WROTE]->(n3:western)
+  WHERE n2.name=""Gerald Drayson Adams""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:writer)-[:WROTE]->(n1:western:movie), (n2:writer)-[:WROTE]->(n4:musical:movie), (n2:writer)-[:WROTE]->(n3:western)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:writer:birth_1900)-[:WROTE]->(n1:western), (n2:writer:birth_1900)-[:WROTE]->(n4:musical:year_1945), (n2:writer:birth_1900)-[:WROTE]->(n3:western:year_1964)
+  WHERE n2.name=""Gerald Drayson Adams""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:writer:birth_1900)-[:WROTE]->(n1:western:movie), (n2:writer:birth_1900)-[:WROTE]->(n4:musical:movie), (n2:writer:birth_1900)-[:WROTE]->(n3:western:year_1964)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:writer)-[:WROTE]->(n1:western:movie), (n2:writer)-[:WROTE]->(n4:musical:year_1945:movie), (n2:writer)-[:WROTE]->(n3:western)
+  WHERE n2.name=""Gerald Drayson Adams""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:writer:birth_1900)-[:WROTE]->(n1:western:movie), (n2:writer:birth_1900)-[:WROTE]->(n4:musical:year_1945:movie), (n2:writer:birth_1900)-[:WROTE]->(n3:western:year_1964)
+  WHERE n2.name=""Gerald Drayson Adams""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n2:soundtrack)-[:COMPOSED]->(n3:documentary), (n2:music_department)-[:ACTED_IN]->(n1:documentary) WHERE (n1.category=""movie"" AND n2.birth=1945) OR (n1.year=1992 AND n3.year=1988) OR (n2.death=0 AND n2.name=""Eric Clapton"") RETURN count(n1)";"CALL () {
+  MATCH (n2:soundtrack:birth_1945)-[:COMPOSED]->(n3:documentary), (n2:music_department:birth_1945)-[:ACTED_IN]->(n1:documentary:movie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:soundtrack)-[:COMPOSED]->(n3:documentary:year_1988), (n2:music_department)-[:ACTED_IN]->(n1:documentary:year_1992)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:soundtrack:death_0)-[:COMPOSED]->(n3:documentary), (n2:music_department:death_0)-[:ACTED_IN]->(n1:documentary)
+  WHERE n2.name=""Eric Clapton""
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:soundtrack:birth_1945)-[:COMPOSED]->(n3:documentary:year_1988), (n2:music_department:birth_1945)-[:ACTED_IN]->(n1:documentary:movie:year_1992)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:soundtrack:birth_1945:death_0)-[:COMPOSED]->(n3:documentary), (n2:music_department:birth_1945:death_0)-[:ACTED_IN]->(n1:documentary:movie)
+  WHERE n2.name=""Eric Clapton""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:soundtrack:death_0)-[:COMPOSED]->(n3:documentary:year_1988), (n2:music_department:death_0)-[:ACTED_IN]->(n1:documentary:year_1992)
+  WHERE n2.name=""Eric Clapton""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:soundtrack:birth_1945:death_0)-[:COMPOSED]->(n3:documentary:year_1988), (n2:music_department:birth_1945:death_0)-[:ACTED_IN]->(n1:documentary:movie:year_1992)
+  WHERE n2.name=""Eric Clapton""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n3:director)-[:ACTED_IN]->(n2:game_show), (n3:writer)-[:ACTED_IN]->(n1:action) WHERE (n1.category=""tvMiniSeries"" AND n3.name=""Al Ashton"") OR (n3.birth=1957 AND n1.year=2002) OR (n3.death=2007 AND n2.year=2001) RETURN count(n1)";"CALL () {
+  MATCH (n3:director)-[:ACTED_IN]->(n2:game_show), (n3:writer)-[:ACTED_IN]->(n1:action:tvMiniSeries)
+  WHERE n3.name=""Al Ashton""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:director:birth_1957)-[:ACTED_IN]->(n2:game_show), (n3:writer:birth_1957)-[:ACTED_IN]->(n1:action:year_2002)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:director:death_2007)-[:ACTED_IN]->(n2:game_show:year_2001), (n3:writer:death_2007)-[:ACTED_IN]->(n1:action)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:director:birth_1957)-[:ACTED_IN]->(n2:game_show), (n3:writer:birth_1957)-[:ACTED_IN]->(n1:action:tvMiniSeries:year_2002)
+  WHERE n3.name=""Al Ashton""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:director:death_2007)-[:ACTED_IN]->(n2:game_show:year_2001), (n3:writer:death_2007)-[:ACTED_IN]->(n1:action:tvMiniSeries)
+  WHERE n3.name=""Al Ashton""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:director:birth_1957:death_2007)-[:ACTED_IN]->(n2:game_show:year_2001), (n3:writer:birth_1957:death_2007)-[:ACTED_IN]->(n1:action:year_2002)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:director:birth_1957:death_2007)-[:ACTED_IN]->(n2:game_show:year_2001), (n3:writer:birth_1957:death_2007)-[:ACTED_IN]->(n1:action:tvMiniSeries:year_2002)
+  WHERE n3.name=""Al Ashton""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n4:actress)-[:ACTED_IN]->(n2:film_noir), (n4:actress)-[:ACTED_IN]->(n1:musical), (n4:actress)-[:ACTED_IN]->(n3:comedy) WHERE (n1.year=1967 AND n2.category=""movie"") OR (n1.category=""tvSpecial"" AND n4.name=""Anne Bancroft"") OR (n3.year=1992 AND n4.death=2005) RETURN count(n1)";"CALL () {
+  MATCH (n4:actress)-[:ACTED_IN]->(n2:film_noir:movie), (n4:actress)-[:ACTED_IN]->(n1:musical:year_1967), (n4:actress)-[:ACTED_IN]->(n3:comedy)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:actress)-[:ACTED_IN]->(n2:film_noir), (n4:actress)-[:ACTED_IN]->(n1:musical:tvSpecial), (n4:actress)-[:ACTED_IN]->(n3:comedy)
+  WHERE n4.name=""Anne Bancroft""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:actress:death_2005)-[:ACTED_IN]->(n2:film_noir), (n4:actress:death_2005)-[:ACTED_IN]->(n1:musical), (n4:actress:death_2005)-[:ACTED_IN]->(n3:comedy:year_1992)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n4:actress)-[:ACTED_IN]->(n2:film_noir:movie), (n4:actress)-[:ACTED_IN]->(n1:musical:year_1967:tvSpecial), (n4:actress)-[:ACTED_IN]->(n3:comedy)
+  WHERE n4.name=""Anne Bancroft""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n4:actress:death_2005)-[:ACTED_IN]->(n2:film_noir:movie), (n4:actress:death_2005)-[:ACTED_IN]->(n1:musical:year_1967), (n4:actress:death_2005)-[:ACTED_IN]->(n3:comedy:year_1992)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n4:actress:death_2005)-[:ACTED_IN]->(n2:film_noir), (n4:actress:death_2005)-[:ACTED_IN]->(n1:musical:tvSpecial), (n4:actress:death_2005)-[:ACTED_IN]->(n3:comedy:year_1992)
+  WHERE n4.name=""Anne Bancroft""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n4:actress:death_2005)-[:ACTED_IN]->(n2:film_noir:movie), (n4:actress:death_2005)-[:ACTED_IN]->(n1:musical:year_1967:tvSpecial), (n4:actress:death_2005)-[:ACTED_IN]->(n3:comedy:year_1992)
+  WHERE n4.name=""Anne Bancroft""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n1:writer)-[:EDITED]->(n2:drama), (n1:editor)-[:WROTE]->(n4:thriller), (n1:assistant_director)-[:EDITED]->(n3:drama) WHERE (n4.category=""movie"" AND n3.year=2015) OR (n1.birth=1957 AND n1.death=0) OR (n4.year=2000 AND n2.year=2019) RETURN count(n1)";"CALL () {
+  MATCH (n1:writer)-[:EDITED]->(n2:drama), (n1:editor)-[:WROTE]->(n4:thriller:movie), (n1:assistant_director)-[:EDITED]->(n3:drama:year_2015)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:writer:birth_1957:death_0)-[:EDITED]->(n2:drama), (n1:editor:birth_1957:death_0)-[:WROTE]->(n4:thriller), (n1:assistant_director:birth_1957:death_0)-[:EDITED]->(n3:drama)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:writer)-[:EDITED]->(n2:drama:year_2019), (n1:editor)-[:WROTE]->(n4:thriller:year_2000), (n1:assistant_director)-[:EDITED]->(n3:drama)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n1:writer:birth_1957:death_0)-[:EDITED]->(n2:drama), (n1:editor:birth_1957:death_0)-[:WROTE]->(n4:thriller:movie), (n1:assistant_director:birth_1957:death_0)-[:EDITED]->(n3:drama:year_2015)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n1:writer)-[:EDITED]->(n2:drama:year_2019), (n1:editor)-[:WROTE]->(n4:thriller:movie:year_2000), (n1:assistant_director)-[:EDITED]->(n3:drama:year_2015)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n1:writer:birth_1957:death_0)-[:EDITED]->(n2:drama:year_2019), (n1:editor:birth_1957:death_0)-[:WROTE]->(n4:thriller:year_2000), (n1:assistant_director:birth_1957:death_0)-[:EDITED]->(n3:drama)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n1:writer:birth_1957:death_0)-[:EDITED]->(n2:drama:year_2019), (n1:editor:birth_1957:death_0)-[:WROTE]->(n4:thriller:movie:year_2000), (n1:assistant_director:birth_1957:death_0)-[:EDITED]->(n3:drama:year_2015)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;0;100%
+"MATCH (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:thriller), (n1:assistant_director)-[:CINEMATOGRAPHER_OF]->(n2:family), (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance) WHERE (n4.category=""movie"" AND n3.category=""movie"") OR (n3.year=2000 AND n4.year=2005) OR (n1.name=""Stephen Treadway"" AND n2.year=2015) RETURN count(n1)";"CALL () {
+  MATCH (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:thriller:movie), (n1:assistant_director)-[:CINEMATOGRAPHER_OF]->(n2:family), (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance:movie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:thriller:year_2000), (n1:assistant_director)-[:CINEMATOGRAPHER_OF]->(n2:family), (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance:year_2005)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:thriller), (n1:assistant_director)-[:CINEMATOGRAPHER_OF]->(n2:family:year_2015), (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance)
+  WHERE n1.name=""Stephen Treadway""
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:thriller:movie:year_2000), (n1:assistant_director)-[:CINEMATOGRAPHER_OF]->(n2:family), (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance:movie:year_2005)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:thriller:movie), (n1:assistant_director)-[:CINEMATOGRAPHER_OF]->(n2:family:year_2015), (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance:movie)
+  WHERE n1.name=""Stephen Treadway""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:thriller:year_2000), (n1:assistant_director)-[:CINEMATOGRAPHER_OF]->(n2:family:year_2015), (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance:year_2005)
+  WHERE n1.name=""Stephen Treadway""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n3:thriller:movie:year_2000), (n1:assistant_director)-[:CINEMATOGRAPHER_OF]->(n2:family:year_2015), (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n4:romance:movie:year_2005)
+  WHERE n1.name=""Stephen Treadway""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n4:music_department)-[:COMPOSED]->(n2:comedy), (n4:soundtrack)-[:COMPOSED]->(n1:comedy), (n4:composer)-[:COMPOSED]->(n3:comedy) WHERE (n4.death=1985 AND n4.name=""Mischa Spoliansky"") OR (n1.year=1953 AND n2.category=""movie"") OR (n2.year=1950 AND n3.year=1950) RETURN count(n1)";"CALL () {
+  MATCH (n4:music_department:death_1985)-[:COMPOSED]->(n2:comedy), (n4:soundtrack:death_1985)-[:COMPOSED]->(n1:comedy), (n4:composer:death_1985)-[:COMPOSED]->(n3:comedy)
+  WHERE n4.name=""Mischa Spoliansky""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:music_department)-[:COMPOSED]->(n2:comedy:movie), (n4:soundtrack)-[:COMPOSED]->(n1:comedy:year_1953), (n4:composer)-[:COMPOSED]->(n3:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:music_department)-[:COMPOSED]->(n2:comedy:year_1950), (n4:soundtrack)-[:COMPOSED]->(n1:comedy), (n4:composer)-[:COMPOSED]->(n3:comedy:year_1950)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n4:music_department:death_1985)-[:COMPOSED]->(n2:comedy:movie), (n4:soundtrack:death_1985)-[:COMPOSED]->(n1:comedy:year_1953), (n4:composer:death_1985)-[:COMPOSED]->(n3:comedy)
+  WHERE n4.name=""Mischa Spoliansky""
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n4:music_department:death_1985)-[:COMPOSED]->(n2:comedy:year_1950), (n4:soundtrack:death_1985)-[:COMPOSED]->(n1:comedy), (n4:composer:death_1985)-[:COMPOSED]->(n3:comedy:year_1950)
+  WHERE n4.name=""Mischa Spoliansky""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n4:music_department)-[:COMPOSED]->(n2:comedy:movie:year_1950), (n4:soundtrack)-[:COMPOSED]->(n1:comedy:year_1953), (n4:composer)-[:COMPOSED]->(n3:comedy:year_1950)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n4:music_department:death_1985)-[:COMPOSED]->(n2:comedy:movie:year_1950), (n4:soundtrack:death_1985)-[:COMPOSED]->(n1:comedy:year_1953), (n4:composer:death_1985)-[:COMPOSED]->(n3:comedy:year_1950)
+  WHERE n4.name=""Mischa Spoliansky""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n2:producer)-[:ACTED_IN]->(n4:comedy), (n2:producer)-[:ACTED_IN]->(n3:music), (n2:actress)-[:ACTED_IN]->(n1:comedy) WHERE (n1.year=2001 AND n3.year=1994) OR (n3.category=""video"" AND n1.category=""tvMovie"") OR (n4.year=1997 AND n2.birth=1963) RETURN count(n1)";"CALL () {
+  MATCH (n2:producer)-[:ACTED_IN]->(n4:comedy), (n2:producer)-[:ACTED_IN]->(n3:music:year_1994), (n2:actress)-[:ACTED_IN]->(n1:comedy:year_2001)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:producer)-[:ACTED_IN]->(n4:comedy), (n2:producer)-[:ACTED_IN]->(n3:music:video), (n2:actress)-[:ACTED_IN]->(n1:comedy:tvMovie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:producer:birth_1963)-[:ACTED_IN]->(n4:comedy:year_1997), (n2:producer:birth_1963)-[:ACTED_IN]->(n3:music), (n2:actress:birth_1963)-[:ACTED_IN]->(n1:comedy)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:producer)-[:ACTED_IN]->(n4:comedy), (n2:producer)-[:ACTED_IN]->(n3:music:year_1994:video), (n2:actress)-[:ACTED_IN]->(n1:comedy:year_2001:tvMovie)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:producer:birth_1963)-[:ACTED_IN]->(n4:comedy:year_1997), (n2:producer:birth_1963)-[:ACTED_IN]->(n3:music:year_1994), (n2:actress:birth_1963)-[:ACTED_IN]->(n1:comedy:year_2001)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:producer:birth_1963)-[:ACTED_IN]->(n4:comedy:year_1997), (n2:producer:birth_1963)-[:ACTED_IN]->(n3:music:video), (n2:actress:birth_1963)-[:ACTED_IN]->(n1:comedy:tvMovie)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:producer:birth_1963)-[:ACTED_IN]->(n4:comedy:year_1997), (n2:producer:birth_1963)-[:ACTED_IN]->(n3:music:year_1994:video), (n2:actress:birth_1963)-[:ACTED_IN]->(n1:comedy:year_2001:tvMovie)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;0;100%
+"MATCH (n2:director)-[:PRODUCED]->(n4:drama), (n2:producer)-[:PRODUCED]->(n1:drama), (n2:actor)-[:PRODUCED]->(n3:drama) WHERE (n4.category=""short"" AND n2.birth=1851) OR (n2.death=1923 AND n3.category=""short"") OR (n1.year=1914 AND n3.year=1913) RETURN count(n1)";"CALL () {
+  MATCH (n2:director:birth_1851)-[:PRODUCED]->(n4:drama:short), (n2:producer:birth_1851)-[:PRODUCED]->(n1:drama), (n2:actor:birth_1851)-[:PRODUCED]->(n3:drama)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:director:death_1923)-[:PRODUCED]->(n4:drama), (n2:producer:death_1923)-[:PRODUCED]->(n1:drama), (n2:actor:death_1923)-[:PRODUCED]->(n3:drama:short)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:director)-[:PRODUCED]->(n4:drama), (n2:producer)-[:PRODUCED]->(n1:drama:year_1914), (n2:actor)-[:PRODUCED]->(n3:drama:year_1913)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:director:birth_1851:death_1923)-[:PRODUCED]->(n4:drama:short), (n2:producer:birth_1851:death_1923)-[:PRODUCED]->(n1:drama), (n2:actor:birth_1851:death_1923)-[:PRODUCED]->(n3:drama:short)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:director:birth_1851)-[:PRODUCED]->(n4:drama:short), (n2:producer:birth_1851)-[:PRODUCED]->(n1:drama:year_1914), (n2:actor:birth_1851)-[:PRODUCED]->(n3:drama:year_1913)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:director:death_1923)-[:PRODUCED]->(n4:drama), (n2:producer:death_1923)-[:PRODUCED]->(n1:drama:year_1914), (n2:actor:death_1923)-[:PRODUCED]->(n3:drama:short:year_1913)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:director:birth_1851:death_1923)-[:PRODUCED]->(n4:drama:short), (n2:producer:birth_1851:death_1923)-[:PRODUCED]->(n1:drama:year_1914), (n2:actor:birth_1851:death_1923)-[:PRODUCED]->(n3:drama:short:year_1913)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;0;100%
+"MATCH (n3:writer)-[:ACTED_IN]->(n2:action), (n3:writer)-[:ACTED_IN]->(n4:drama), (n3:actress)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:horror) WHERE (n1.category=""video"" AND n3.birth=1919) OR (n4.category=""tvMovie"" AND n3.death=1998) OR (n4.year=1954 AND n1.year=1999) RETURN count(n1)";"CALL () {
+  MATCH (n3:writer:birth_1919)-[:ACTED_IN]->(n2:action), (n3:writer:birth_1919)-[:ACTED_IN]->(n4:drama), (n3:actress:birth_1919)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:horror:video)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:writer:death_1998)-[:ACTED_IN]->(n2:action), (n3:writer:death_1998)-[:ACTED_IN]->(n4:drama:tvMovie), (n3:actress:death_1998)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:horror)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:writer)-[:ACTED_IN]->(n2:action), (n3:writer)-[:ACTED_IN]->(n4:drama:year_1954), (n3:actress)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:horror:year_1999)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:writer:birth_1919:death_1998)-[:ACTED_IN]->(n2:action), (n3:writer:birth_1919:death_1998)-[:ACTED_IN]->(n4:drama:tvMovie), (n3:actress:birth_1919:death_1998)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:horror:video)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:writer:birth_1919)-[:ACTED_IN]->(n2:action), (n3:writer:birth_1919)-[:ACTED_IN]->(n4:drama:year_1954), (n3:actress:birth_1919)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:horror:video:year_1999)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:writer:death_1998)-[:ACTED_IN]->(n2:action), (n3:writer:death_1998)-[:ACTED_IN]->(n4:drama:tvMovie:year_1954), (n3:actress:death_1998)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:horror:year_1999)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:writer:birth_1919:death_1998)-[:ACTED_IN]->(n2:action), (n3:writer:birth_1919:death_1998)-[:ACTED_IN]->(n4:drama:tvMovie:year_1954), (n3:actress:birth_1919:death_1998)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n1:horror:video:year_1999)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;0;100%
+"MATCH (n2:composer)-[:COMPOSED]->(n4:drama), (n2:music_department)-[:COMPOSED]->(n3:crime), (n2:composer)-[:COMPOSED]->(n1:documentary) WHERE (n4.year=1964 AND n2.death=1991) OR (n3.category=""movie"" AND n3.year=1962) OR (n4.category=""movie"" AND n1.year=1960) RETURN count(n1)";"CALL () {
+  MATCH (n2:composer:death_1991)-[:COMPOSED]->(n4:drama:year_1964), (n2:music_department:death_1991)-[:COMPOSED]->(n3:crime), (n2:composer:death_1991)-[:COMPOSED]->(n1:documentary)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:composer)-[:COMPOSED]->(n4:drama), (n2:music_department)-[:COMPOSED]->(n3:crime:movie:year_1962), (n2:composer)-[:COMPOSED]->(n1:documentary)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:composer)-[:COMPOSED]->(n4:drama:movie), (n2:music_department)-[:COMPOSED]->(n3:crime), (n2:composer)-[:COMPOSED]->(n1:documentary:year_1960)
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n2:composer:death_1991)-[:COMPOSED]->(n4:drama:year_1964), (n2:music_department:death_1991)-[:COMPOSED]->(n3:crime:movie:year_1962), (n2:composer:death_1991)-[:COMPOSED]->(n1:documentary)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n2:composer:death_1991)-[:COMPOSED]->(n4:drama:year_1964:movie), (n2:music_department:death_1991)-[:COMPOSED]->(n3:crime), (n2:composer:death_1991)-[:COMPOSED]->(n1:documentary:year_1960)
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n2:composer)-[:COMPOSED]->(n4:drama:movie), (n2:music_department)-[:COMPOSED]->(n3:crime:movie:year_1962), (n2:composer)-[:COMPOSED]->(n1:documentary:year_1960)
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n2:composer:death_1991)-[:COMPOSED]->(n4:drama:year_1964:movie), (n2:music_department:death_1991)-[:COMPOSED]->(n3:crime:movie:year_1962), (n2:composer:death_1991)-[:COMPOSED]->(n1:documentary:year_1960)
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;0;100%
+"MATCH (n3:music_department)-[:COMPOSED]->(n2:comedy), (n3:soundtrack)-[:COMPOSED]->(n4:drama), (n3:composer)-[:COMPOSED]->(n1:comedy) WHERE (n2.category=""short"" AND n4.category=""short"") OR (n3.birth=1953 AND n4.year=2013) OR (n1.category=""tvMovie"" AND n3.name=""Stephen Warbeck"") RETURN count(n1)";"CALL () {
+  MATCH (n3:music_department)-[:COMPOSED]->(n2:comedy:short), (n3:soundtrack)-[:COMPOSED]->(n4:drama:short), (n3:composer)-[:COMPOSED]->(n1:comedy)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:music_department:birth_1953)-[:COMPOSED]->(n2:comedy), (n3:soundtrack:birth_1953)-[:COMPOSED]->(n4:drama:year_2013), (n3:composer:birth_1953)-[:COMPOSED]->(n1:comedy)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:music_department)-[:COMPOSED]->(n2:comedy), (n3:soundtrack)-[:COMPOSED]->(n4:drama), (n3:composer)-[:COMPOSED]->(n1:comedy:tvMovie)
+  WHERE n3.name=""Stephen Warbeck""
+  RETURN count(*) AS t3
+}
+CALL () {
+  MATCH (n3:music_department:birth_1953)-[:COMPOSED]->(n2:comedy:short), (n3:soundtrack:birth_1953)-[:COMPOSED]->(n4:drama:short:year_2013), (n3:composer:birth_1953)-[:COMPOSED]->(n1:comedy)
+  RETURN count(*) AS t12
+}
+CALL () {
+  MATCH (n3:music_department)-[:COMPOSED]->(n2:comedy:short), (n3:soundtrack)-[:COMPOSED]->(n4:drama:short), (n3:composer)-[:COMPOSED]->(n1:comedy:tvMovie)
+  WHERE n3.name=""Stephen Warbeck""
+  RETURN count(*) AS t13
+}
+CALL () {
+  MATCH (n3:music_department:birth_1953)-[:COMPOSED]->(n2:comedy), (n3:soundtrack:birth_1953)-[:COMPOSED]->(n4:drama:year_2013), (n3:composer:birth_1953)-[:COMPOSED]->(n1:comedy:tvMovie)
+  WHERE n3.name=""Stephen Warbeck""
+  RETURN count(*) AS t23
+}
+CALL () {
+  MATCH (n3:music_department:birth_1953)-[:COMPOSED]->(n2:comedy:short), (n3:soundtrack:birth_1953)-[:COMPOSED]->(n4:drama:short:year_2013), (n3:composer:birth_1953)-[:COMPOSED]->(n1:comedy:tvMovie)
+  WHERE n3.name=""Stephen Warbeck""
+  RETURN count(*) AS t123
+}
+RETURN t1 + t2 + t3 - t12 - t13 - t23 + t123 AS total";6;1;83%
+"MATCH (n3:actor)-[:ACTED_IN]->(n2:thriller), (n3:actor)-[:ACTED_IN]->(n1:drama) WHERE (n2.year=1988 AND n3.birth=1922 AND n1.category=""tvSeries"") OR (n3.death=1992 AND n2.category=""tvMiniSeries"" AND n3.name=""Denholm Elliott"") RETURN count(n1)";"CALL () {
+  MATCH (n3:actor:birth_1922)-[:ACTED_IN]->(n2:thriller:year_1988), (n3:actor:birth_1922)-[:ACTED_IN]->(n1:drama:tvSeries)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actor:death_1992)-[:ACTED_IN]->(n2:thriller:tvMiniSeries), (n3:actor:death_1992)-[:ACTED_IN]->(n1:drama)
+  WHERE n3.name=""Denholm Elliott""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actor:birth_1922:death_1992)-[:ACTED_IN]->(n2:thriller:year_1988:tvMiniSeries), (n3:actor:birth_1922:death_1992)-[:ACTED_IN]->(n1:drama:tvSeries)
+  WHERE n3.name=""Denholm Elliott""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n1:music_department)-[:COMPOSED]->(n3:drama), (n1:soundtrack)-[:COMPOSED]->(n2:comedy) WHERE (n3.year=1975 AND n1.death=0 AND n1.name=""Franco Micalizzi"") OR (n3.category=""movie"" AND n1.birth=1939 AND n2.year=1983) RETURN count(n1)";"CALL () {
+  MATCH (n1:music_department:death_0)-[:COMPOSED]->(n3:drama:year_1975), (n1:soundtrack:death_0)-[:COMPOSED]->(n2:comedy)
+  WHERE n1.name=""Franco Micalizzi""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:music_department:birth_1939)-[:COMPOSED]->(n3:drama:movie), (n1:soundtrack:birth_1939)-[:COMPOSED]->(n2:comedy:year_1983)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:music_department:death_0:birth_1939)-[:COMPOSED]->(n3:drama:year_1975:movie), (n1:soundtrack:death_0:birth_1939)-[:COMPOSED]->(n2:comedy:year_1983)
+  WHERE n1.name=""Franco Micalizzi""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n3:actor)-[:ACTED_IN]->(n2:drama), (n3:actor)-[:ACTED_IN]->(n4:documentary), (n3:actor)-[:ACTED_IN]->(n1:music) WHERE (n2.year=1964 AND n3.birth=1945 AND n4.category=""tvMovie"") OR (n3.death=2009 AND n3.name=""Bernard Arcand"" AND n1.year=2009) RETURN count(n1)";"CALL () {
+  MATCH (n3:actor:birth_1945)-[:ACTED_IN]->(n2:drama:year_1964), (n3:actor:birth_1945)-[:ACTED_IN]->(n4:documentary:tvMovie), (n3:actor:birth_1945)-[:ACTED_IN]->(n1:music)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actor:death_2009)-[:ACTED_IN]->(n2:drama), (n3:actor:death_2009)-[:ACTED_IN]->(n4:documentary), (n3:actor:death_2009)-[:ACTED_IN]->(n1:music:year_2009)
+  WHERE n3.name=""Bernard Arcand""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actor:birth_1945:death_2009)-[:ACTED_IN]->(n2:drama:year_1964), (n3:actor:birth_1945:death_2009)-[:ACTED_IN]->(n4:documentary:tvMovie), (n3:actor:birth_1945:death_2009)-[:ACTED_IN]->(n1:music:year_2009)
+  WHERE n3.name=""Bernard Arcand""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n3:producer)-[:ACTED_IN]->(n1:comedy), (n3:actress)-[:ACTED_IN]->(n2:romance) WHERE (n2.year=2001 AND n3.name=""Natasha Richardson"" AND n1.year=1991) OR (n2.category=""movie"" AND n3.birth=1963 AND n1.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n3:producer)-[:ACTED_IN]->(n1:comedy:year_1991), (n3:actress)-[:ACTED_IN]->(n2:romance:year_2001)
+  WHERE n3.name=""Natasha Richardson""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:producer:birth_1963)-[:ACTED_IN]->(n1:comedy:movie), (n3:actress:birth_1963)-[:ACTED_IN]->(n2:romance:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:producer:birth_1963)-[:ACTED_IN]->(n1:comedy:year_1991:movie), (n3:actress:birth_1963)-[:ACTED_IN]->(n2:romance:year_2001:movie)
+  WHERE n3.name=""Natasha Richardson""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n1:actress)-[:ACTED_IN]->(n3:reality_tv), (n1:writer)-[:ACTED_IN]->(n2:horror) WHERE (n3.category=""tvSeries"" AND n1.name=""Clare Kramer"" AND n2.year=2006) OR (n2.category=""movie"" AND n1.death=0 AND n1.birth=1974) RETURN count(n1)";"CALL () {
+  MATCH (n1:actress)-[:ACTED_IN]->(n3:reality_tv:tvSeries), (n1:writer)-[:ACTED_IN]->(n2:horror:year_2006)
+  WHERE n1.name=""Clare Kramer""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:actress:death_0:birth_1974)-[:ACTED_IN]->(n3:reality_tv), (n1:writer:death_0:birth_1974)-[:ACTED_IN]->(n2:horror:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:actress:death_0:birth_1974)-[:ACTED_IN]->(n3:reality_tv:tvSeries), (n1:writer:death_0:birth_1974)-[:ACTED_IN]->(n2:horror:year_2006:movie)
+  WHERE n1.name=""Clare Kramer""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n2:writer)-[:ACTED_IN]->(n3:action), (n2:producer)-[:ACTED_IN]->(n1:comedy) WHERE (n3.year=2003 AND n2.birth=1975 AND n3.category=""movie"") OR (n2.death=0 AND n1.year=2005 AND n1.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n2:writer:birth_1975)-[:ACTED_IN]->(n3:action:year_2003:movie), (n2:producer:birth_1975)-[:ACTED_IN]->(n1:comedy)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:writer:death_0)-[:ACTED_IN]->(n3:action), (n2:producer:death_0)-[:ACTED_IN]->(n1:comedy:year_2005:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:writer:birth_1975:death_0)-[:ACTED_IN]->(n3:action:year_2003:movie), (n2:producer:birth_1975:death_0)-[:ACTED_IN]->(n1:comedy:year_2005:movie)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;0;100%
+"MATCH (n1:cinematographer)-[:CINEMATOGRAPHER_OF]->(n2:documentary), (n1:camera_department)-[:CINEMATOGRAPHER_OF]->(n3:comedy) WHERE (n3.year=1957 AND n2.category=""movie"" AND n1.birth=1922) OR (n2.year=1957 AND n1.death=2005 AND n3.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n1:cinematographer:birth_1922)-[:CINEMATOGRAPHER_OF]->(n2:documentary:movie), (n1:camera_department:birth_1922)-[:CINEMATOGRAPHER_OF]->(n3:comedy:year_1957)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:cinematographer:death_2005)-[:CINEMATOGRAPHER_OF]->(n2:documentary:year_1957), (n1:camera_department:death_2005)-[:CINEMATOGRAPHER_OF]->(n3:comedy:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:cinematographer:birth_1922:death_2005)-[:CINEMATOGRAPHER_OF]->(n2:documentary:movie:year_1957), (n1:camera_department:birth_1922:death_2005)-[:CINEMATOGRAPHER_OF]->(n3:comedy:year_1957:movie)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;0;100%
+"MATCH (n2:soundtrack)-[:ACTED_IN]->(n1:crime), (n2:soundtrack)-[:ACTED_IN]->(n3:drama) WHERE (n2.death=1956 AND n3.category=""movie"" AND n1.year=1931) OR (n2.name=""Bela Lugosi"" AND n1.category=""movie"" AND n3.year=1920) RETURN count(n1)";"CALL () {
+  MATCH (n2:soundtrack:death_1956)-[:ACTED_IN]->(n1:crime:year_1931), (n2:soundtrack:death_1956)-[:ACTED_IN]->(n3:drama:movie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:soundtrack)-[:ACTED_IN]->(n1:crime:movie), (n2:soundtrack)-[:ACTED_IN]->(n3:drama:year_1920)
+  WHERE n2.name=""Bela Lugosi""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:soundtrack:death_1956)-[:ACTED_IN]->(n1:crime:year_1931:movie), (n2:soundtrack:death_1956)-[:ACTED_IN]->(n3:drama:movie:year_1920)
+  WHERE n2.name=""Bela Lugosi""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n1:costume_designer)-[:ACTED_IN]->(n3:documentary), (n1:costume_designer)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:adult) WHERE (n1.death=0 AND n3.category=""movie"" AND n2.year=1983) OR (n3.year=2016 AND n1.birth=1950 AND n2.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n1:costume_designer:death_0)-[:ACTED_IN]->(n3:documentary:movie), (n1:costume_designer:death_0)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:adult:year_1983)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:costume_designer:birth_1950)-[:ACTED_IN]->(n3:documentary:year_2016), (n1:costume_designer:birth_1950)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:adult:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:costume_designer:death_0:birth_1950)-[:ACTED_IN]->(n3:documentary:movie:year_2016), (n1:costume_designer:death_0:birth_1950)-[:ARCHIVE_FOOTAGE_MAKER_OF]->(n2:adult:year_1983:movie)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;0;100%
+"MATCH (n2:actress)-[:ACTED_IN]->(n1:comedy), (n2:producer)-[:ACTED_IN]->(n3:crime) WHERE (n2.name=""Sandra Bullock"" AND n1.year=1999 AND n2.birth=1964) OR (n3.year=2006 AND n3.category=""movie"" AND n2.death=0) RETURN count(n1)";"CALL () {
+  MATCH (n2:actress:birth_1964)-[:ACTED_IN]->(n1:comedy:year_1999), (n2:producer:birth_1964)-[:ACTED_IN]->(n3:crime)
+  WHERE n2.name=""Sandra Bullock""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:actress:death_0)-[:ACTED_IN]->(n1:comedy), (n2:producer:death_0)-[:ACTED_IN]->(n3:crime:year_2006:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:actress:birth_1964:death_0)-[:ACTED_IN]->(n1:comedy:year_1999), (n2:producer:birth_1964:death_0)-[:ACTED_IN]->(n3:crime:year_2006:movie)
+  WHERE n2.name=""Sandra Bullock""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n1:actor)-[:ACTED_IN]->(n2:comedy), (n1:actor)-[:ACTED_IN]->(n3:drama) WHERE (n1.birth=1936 AND n3.category=""tvMovie"" AND n1.name=""AntÃ³nio Anjos"") OR (n3.year=1963 AND n2.category=""tvMovie"" AND n2.year=1957) RETURN count(n1)";"CALL () {
+  MATCH (n1:actor:birth_1936)-[:ACTED_IN]->(n2:comedy), (n1:actor:birth_1936)-[:ACTED_IN]->(n3:drama:tvMovie)
+  WHERE n1.name=""AntÃ³nio Anjos""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:actor)-[:ACTED_IN]->(n2:comedy:tvMovie:year_1957), (n1:actor)-[:ACTED_IN]->(n3:drama:year_1963)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:actor:birth_1936)-[:ACTED_IN]->(n2:comedy:tvMovie:year_1957), (n1:actor:birth_1936)-[:ACTED_IN]->(n3:drama:tvMovie:year_1963)
+  WHERE n1.name=""AntÃ³nio Anjos""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n3:director)-[:WROTE]->(n1:biography), (n3:director)-[:ACTED_IN]->(n4:family), (n3:actor)-[:DIRECTED]->(n2:biography) WHERE (n4.category=""short"" AND n1.year=0 AND n2.year=1994) OR (n1.category=""movie"" AND n3.death=0 AND n3.name=""Shekhar Kapur"") RETURN count(n1)";"CALL () {
+  MATCH (n3:director)-[:WROTE]->(n1:biography:year_0), (n3:director)-[:ACTED_IN]->(n4:family:short), (n3:actor)-[:DIRECTED]->(n2:biography:year_1994)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:director:death_0)-[:WROTE]->(n1:biography:movie), (n3:director:death_0)-[:ACTED_IN]->(n4:family), (n3:actor:death_0)-[:DIRECTED]->(n2:biography)
+  WHERE n3.name=""Shekhar Kapur""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:director:death_0)-[:WROTE]->(n1:biography:year_0:movie), (n3:director:death_0)-[:ACTED_IN]->(n4:family:short), (n3:actor:death_0)-[:DIRECTED]->(n2:biography:year_1994)
+  WHERE n3.name=""Shekhar Kapur""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n3:actor)-[:DIRECTED]->(n1:animation), (n3:actor)-[:ACTED_IN]->(n2:documentary), (n3:producer)-[:DIRECTED]->(n4:animation) WHERE (n2.year=1952 AND n3.death=1966 AND n4.category=""short"") OR (n1.category=""short"" AND n2.category=""short"" AND n3.name=""Walt Disney"") RETURN count(n1)";"CALL () {
+  MATCH (n3:actor:death_1966)-[:DIRECTED]->(n1:animation), (n3:actor:death_1966)-[:ACTED_IN]->(n2:documentary:year_1952), (n3:producer:death_1966)-[:DIRECTED]->(n4:animation:short)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n3:actor)-[:DIRECTED]->(n1:animation:short), (n3:actor)-[:ACTED_IN]->(n2:documentary:short), (n3:producer)-[:DIRECTED]->(n4:animation)
+  WHERE n3.name=""Walt Disney""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n3:actor:death_1966)-[:DIRECTED]->(n1:animation:short), (n3:actor:death_1966)-[:ACTED_IN]->(n2:documentary:year_1952:short), (n3:producer:death_1966)-[:DIRECTED]->(n4:animation:short)
+  WHERE n3.name=""Walt Disney""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n4:actor)-[:ACTED_IN]->(n3:documentary), (n4:actor)-[:ACTED_IN]->(n1:drama), (n4:writer)-[:ACTED_IN]->(n2:drama) WHERE (n4.birth=1931 AND n4.death=2020 AND n3.year=2013) OR (n3.category=""tvMovie"" AND n2.category=""movie"" AND n1.category=""movie"") RETURN count(n1)";"CALL () {
+  MATCH (n4:actor:birth_1931:death_2020)-[:ACTED_IN]->(n3:documentary:year_2013), (n4:actor:birth_1931:death_2020)-[:ACTED_IN]->(n1:drama), (n4:writer:birth_1931:death_2020)-[:ACTED_IN]->(n2:drama)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:actor)-[:ACTED_IN]->(n3:documentary:tvMovie), (n4:actor)-[:ACTED_IN]->(n1:drama:movie), (n4:writer)-[:ACTED_IN]->(n2:drama:movie)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:actor:birth_1931:death_2020)-[:ACTED_IN]->(n3:documentary:year_2013:tvMovie), (n4:actor:birth_1931:death_2020)-[:ACTED_IN]->(n1:drama:movie), (n4:writer:birth_1931:death_2020)-[:ACTED_IN]->(n2:drama:movie)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;0;100%
+"MATCH (n2:actress)-[:ACTED_IN]->(n1:drama), (n2:actress)-[:ACTED_IN]->(n4:thriller), (n2:actress)-[:ACTED_IN]->(n3:drama) WHERE (n3.category=""tvSeries"" AND n1.category=""tvMovie"" AND n4.year=2000) OR (n1.year=2003 AND n4.category=""short"" AND n2.name=""Kate Atkinson"") RETURN count(n1)";"CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n1:drama:tvMovie), (n2:actress)-[:ACTED_IN]->(n4:thriller:year_2000), (n2:actress)-[:ACTED_IN]->(n3:drama:tvSeries)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n1:drama:year_2003), (n2:actress)-[:ACTED_IN]->(n4:thriller:short), (n2:actress)-[:ACTED_IN]->(n3:drama)
+  WHERE n2.name=""Kate Atkinson""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:actress)-[:ACTED_IN]->(n1:drama:tvMovie:year_2003), (n2:actress)-[:ACTED_IN]->(n4:thriller:year_2000:short), (n2:actress)-[:ACTED_IN]->(n3:drama:tvSeries)
+  WHERE n2.name=""Kate Atkinson""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n1:soundtrack)-[:ACTED_IN]->(n2:drama), (n1:actress)-[:ACTED_IN]->(n4:biography), (n1:actress)-[:ACTED_IN]->(n3:music) WHERE (n2.category=""movie"" AND n4.category=""tvMovie"" AND n1.name=""Victoria Abril"") OR (n1.death=0 AND n4.year=2001 AND n2.year=1988) RETURN count(n1)";"CALL () {
+  MATCH (n1:soundtrack)-[:ACTED_IN]->(n2:drama:movie), (n1:actress)-[:ACTED_IN]->(n4:biography:tvMovie), (n1:actress)-[:ACTED_IN]->(n3:music)
+  WHERE n1.name=""Victoria Abril""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:soundtrack:death_0)-[:ACTED_IN]->(n2:drama:year_1988), (n1:actress:death_0)-[:ACTED_IN]->(n4:biography:year_2001), (n1:actress:death_0)-[:ACTED_IN]->(n3:music)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:soundtrack:death_0)-[:ACTED_IN]->(n2:drama:movie:year_1988), (n1:actress:death_0)-[:ACTED_IN]->(n4:biography:tvMovie:year_2001), (n1:actress:death_0)-[:ACTED_IN]->(n3:music)
+  WHERE n1.name=""Victoria Abril""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n1:producer)-[:WROTE]->(n2:adventure), (n1:director)-[:DIRECTED]->(n4:sci_fi), (n1:producer)-[:PRODUCED]->(n3:fantasy) WHERE (n3.category=""movie"" AND n4.category=""movie"" AND n2.category=""video"") OR (n2.year=1999 AND n1.name=""Charles Band"" AND n3.year=2020) RETURN count(n1)";"CALL () {
+  MATCH (n1:producer)-[:WROTE]->(n2:adventure:video), (n1:director)-[:DIRECTED]->(n4:sci_fi:movie), (n1:producer)-[:PRODUCED]->(n3:fantasy:movie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:producer)-[:WROTE]->(n2:adventure:year_1999), (n1:director)-[:DIRECTED]->(n4:sci_fi), (n1:producer)-[:PRODUCED]->(n3:fantasy:year_2020)
+  WHERE n1.name=""Charles Band""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:producer)-[:WROTE]->(n2:adventure:video:year_1999), (n1:director)-[:DIRECTED]->(n4:sci_fi:movie), (n1:producer)-[:PRODUCED]->(n3:fantasy:movie:year_2020)
+  WHERE n1.name=""Charles Band""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n2:actor)-[:ACTED_IN]->(n3:drama), (n2:actor)-[:ACTED_IN]->(n1:drama), (n2:actor)-[:ACTED_IN]->(n4:romance) WHERE (n1.year=1931 AND n3.year=1931 AND n2.death=1954) OR (n4.year=1933 AND n2.name=""Ekkehard Arendt"" AND n2.birth=1892) RETURN count(n1)";"CALL () {
+  MATCH (n2:actor:death_1954)-[:ACTED_IN]->(n3:drama:year_1931), (n2:actor:death_1954)-[:ACTED_IN]->(n1:drama:year_1931), (n2:actor:death_1954)-[:ACTED_IN]->(n4:romance)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:actor:birth_1892)-[:ACTED_IN]->(n3:drama), (n2:actor:birth_1892)-[:ACTED_IN]->(n1:drama), (n2:actor:birth_1892)-[:ACTED_IN]->(n4:romance:year_1933)
+  WHERE n2.name=""Ekkehard Arendt""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:actor:death_1954:birth_1892)-[:ACTED_IN]->(n3:drama:year_1931), (n2:actor:death_1954:birth_1892)-[:ACTED_IN]->(n1:drama:year_1931), (n2:actor:death_1954:birth_1892)-[:ACTED_IN]->(n4:romance:year_1933)
+  WHERE n2.name=""Ekkehard Arendt""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n1:actress)-[:ACTED_IN]->(n4:adult), (n1:make_up_department)-[:ACTED_IN]->(n2:adult), (n1:actress)-[:ACTED_IN]->(n3:adult) WHERE (n3.year=1999 AND n3.category=""video"" AND n2.category=""video"") OR (n4.year=2000 AND n2.year=2000 AND n1.name=""Laura Angel"") RETURN count(n1)";"CALL () {
+  MATCH (n1:actress)-[:ACTED_IN]->(n4:adult), (n1:make_up_department)-[:ACTED_IN]->(n2:adult:video), (n1:actress)-[:ACTED_IN]->(n3:adult:year_1999:video)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:actress)-[:ACTED_IN]->(n4:adult:year_2000), (n1:make_up_department)-[:ACTED_IN]->(n2:adult:year_2000), (n1:actress)-[:ACTED_IN]->(n3:adult)
+  WHERE n1.name=""Laura Angel""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:actress)-[:ACTED_IN]->(n4:adult:year_2000), (n1:make_up_department)-[:ACTED_IN]->(n2:adult:video:year_2000), (n1:actress)-[:ACTED_IN]->(n3:adult:year_1999:video)
+  WHERE n1.name=""Laura Angel""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;1;83%
+"MATCH (n4:writer)-[:ACTED_IN]->(n2:drama), (n4:director)-[:ACTED_IN]->(n3:comedy), (n4:director)-[:ACTED_IN]->(n1:drama) WHERE (n2.category=""tvSeries"" AND n4.birth=1952 AND n3.category=""movie"") OR (n2.year=2003 AND n3.year=1989 AND n1.year=2011) RETURN count(n1)";"CALL () {
+  MATCH (n4:writer:birth_1952)-[:ACTED_IN]->(n2:drama:tvSeries), (n4:director:birth_1952)-[:ACTED_IN]->(n3:comedy:movie), (n4:director:birth_1952)-[:ACTED_IN]->(n1:drama)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:writer)-[:ACTED_IN]->(n2:drama:year_2003), (n4:director)-[:ACTED_IN]->(n3:comedy:year_1989), (n4:director)-[:ACTED_IN]->(n1:drama:year_2011)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:writer:birth_1952)-[:ACTED_IN]->(n2:drama:tvSeries:year_2003), (n4:director:birth_1952)-[:ACTED_IN]->(n3:comedy:movie:year_1989), (n4:director:birth_1952)-[:ACTED_IN]->(n1:drama:year_2011)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";6;0;100%
+"MATCH (n1:writer)-[:WROTE]->(n4:drama), (n1:producer)-[:PRODUCED]->(n2:comedy), (n1:writer)-[:WROTE]->(n3:drama) WHERE (n4.category=""movie"" AND n3.year=0 AND n2.year=0 AND n1.death=0) OR (n2.category=""movie"" AND n1.birth=1953 AND n1.name=""Steven Zaillian"" AND n4.year=2002) RETURN count(n1)";"CALL () {
+  MATCH (n1:writer:death_0)-[:WROTE]->(n4:drama:movie), (n1:producer:death_0)-[:PRODUCED]->(n2:comedy:year_0), (n1:writer:death_0)-[:WROTE]->(n3:drama:year_0)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:writer:birth_1953)-[:WROTE]->(n4:drama:year_2002), (n1:producer:birth_1953)-[:PRODUCED]->(n2:comedy:movie), (n1:writer:birth_1953)-[:WROTE]->(n3:drama)
+  WHERE n1.name=""Steven Zaillian""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:writer:death_0:birth_1953)-[:WROTE]->(n4:drama:movie:year_2002), (n1:producer:death_0:birth_1953)-[:PRODUCED]->(n2:comedy:year_0:movie), (n1:writer:death_0:birth_1953)-[:WROTE]->(n3:drama:year_0)
+  WHERE n1.name=""Steven Zaillian""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";8;1;88%
+"MATCH (n1:soundtrack)-[:ACTED_IN]->(n4:comedy), (n1:soundtrack)-[:ACTED_IN]->(n2:fantasy), (n1:writer)-[:ACTED_IN]->(n3:comedy) WHERE (n4.year=2016 AND n1.death=0 AND n2.year=2011 AND n2.category=""tvSeries"") OR (n1.name=""Bayani Agbayani"" AND n3.year=2017 AND n3.category=""movie"" AND n1.birth=0) RETURN count(n1)";"CALL () {
+  MATCH (n1:soundtrack:death_0)-[:ACTED_IN]->(n4:comedy:year_2016), (n1:soundtrack:death_0)-[:ACTED_IN]->(n2:fantasy:year_2011:tvSeries), (n1:writer:death_0)-[:ACTED_IN]->(n3:comedy)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:soundtrack:birth_0)-[:ACTED_IN]->(n4:comedy), (n1:soundtrack:birth_0)-[:ACTED_IN]->(n2:fantasy), (n1:writer:birth_0)-[:ACTED_IN]->(n3:comedy:year_2017:movie)
+  WHERE n1.name=""Bayani Agbayani""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:soundtrack:death_0:birth_0)-[:ACTED_IN]->(n4:comedy:year_2016), (n1:soundtrack:death_0:birth_0)-[:ACTED_IN]->(n2:fantasy:year_2011:tvSeries), (n1:writer:death_0:birth_0)-[:ACTED_IN]->(n3:comedy:year_2017:movie)
+  WHERE n1.name=""Bayani Agbayani""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";8;1;88%
+"MATCH (n4:cinematographer)-[:CINEMATOGRAPHER_OF]->(n2:action), (n4:editor)-[:CINEMATOGRAPHER_OF]->(n3:documentary), (n4:camera_department)-[:CINEMATOGRAPHER_OF]->(n1:comedy) WHERE (n4.birth=0 AND n1.category=""movie"" AND n3.category=""short"" AND n2.year=2006) OR (n3.year=2019 AND n4.death=0 AND n1.year=2013 AND n4.name=""Aasulv Austad"") RETURN count(n1)";"CALL () {
+  MATCH (n4:cinematographer:birth_0)-[:CINEMATOGRAPHER_OF]->(n2:action:year_2006), (n4:editor:birth_0)-[:CINEMATOGRAPHER_OF]->(n3:documentary:short), (n4:camera_department:birth_0)-[:CINEMATOGRAPHER_OF]->(n1:comedy:movie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:cinematographer:death_0)-[:CINEMATOGRAPHER_OF]->(n2:action), (n4:editor:death_0)-[:CINEMATOGRAPHER_OF]->(n3:documentary:year_2019), (n4:camera_department:death_0)-[:CINEMATOGRAPHER_OF]->(n1:comedy:year_2013)
+  WHERE n4.name=""Aasulv Austad""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:cinematographer:birth_0:death_0)-[:CINEMATOGRAPHER_OF]->(n2:action:year_2006), (n4:editor:birth_0:death_0)-[:CINEMATOGRAPHER_OF]->(n3:documentary:short:year_2019), (n4:camera_department:birth_0:death_0)-[:CINEMATOGRAPHER_OF]->(n1:comedy:movie:year_2013)
+  WHERE n4.name=""Aasulv Austad""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";8;1;88%
+"MATCH (n2:actress)-[:PRODUCED]->(n3:drama), (n2:actress)-[:ACTED_IN]->(n1:drama), (n2:miscellaneous)-[:ACTED_IN]->(n4:drama) WHERE (n1.year=0 AND n4.category=""tvMovie"" AND n1.category=""tvSeries"" AND n2.death=0) OR (n3.year=2016 AND n4.year=2013 AND n2.birth=1980 AND n3.category=""short"") RETURN count(n1)";"CALL () {
+  MATCH (n2:actress:death_0)-[:PRODUCED]->(n3:drama), (n2:actress:death_0)-[:ACTED_IN]->(n1:drama:year_0:tvSeries), (n2:miscellaneous:death_0)-[:ACTED_IN]->(n4:drama:tvMovie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:actress:birth_1980)-[:PRODUCED]->(n3:drama:year_2016:short), (n2:actress:birth_1980)-[:ACTED_IN]->(n1:drama), (n2:miscellaneous:birth_1980)-[:ACTED_IN]->(n4:drama:year_2013)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:actress:death_0:birth_1980)-[:PRODUCED]->(n3:drama:year_2016:short), (n2:actress:death_0:birth_1980)-[:ACTED_IN]->(n1:drama:year_0:tvSeries), (n2:miscellaneous:death_0:birth_1980)-[:ACTED_IN]->(n4:drama:tvMovie:year_2013)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";8;0;100%
+"MATCH (n2:soundtrack)-[:ACTED_IN]->(n4:music), (n2:producer)-[:ACTED_IN]->(n1:documentary), (n2:soundtrack)-[:ACTED_IN]->(n3:drama) WHERE (n1.category=""tvSeries"" AND n4.category=""tvSpecial"" AND n3.category=""tvMovie"" AND n1.year=1996) OR (n2.birth=1940 AND n3.year=1993 AND n4.year=1970 AND n2.death=0) RETURN count(n1)";"CALL () {
+  MATCH (n2:soundtrack)-[:ACTED_IN]->(n4:music:tvSpecial), (n2:producer)-[:ACTED_IN]->(n1:documentary:tvSeries:year_1996), (n2:soundtrack)-[:ACTED_IN]->(n3:drama:tvMovie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:soundtrack:birth_1940:death_0)-[:ACTED_IN]->(n4:music:year_1970), (n2:producer:birth_1940:death_0)-[:ACTED_IN]->(n1:documentary), (n2:soundtrack:birth_1940:death_0)-[:ACTED_IN]->(n3:drama:year_1993)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:soundtrack:birth_1940:death_0)-[:ACTED_IN]->(n4:music:tvSpecial:year_1970), (n2:producer:birth_1940:death_0)-[:ACTED_IN]->(n1:documentary:tvSeries:year_1996), (n2:soundtrack:birth_1940:death_0)-[:ACTED_IN]->(n3:drama:tvMovie:year_1993)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";8;0;100%
+"MATCH (n1:actor)-[:ACTED_IN]->(n2:drama), (n1:director)-[:ACTED_IN]->(n4:mystery), (n1:director)-[:ACTED_IN]->(n3:thriller) WHERE (n3.category=""movie"" AND n4.category=""tvSeries"" AND n2.category=""tvMovie"" AND n4.year=1993) OR (n2.year=2012 AND n1.birth=1955 AND n1.death=2017 AND n1.name=""Miguel Ferrer"") RETURN count(n1)";"CALL () {
+  MATCH (n1:actor)-[:ACTED_IN]->(n2:drama:tvMovie), (n1:director)-[:ACTED_IN]->(n4:mystery:tvSeries:year_1993), (n1:director)-[:ACTED_IN]->(n3:thriller:movie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n1:actor:birth_1955:death_2017)-[:ACTED_IN]->(n2:drama:year_2012), (n1:director:birth_1955:death_2017)-[:ACTED_IN]->(n4:mystery), (n1:director:birth_1955:death_2017)-[:ACTED_IN]->(n3:thriller)
+  WHERE n1.name=""Miguel Ferrer""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n1:actor:birth_1955:death_2017)-[:ACTED_IN]->(n2:drama:tvMovie:year_2012), (n1:director:birth_1955:death_2017)-[:ACTED_IN]->(n4:mystery:tvSeries:year_1993), (n1:director:birth_1955:death_2017)-[:ACTED_IN]->(n3:thriller:movie)
+  WHERE n1.name=""Miguel Ferrer""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";8;1;88%
+"MATCH (n4:camera_department)-[:CINEMATOGRAPHER_OF]->(n1:comedy), (n4:writer)-[:CINEMATOGRAPHER_OF]->(n3:crime), (n4:cinematographer)-[:CINEMATOGRAPHER_OF]->(n2:comedy) WHERE (n1.year=2006 AND n2.year=2004 AND n2.category=""tvMovie"" AND n4.birth=1964) OR (n1.category=""tvMovie"" AND n3.year=2021 AND n4.death=0 AND n4.name=""Wolfgang Aichholzer"") RETURN count(n1)";"CALL () {
+  MATCH (n4:camera_department:birth_1964)-[:CINEMATOGRAPHER_OF]->(n1:comedy:year_2006), (n4:writer:birth_1964)-[:CINEMATOGRAPHER_OF]->(n3:crime), (n4:cinematographer:birth_1964)-[:CINEMATOGRAPHER_OF]->(n2:comedy:year_2004:tvMovie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n4:camera_department:death_0)-[:CINEMATOGRAPHER_OF]->(n1:comedy:tvMovie), (n4:writer:death_0)-[:CINEMATOGRAPHER_OF]->(n3:crime:year_2021), (n4:cinematographer:death_0)-[:CINEMATOGRAPHER_OF]->(n2:comedy)
+  WHERE n4.name=""Wolfgang Aichholzer""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n4:camera_department:birth_1964:death_0)-[:CINEMATOGRAPHER_OF]->(n1:comedy:year_2006:tvMovie), (n4:writer:birth_1964:death_0)-[:CINEMATOGRAPHER_OF]->(n3:crime:year_2021), (n4:cinematographer:birth_1964:death_0)-[:CINEMATOGRAPHER_OF]->(n2:comedy:year_2004:tvMovie)
+  WHERE n4.name=""Wolfgang Aichholzer""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";8;1;88%
+"MATCH (n2:writer)-[:ACTED_IN]->(n4:drama), (n2:producer)-[:ACTED_IN]->(n1:comedy), (n2:actor)-[:ACTED_IN]->(n3:sci_fi) WHERE (n3.year=1990 AND n3.category=""movie"" AND n1.year=2002 AND n1.category=""movie"") OR (n4.category=""movie"" AND n2.name=""Christopher Atkins"" AND n2.birth=1961 AND n4.year=2002) RETURN count(n1)";"CALL () {
+  MATCH (n2:writer)-[:ACTED_IN]->(n4:drama), (n2:producer)-[:ACTED_IN]->(n1:comedy:year_2002:movie), (n2:actor)-[:ACTED_IN]->(n3:sci_fi:year_1990:movie)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:writer:birth_1961)-[:ACTED_IN]->(n4:drama:movie:year_2002), (n2:producer:birth_1961)-[:ACTED_IN]->(n1:comedy), (n2:actor:birth_1961)-[:ACTED_IN]->(n3:sci_fi)
+  WHERE n2.name=""Christopher Atkins""
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:writer:birth_1961)-[:ACTED_IN]->(n4:drama:movie:year_2002), (n2:producer:birth_1961)-[:ACTED_IN]->(n1:comedy:year_2002:movie), (n2:actor:birth_1961)-[:ACTED_IN]->(n3:sci_fi:year_1990:movie)
+  WHERE n2.name=""Christopher Atkins""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";8;1;88%
+"MATCH (n2:director)-[:PRODUCED]->(n3:documentary), (n2:actor)-[:PRODUCED]->(n4:comedy), (n2:director)-[:PRODUCED]->(n1:comedy) WHERE (n3.year=1907 AND n1.year=1915 AND n2.death=1923 AND n4.year=1913) OR (n1.category=""short"" AND n2.birth=1851 AND n4.category=""short"" AND n3.category=""short"") RETURN count(n1)";"CALL () {
+  MATCH (n2:director:death_1923)-[:PRODUCED]->(n3:documentary:year_1907), (n2:actor:death_1923)-[:PRODUCED]->(n4:comedy:year_1913), (n2:director:death_1923)-[:PRODUCED]->(n1:comedy:year_1915)
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:director:birth_1851)-[:PRODUCED]->(n3:documentary:short), (n2:actor:birth_1851)-[:PRODUCED]->(n4:comedy:short), (n2:director:birth_1851)-[:PRODUCED]->(n1:comedy:short)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:director:death_1923:birth_1851)-[:PRODUCED]->(n3:documentary:year_1907:short), (n2:actor:death_1923:birth_1851)-[:PRODUCED]->(n4:comedy:year_1913:short), (n2:director:death_1923:birth_1851)-[:PRODUCED]->(n1:comedy:year_1915:short)
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";8;0;100%
+"MATCH (n2:soundtrack)-[:COMPOSED]->(n3:action), (n2:composer)-[:COMPOSED]->(n4:drama), (n2:music_department)-[:COMPOSED]->(n1:drama) WHERE (n1.category=""tvMovie"" AND n2.name=""Mark Snow"" AND n3.year=2004 AND n3.category=""videoGame"") OR (n1.year=1997 AND n2.birth=1946 AND n2.death=0 AND n4.category=""tvMovie"") RETURN count(n1)";"CALL () {
+  MATCH (n2:soundtrack)-[:COMPOSED]->(n3:action:year_2004:videoGame), (n2:composer)-[:COMPOSED]->(n4:drama), (n2:music_department)-[:COMPOSED]->(n1:drama:tvMovie)
+  WHERE n2.name=""Mark Snow""
+  RETURN count(*) AS t1
+}
+CALL () {
+  MATCH (n2:soundtrack:birth_1946:death_0)-[:COMPOSED]->(n3:action), (n2:composer:birth_1946:death_0)-[:COMPOSED]->(n4:drama:tvMovie), (n2:music_department:birth_1946:death_0)-[:COMPOSED]->(n1:drama:year_1997)
+  RETURN count(*) AS t2
+}
+CALL () {
+  MATCH (n2:soundtrack:birth_1946:death_0)-[:COMPOSED]->(n3:action:year_2004:videoGame), (n2:composer:birth_1946:death_0)-[:COMPOSED]->(n4:drama:tvMovie), (n2:music_department:birth_1946:death_0)-[:COMPOSED]->(n1:drama:tvMovie:year_1997)
+  WHERE n2.name=""Mark Snow""
+  RETURN count(*) AS t12
+}
+RETURN t1 + t2 - t12 AS total";8;1;88%

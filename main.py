@@ -126,8 +126,8 @@ def main():
 
         case '14':
             run_refactored(
-                input_csv="data/queries/Query_LS_Demo.csv",
-                output_csv="data/report/label_specification/hasil_refactored_LS_demo.csv"
+                input_csv="data/queries/Query_LS_OR.csv",
+                output_csv="data/report/label_specification/hasil_refactored_LS_OR.csv"
             )
 
         case _:
