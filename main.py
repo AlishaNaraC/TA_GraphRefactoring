@@ -114,14 +114,14 @@ def main():
 
         case '12':
             run_baseline(
-                input_file="data/queries/Query_Where_Demo.txt",
-                output_csv="data/report/baseline/hasil_baseline_demo.csv"
+                input_file="data/queries/Query_Where.txt",
+                output_csv="data/report/baseline/executed_190_baseline.csv"
             )
 
         case '13':
             run_refactored(
-                input_csv="data/queries/Query_PBN_Demo.csv",
-                output_csv="data/report/property_becoming_node/hasil_refactored_PBN_demo.csv"
+                input_csv="data/queries/Query_PBN.csv",
+                output_csv="data/report/property_becoming_node/executed_190_PBN.csv"
             )
 
         case '14':

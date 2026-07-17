@@ -23,7 +23,7 @@ class DBConnection:
     def close(self):
         self.driver.close()
 
-    def run_profile(self, query, timeout_sec=300):
+    def run_profile(self, query, timeout_sec=600):
         result_container = {}
         error_container  = {}
 

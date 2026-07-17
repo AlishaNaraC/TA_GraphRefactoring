@@ -188,7 +188,7 @@ def run_refactored(input_csv, output_csv):
 
         for run in range(REPEAT):
             try:
-                result = db.run_profile(kueri_refactored, timeout_sec=300)
+                result = db.run_profile(kueri_refactored, timeout_sec=600)
                 print(f"  yang ke {run + 1}/{REPEAT}")
                 if run == 0:
                     db_hits      = result["db_hits"]
