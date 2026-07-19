@@ -1,8 +1,6 @@
+# Fungsi untuk meminta input nama relasi baru dari pengguna untuk setiap kandidat properti 
+# pada teknik property becoming a node.
 def get_relation_names(kandidat_properti):
-    """
-    Meminta input nama relasi baru dari pengguna untuk setiap 
-    kandidat properti pada teknik property becoming a node.
-    """
     nama_relasi = {}
     print("\n=== Penentuan Nama Relasi Baru ===")
     for prop in kandidat_properti:

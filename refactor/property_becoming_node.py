@@ -1,6 +1,6 @@
 from refactor.label_utils import (generate_labels)
 
-
+# Fungsi untuk melakukan refaktorisasi properti becoming a node
 class PropertyBecomingNode:
      def __init__(self, importer, kandidat_properti, pbn_configs, limit=None):
         self.importer = importer

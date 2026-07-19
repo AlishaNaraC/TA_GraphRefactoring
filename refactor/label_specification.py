@@ -1,5 +1,6 @@
 from refactor.label_utils import generate_labels
 
+#Fungsi untuk melakukan refaktorisasi label specification
 class LabelSpecification:
     def __init__(self, importer, kandidat_properti, label_configs, limit=None):
         self.importer = importer

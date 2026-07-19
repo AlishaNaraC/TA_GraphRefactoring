@@ -31,10 +31,9 @@ class RefactorManager:
             pbn_configs = {} 
             
             for prop in kandidat_properti:
-                # 1. Panggil fungsi kodemu yang modular
                 config = get_label_config(prop)
                 
-                # 2. Tambahkan input khusus PBN (nama relasi) ke dalam dict config
+                # Tambahkan input khusus PBN (nama relasi) ke dalam dict config
                 rel_name = input(f"Masukkan nama relasi untuk properti '{prop}' (contoh: HAS_{prop.upper()}): ")
                 config["rel"] = rel_name
                 
@@ -50,7 +49,7 @@ class RefactorManager:
             label_configs = {}
             
             for prop in kandidat_properti:
-                # Panggil fungsi get_label_config yang sudah kamu buat
+                # Panggil fungsi get_label_config
                 config = get_label_config(prop)
                 label_configs[prop] = config
             

@@ -1,3 +1,4 @@
+# Fungsi untuk menghapus index sementara yang dibuat untuk label TMP_PEOPLES dan TMP_MOVIES setelah proses impor selesai.
 def drop_temp_indexes(importer):
     queries = [
         """
@@ -12,6 +13,7 @@ def drop_temp_indexes(importer):
     for q in queries:
         importer.execute_query(q)
 
+# Fungsi untuk menghapus label sementara yang dibuat untuk label TMP_PEOPLES dan TMP_MOVIES setelah proses impor selesai.
 def remove_temp_labels(importer, label):
     while True:
         query = f"""

@@ -32,6 +32,11 @@ MOVIE_NODES = {
 # Baca semua baris dari file txt, buang spasi/newline di tiap baris (strip()), dan skip baris kosong (if line.strip()). 
 # Hasilnya list of string, tiap elemennya satu query.
 def read_queries_from_file(file_path):
+    """
+    Tujuan  : Membaca daftar kueri dari file teks, satu kueri per baris.
+    Input   : file_path (path ke file .txt berisi kueri Cypher, satu per baris)
+    Output  : list berisi kueri-kueri (string), baris kosong diabaikan
+    """
     with open(file_path, 'r') as f:
         lines = f.readlines()
     queries = [line.strip() for line in lines if line.strip()]
@@ -43,7 +48,11 @@ def read_queries_from_file(file_path):
 # pisahkan tiap kondisi berdasarkan AND, 
 # lalu hitung jumlahnya.
 def count_where_properties(query):
-    """Hitung jumlah properti dalam klausa WHERE"""
+    """
+    Tujuan  : Menghitung jumlah kondisi filter properti dalam klausa WHERE (pola AND murni).
+    Input   : query (kueri Cypher lengkap, contoh: "MATCH (...) WHERE (n1.year=1999 AND n1.category='movie') RETURN ...")
+    Output  : jumlah kondisi (integer), 0 kalau tidak ada WHERE
+    """
     where_block = re.search(r'WHERE\s*\((.+?)\)\s*RETURN', query, re.IGNORECASE)
     if not where_block:
         return 0
@@ -52,8 +61,15 @@ def count_where_properties(query):
     conditions = [c.strip() for c in re.split(r'\s+AND\s+', where_content, flags=re.IGNORECASE)]
     return len([c for c in conditions if c])  # skip kosong
 
+#Fungsi buat memisahkan kueri yang mengandung AND
 def refactor_where_to_node(query):
-    # Ambil semua kondisi di dalam WHERE, pisahkan per AND.
+    """
+    Tujuan  : Merekonstruksi kueri berpola AND murni — mengubah kondisi filter properti
+              di WHERE (contoh: n1.year=1999) menjadi pola traversal relasi baru di MATCH
+              (contoh: (n1)-[:RELEASED_IN]->(:year_1999)), sesuai teknik property becoming a node.
+    Input   : query (kueri Cypher lengkap)
+    Output  : kueri hasil rekonstruksi (string)
+    """
     where_block = re.search(r'WHERE\s*\((.+?)\)\s*RETURN', query, re.IGNORECASE)
     if not where_block:
         return query
@@ -147,8 +163,12 @@ def refactor_where_to_node(query):
 # Fungsi untuk menyimpan data ke file csv.
 def save_queries_to_csv(data, file_path):
     """
-    data: list of dict dengan key:
-    - kueri_awal, kueri_baru, jumlah_where_awal, jumlah_where_baru, persentase_penurunan
+    Tujuan  : Menyimpan hasil rekonstruksi kueri (baseline, hasil refactor, statistik
+              pengurangan properti) ke dalam sebuah file CSV.
+    Input   : data (list of dict, tiap dict berisi kolom Kueri Baseline, Kueri Refactored,
+              Jumlah Properti WHERE Baseline/Refactored, Persentase Penurunan),
+              file_path (path tujuan penyimpanan file CSV)
+    Output  : tidak ada (langsung menulis ke file)
     """
     with open(file_path, 'w', newline='', encoding='utf-8') as f:
         fieldnames = [
@@ -165,7 +185,13 @@ def save_queries_to_csv(data, file_path):
 
 
 def split_by_keyword(text, keyword):
-    """Split teks berdasarkan keyword (OR/AND) HANYA di level kurung terluar (depth==0)."""
+    """
+    Tujuan  : Memecah teks WHERE menjadi beberapa bagian berdasarkan kata kunci AND/OR.
+    Input   : text (contoh: "n1.year=1999 AND n1.category='movie'"), keyword ("AND" atau "OR")
+    Output  : list bagian teks yang sudah terpisah, contoh: ["n1.year=1999", "n1.category='movie'"]
+    Catatan : Pemisahan hanya dilakukan jika keyword berada di LUAR kurung (depth==0),
+              supaya AND yang ada di dalam kurung (A AND B) tidak ikut kepecah saat sedang mencari OR.
+    """
     pattern = re.compile(r'\b' + keyword + r'\b', re.IGNORECASE)
     parts = []
     depth = 0
@@ -194,7 +220,13 @@ def split_by_keyword(text, keyword):
 
 
 def strip_outer_parens(s):
-    """Buang kurung pembungkus terluar jika memang membungkus seluruh string."""
+    """
+    Tujuan  : Membuang kurung pembungkus jika kurung tersebut membungkus SELURUH teks.
+    Input   : s (contoh: "(n1.year=1999 AND n1.category='movie')")
+    Output  : teks tanpa kurung luar, contoh: "n1.year=1999 AND n1.category='movie'"
+    Catatan : Tidak asal buang kurung pertama & terakhir — dicek dulu apakah keduanya
+              memang sepasang (bukan kasus seperti "(A) OR (B)" yang kurungnya tidak menyatu).
+    """
     s = s.strip()
     if s.startswith('(') and s.endswith(')'):
         depth = 0
@@ -210,7 +242,13 @@ def strip_outer_parens(s):
 
 
 def classify_conditions(conditions):
-    """Sama seperti logika di dalam refactor_where_to_node(), dipisah supaya reusable per klaster OR."""
+    """
+    Tujuan  : Memilah daftar kondisi WHERE ke dalam 2 kelompok: yang bisa direfaktor
+              menjadi relasi baru, dan yang harus tetap di klausa WHERE.
+    Input   : conditions (list kondisi, contoh: ["n1.year=1999", "n1.name='Budi'"])
+    Output  : refactor_groups (dict kondisi yang bisa direfaktor, dikelompokkan per variabel node)
+              remaining (list kondisi yang tidak bisa direfaktor, misal properti "name")
+    """
     cond_pattern = re.compile(r'(\w+)\.(\w+)\s*=\s*["\']?(\w+)["\']?')
     refactor_groups = {}
     remaining = []
@@ -239,7 +277,13 @@ def classify_conditions(conditions):
 
 
 def merge_clusters(clusters, indices):
-    """Gabungkan refactor_groups & remaining_conditions dari beberapa klaster OR (untuk hitung irisan)."""
+    """
+    Tujuan  : Menggabungkan hasil klasifikasi dari beberapa klaster OR sekaligus,
+              dipakai untuk menghitung irisan antar klaster (rumus inclusion-exclusion).
+    Input   : clusters (list semua klaster hasil classify_conditions),
+              indices (index klaster mana saja yang mau digabung, contoh: (0, 1))
+    Output  : refactor_groups & remaining_conditions gabungan dari klaster-klaster tersebut
+    """
     merged_groups = {}
     merged_remaining = []
     for idx in indices:
@@ -256,7 +300,13 @@ def merge_clusters(clusters, indices):
 
 
 def build_match_and_where(base_match, refactor_groups, remaining_conditions):
-    """Bangun MATCH+WHERE untuk satu blok CALL, gaya sama dengan refactor_where_to_node()."""
+    """
+    Tujuan  : Membangun ulang klausa MATCH (dengan pola traversal baru) dan klausa WHERE
+              (dengan sisa kondisi yang tidak direfaktor) untuk satu blok CALL().
+    Input   : base_match (teks pola MATCH asli tanpa kata "MATCH"),
+              refactor_groups & remaining_conditions (hasil dari classify_conditions/merge_clusters)
+    Output  : match_clause (teks MATCH baru), where_clause (teks WHERE baru, bisa kosong)
+    """
     match_clause = base_match
     extra_patterns = []
 
@@ -291,7 +341,12 @@ def build_match_and_where(base_match, refactor_groups, remaining_conditions):
 
 
 def refactor_or_query(query):
-    """Menangani WHERE dengan OR di level teratas via inclusion-exclusion CALL{}."""
+    """
+    Tujuan  : Merekonstruksi kueri yang klausa WHERE-nya mengandung OR di level teratas,
+              menggunakan pendekatan inclusion-exclusion via banyak blok CALL().
+    Input   : query (kueri Cypher lengkap, contoh: "MATCH (...) WHERE (A) OR (B) RETURN count(n1)")
+    Output  : kueri baru berupa rangkaian CALL(){} + satu klausa RETURN penjumlahan/pengurangan
+    """
     m = re.search(r'^MATCH\s+(.+?)\s*WHERE\s*(.+?)\s*RETURN\s*(.+)$',
                   query, re.IGNORECASE | re.DOTALL)
     if not m:
@@ -344,7 +399,12 @@ def refactor_or_query(query):
 
 
 def count_where_properties_full(query):
-    """Versi count_where_properties() yang paham OR: total kondisi dijumlah lintas klaster."""
+    """
+    Tujuan  : Menghitung total kondisi filter properti dalam klausa WHERE,
+              termasuk kueri yang memiliki beberapa klaster OR.
+    Input   : query (kueri Cypher lengkap)
+    Output  : jumlah total kondisi (integer)
+    """
     m = re.search(r'WHERE\s*(.+?)\s*RETURN', query, re.IGNORECASE | re.DOTALL)
     if not m:
         return 0
@@ -359,7 +419,12 @@ def count_where_properties_full(query):
 
 
 def refactor_query_full(query):
-    """Dispatcher utama: deteksi OR di level teratas, arahkan ke fungsi yang sesuai."""
+    """
+    Tujuan  : Titik masuk utama proses rekonstruksi. Menentukan otomatis apakah
+              kueri perlu ditangani lewat jalur OR (inclusion-exclusion) atau jalur AND biasa.
+    Input   : query (kueri Cypher lengkap)
+    Output  : kueri hasil rekonstruksi
+    """
     m = re.search(r'WHERE\s*(.+?)\s*RETURN', query, re.IGNORECASE | re.DOTALL)
     if not m:
         return query
@@ -371,13 +436,10 @@ def refactor_query_full(query):
 
 def get_where_pattern(query_or_count):
     """
-    Konversi kueri (atau jumlah properti, untuk backward compatibility)
-    menjadi label pola WHERE. Menangani:
-    - AND murni linear         -> "A AND B AND C"
-    - OR murni / campuran      -> "(A AND B) OR (C AND D)"
-    - Hasil refaktorisasi OR
-      (struktur CALL{} berlapis) -> ringkasan jumlah kondisi tersisa lintas cabang
-    - Tidak ada WHERE sama sekali -> "-"
+    Tujuan  : Menerjemahkan kueri (atau angka jumlah properti) menjadi label pola
+              yang mudah dibaca manusia, contoh: "A AND B", "(A AND B) OR (C AND D)".
+    Input   : query_or_count (bisa berupa teks kueri Cypher, atau angka int untuk mode lama)
+    Output  : string label pola WHERE
     """
     # Backward compatibility: kalau dipanggil dengan angka (int), pakai mapping lama
     if isinstance(query_or_count, int):
