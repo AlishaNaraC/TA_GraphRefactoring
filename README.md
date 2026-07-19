@@ -83,6 +83,8 @@ refactor/
     refactor_manager.py        # Orkestrasi proses refaktorisasi skema data
     property_becoming_node.py  # Implementasi refaktorisasi PBN
     label_specification.py     # Implementasi refaktorisasi LS
+    relation_input.py          # Input relasi untuk teknik PBN
+    label_utils.py             # Input Label untuk kedua teknik
     identify_candidate_property.py # Identifikasi kandidat properti (DVR)
 validation/
     validation_baseline.py                 # Pencatatan statistik skema baseline
