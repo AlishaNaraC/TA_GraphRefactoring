@@ -1,7 +1,8 @@
 from neo4j import GraphDatabase
 from config import NEO4J_CONFIG
 
-
+# Fungsi buat Importer Neo4j, untuk menghubungkan ke database Neo4j dan menjalankan query.
+# Importer ini  menyediakan fungsi untuk mengimpor data dari file CSV ke dalam database Neo4j baik untuk edge maupun node.
 class Neo4jImporter:
 
     def __init__(self):
@@ -101,16 +102,6 @@ class Neo4jImporter:
         """
         return self.execute_query(query)
 
-        # SET n += {
-        #         id: row.id,
-        #         name: row.name,
-        #         birth: toInteger(
-        #             COALESCE(row.birth,row['birth:int'])
-        #         ),
-        #         death: toInteger(
-        #             COALESCE(row.death,row['death:int'])
-        #         )
-        #     }
 
     def import_edges(self):
         query = """
@@ -134,22 +125,3 @@ class Neo4jImporter:
             RETURN sum(total) AS totalImported
         """
         return self.execute_query(query)
-
-        # LOAD CSV WITH HEADERS FROM 'file:///edges.csv' AS row 
-        # FIELDTERMINATOR ';'
-        
-        # WITH row
-        # WHERE row.source IS NOT NULL AND row.dest IS NOT NULL
-        
-        # CALL (row) {
-        #     MATCH (source:TMP_PEOPLES {id: row.source})
-        #     MATCH (dest:TMP_MOVIES {id: row.dest})
-            
-        #     // Menggunakan pembuat relasi dinamis bawaan Cypher versi baru
-        #     CREATE (source)-[r:$(row.type)]->(dest)
-            
-        #     RETURN count(r) AS total
-        # }
-        # IN TRANSACTIONS OF 1000 ROWS
-        
-        # RETURN sum(total) AS totalImported

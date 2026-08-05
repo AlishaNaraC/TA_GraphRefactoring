@@ -6,8 +6,6 @@ from importer.label_manager import (
     drop_temp_indexes,
     remove_temp_labels
 )
-from query.transform_query_to_numeric import transform_file_kueri_baseline_to_numeric
-from query.transform_query_to_numeric_pbn import transform_file_kueri_pbn_to_numeric
 from reconstruction.pbn_query_reconstructor import run_reconstruction
 from reconstruction.ls_query_reconstructor import run_reconstruction_label_specification
 from refactor.refactor_manager import RefactorManager
@@ -55,13 +53,9 @@ def main():
     print("7. Validasi refaktorisasi (property becoming a node)")
     print("8. Validasi refaktorisasi (label specification)")
     print("-------------------------------")
-    print("9. Transformasi kueri baseline ke numerik")
-    print("10. Transformasi kueri refactored (property becoming a node) ke numerik")
-    print("11. Transformasi kueri refactored (label specification) ke numerik")
-    print("-------------------------------")
-    print("12. Jalankan kueri baseline")
-    print("13. Jalankan kueri refactored (property becoming a node)")
-    print("14. Jalankan kueri refactored (label specification)")
+    print("9. Jalankan kueri baseline")
+    print("10. Jalankan kueri refactored (property becoming a node)")
+    print("11. Jalankan kueri refactored (label specification)")
 
     pilihan = input("Masukkan pilihan [contoh: 1]: ").strip()
 
@@ -93,41 +87,21 @@ def main():
             run_validation_label_specification()
 
         case '9':
-            transform_file_kueri_baseline_to_numeric(
+            run_baseline(
                 input_file="data/queries/Query_Where.txt",
-                output_file="data/report/baseline/Query_Where_Baseline_Numerik.csv"
+                output_csv="data/report/baseline/executed_190_baseline.csv"
             )
 
         case '10':
-            transform_file_kueri_pbn_to_numeric(
-                input_file="data/queries/Query_Where_80_Refactored.txt",
-                output_file="data/report/property_becoming_node/Refactored_Query_Where_PBN_Numerik.csv"
-            )
-    # HARUS DIGANTI CODENYA============================================================
-    # HARUS DIGANTI CODENYA============================================================
-    # HARUS DIGANTI CODENYA============================================================
-        case '11':
-            transform_file_kueri_pbn_to_numeric(
-                input_file="data/queries/Query_Where_80_Refactored_LS.txt",
-                output_file="data/report/label_specification/Refactored_Query_Where_LS_Numerik.csv"
-            )
-
-        case '12':
-            run_baseline(
-                input_file="data/queries/Query_Where.txt",
-                output_csv="data/report/baseline/executed_190_baseline_daffa.csv"
-            )
-
-        case '13':
             run_refactored(
                 input_csv="data/queries/Query_PBN.csv",
                 output_csv="data/report/property_becoming_node/executed_190_PBN.csv"
             )
 
-        case '14':
+        case '11':
             run_refactored(
-                input_csv="data/queries/Query_LS_OR.csv",
-                output_csv="data/report/label_specification/hasil_refactored_LS_OR.csv"
+                input_csv="data/queries/Query_LS.csv",
+                output_csv="data/report/label_specification/hasil_refactored_LS.csv"
             )
 
         case _:

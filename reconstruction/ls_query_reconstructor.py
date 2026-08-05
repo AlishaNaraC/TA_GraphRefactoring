@@ -11,6 +11,11 @@ PROPERTY_LABEL_MAP = {
 
 # Baca semua query dari file txt, buang spasi/newline, skip baris kosong
 def read_queries_from_file(file_path):
+    """
+    Tujuan  : Membaca daftar kueri dari file teks, satu kueri per baris.
+    Input   : file_path (path ke file .txt berisi kueri Cypher, satu per baris)
+    Output  : list berisi kueri-kueri (string), baris kosong diabaikan
+    """
     with open(file_path, 'r') as f:
         lines = f.readlines()
     queries = [line.strip() for line in lines if line.strip()]
@@ -18,7 +23,11 @@ def read_queries_from_file(file_path):
 
 # Hitung jumlah properti dalam klausa WHERE (sebelum dan sesudah refaktorisasi)
 def count_where_properties(query):
-    """Hitung jumlah properti dalam klausa WHERE"""
+    """
+    Tujuan  : Menghitung jumlah kondisi filter properti dalam klausa WHERE (pola AND murni).
+    Input   : query (kueri Cypher lengkap, contoh: "MATCH (...) WHERE (a.category='tvMovie') RETURN ...")
+    Output  : jumlah kondisi (integer), 0 kalau tidak ada WHERE
+    """
     where_block = re.search(r'WHERE\s*\((.+?)\)\s*RETURN', query, re.IGNORECASE)
     if not where_block:
         return 0
@@ -28,6 +37,14 @@ def count_where_properties(query):
     return len([c for c in conditions if c])
 
 def refactor_label_specification(query):
+    """
+    Tujuan  : Merekonstruksi kueri berpola AND murni — mengubah kondisi filter properti
+              di WHERE (contoh: a.category='tvMovie') menjadi label tambahan langsung
+              pada node yang sudah ada di MATCH (contoh: (a:adventure:tvMovie)), sesuai
+              teknik label specification. Tidak ada relasi/node baru yang dibentuk.
+    Input   : query (kueri Cypher lengkap)
+    Output  : kueri hasil rekonstruksi (string)
+    """
     where_block = re.search(r'WHERE\s*\((.+?)\)\s*RETURN', query, re.IGNORECASE)
     if not where_block:
         return query
@@ -91,6 +108,14 @@ def refactor_label_specification(query):
 
 # Simpan hasil ke CSV beserta statistik penurunan properti WHERE
 def save_queries_to_csv(data, file_path):
+    """
+    Tujuan  : Menyimpan hasil rekonstruksi kueri (baseline, hasil refactor, statistik
+              pengurangan properti) ke dalam sebuah file CSV.
+    Input   : data (list of dict, tiap dict berisi kolom Kueri Baseline, Kueri Refactored,
+              Jumlah Properti WHERE Baseline/Refactored, Persentase Penurunan),
+              file_path (path tujuan penyimpanan file CSV)
+    Output  : tidak ada (langsung menulis ke file)
+    """
     with open(file_path, 'w', newline='', encoding='utf-8') as f:
         fieldnames = [
             'Kueri Baseline',
@@ -106,12 +131,14 @@ def save_queries_to_csv(data, file_path):
 
 import itertools
 
-# ============================================================
-# BAGIAN BARU: Parsing OR untuk Label Specification
-# ============================================================
-
 def split_by_keyword(text, keyword):
-    """Split teks berdasarkan keyword (OR/AND) HANYA di level kurung terluar (depth==0)."""
+    """
+    Tujuan  : Memecah teks WHERE menjadi beberapa bagian berdasarkan kata kunci AND/OR.
+    Input   : text (contoh: "n1.category='tvSeries' OR n2.category='movie'"), keyword ("AND" atau "OR")
+    Output  : list bagian teks yang sudah terpisah
+    Catatan : Pemisahan hanya dilakukan jika keyword berada di LUAR kurung (depth==0),
+              supaya AND yang ada di dalam kurung (A AND B) tidak ikut kepecah saat sedang mencari OR.
+    """
     pattern = re.compile(r'\b' + keyword + r'\b', re.IGNORECASE)
     parts = []
     depth = 0
@@ -140,7 +167,13 @@ def split_by_keyword(text, keyword):
 
 
 def strip_outer_parens(s):
-    """Buang kurung pembungkus terluar jika memang membungkus seluruh string."""
+    """
+    Tujuan  : Membuang kurung pembungkus jika kurung tersebut membungkus SELURUH teks.
+    Input   : s (contoh: "(n1.category='tvSeries')")
+    Output  : teks tanpa kurung luar
+    Catatan : Tidak asal buang kurung pertama & terakhir — dicek dulu apakah keduanya
+              memang sepasang (bukan kasus seperti "(A) OR (B)" yang kurungnya tidak menyatu).
+    """
     s = s.strip()
     if s.startswith('(') and s.endswith(')'):
         depth = 0
@@ -157,8 +190,10 @@ def strip_outer_parens(s):
 
 def classify_conditions_label(conditions):
     """
-    Sama seperti logika di refactor_label_specification(), dipisah supaya
-    reusable per klaster OR. Return: (extra_labels: {var: [label, ...]}, remaining: [str])
+    Tujuan  : Memilah daftar kondisi WHERE ke dalam 2 kelompok: yang bisa direfaktor
+              menjadi label baru, dan yang harus tetap di klausa WHERE.
+    Input   : conditions (list kondisi, contoh: ["n1.category='tvSeries'", "n3.name='Budi'"])
+    Output  : extra_labels (dict label baru per variabel node), remaining (list kondisi yang tetap di WHERE)
     """
     cond_pattern = re.compile(r'(\w+)\.(\w+)\s*=\s*["\']?(\w+)["\']?')
     extra_labels = {}
@@ -187,7 +222,13 @@ def classify_conditions_label(conditions):
 
 
 def merge_label_clusters(clusters, indices):
-    """Gabungkan extra_labels & remaining_conditions dari beberapa klaster OR (untuk hitung irisan)."""
+    """
+    Tujuan  : Menggabungkan hasil klasifikasi dari beberapa klaster OR sekaligus,
+              dipakai untuk menghitung irisan antar klaster (rumus inclusion-exclusion).
+    Input   : clusters (list semua klaster hasil classify_conditions_label),
+              indices (index klaster mana saja yang mau digabung, contoh: (0, 1))
+    Output  : extra_labels & remaining_conditions gabungan dari klaster-klaster tersebut
+    """    
     merged_labels = {}
     merged_remaining = []
     for idx in indices:
@@ -205,8 +246,11 @@ def merge_label_clusters(clusters, indices):
 
 def build_match_label(base_match_part, extra_labels, remaining_conditions):
     """
-    Tempelkan label tambahan ke node yang sudah ada di match_part (tanpa
-    menambah relasi baru), lalu susun WHERE untuk kondisi yang tersisa.
+    Tujuan  : Menempelkan label tambahan ke node yang sudah ada di MATCH (tanpa
+              menambah relasi/node baru), lalu menyusun sisa kondisi ke WHERE.
+    Input   : base_match_part (teks pola MATCH asli tanpa kata "MATCH"),
+              extra_labels & remaining_conditions (hasil dari classify_conditions_label/merge_label_clusters)
+    Output  : match_part (teks MATCH baru dengan label tambahan), where_clause (teks WHERE baru, bisa kosong)
     """
     match_part = base_match_part
 
@@ -229,8 +273,11 @@ def build_match_label(base_match_part, extra_labels, remaining_conditions):
 
 def refactor_label_or_query(query):
     """
-    Menangani WHERE dengan OR di level teratas untuk teknik label specification,
-    via inclusion-exclusion CALL(){}.
+    Tujuan  : Merekonstruksi kueri yang klausa WHERE-nya mengandung OR di level teratas,
+              menggunakan pendekatan inclusion-exclusion via banyak blok CALL(), khusus
+              untuk teknik label specification (tanpa relasi/node baru).
+    Input   : query (kueri Cypher lengkap, contoh: "MATCH (...) WHERE (A) OR (B) RETURN count(n1)")
+    Output  : kueri baru berupa rangkaian CALL(){} + satu klausa RETURN penjumlahan/pengurangan
     """
     m = re.match(r'^MATCH\s+(.+?)\s*WHERE\s*(.+?)\s*RETURN\s*(.+)$',
                  query, re.IGNORECASE | re.DOTALL)
@@ -286,7 +333,12 @@ def refactor_label_or_query(query):
 
 
 def count_where_properties_full(query):
-    """Versi count_where_properties() yang paham OR: total kondisi dijumlah lintas klaster."""
+    """
+    Tujuan  : Menghitung total kondisi filter properti dalam klausa WHERE,
+              termasuk kueri yang memiliki beberapa klaster OR.
+    Input   : query (kueri Cypher lengkap)
+    Output  : jumlah total kondisi (integer)
+    """
     m = re.search(r'WHERE\s*(.+?)\s*RETURN', query, re.IGNORECASE | re.DOTALL)
     if not m:
         return 0
@@ -300,7 +352,13 @@ def count_where_properties_full(query):
     return total
 
 def refactor_label_query_full(query):
-    """Dispatcher utama: deteksi OR di level teratas, arahkan ke fungsi yang sesuai."""
+    """
+    Tujuan  : Titik masuk utama proses rekonstruksi label specification. Menentukan
+              otomatis apakah kueri perlu ditangani lewat jalur OR (inclusion-exclusion)
+              atau jalur AND biasa.
+    Input   : query (kueri Cypher lengkap)
+    Output  : kueri hasil rekonstruksi
+    """
     m = re.search(r'WHERE\s*(.+?)\s*RETURN', query, re.IGNORECASE | re.DOTALL)
     if not m:
         return query
@@ -349,29 +407,3 @@ def run_reconstruction_label_specification():
 
     save_queries_to_csv(csv_data, output_csv)
     print(f"Hasil disimpan ke {output_csv}")
-
-
-# # ── Quick test tanpa file ──────────────────────────────────────────────────────
-# if __name__ == "__main__":
-#     test_queries = [
-#         "MATCH (a:adventure) WHERE (a.category = 'tvMovie') RETURN a",
-#         "MATCH (a:drama) WHERE (a.year = 1999) RETURN a",
-#         "MATCH (a:actor) WHERE (a.death = 2000) RETURN a",
-#         "MATCH (a:director) WHERE (a.birth = 1995) RETURN a",
-#         "MATCH (a:drama) WHERE (a.year = 1999 AND a.category = 'movie') RETURN a",
-#     ]
-
-#     print("=" * 70)
-#     print("QUICK TEST - Label Specification Refactoring")
-#     print("=" * 70 + "\n")
-
-#     for i, q in enumerate(test_queries, 1):
-#         result = refactor_label_specification(q)
-#         before = count_where_properties(q)
-#         after  = count_where_properties(result)
-#         pct    = f"{(before - after) / before * 100:.0f}%" if before > 0 else "0%"
-
-#         print(f"[{i}] Input  : {q}")
-#         print(f"    Output : {result}")
-#         print(f"    WHERE  : {before} → {after} properti ({pct} turun)")
-#         print()

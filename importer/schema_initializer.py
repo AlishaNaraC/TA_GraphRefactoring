@@ -1,3 +1,4 @@
+# Membuat index sementara untuk label TMP_PEOPLES dan TMP_MOVIES, supaya query bisa lebih cepat.
 def create_indexes(importer):
 
     queries = [

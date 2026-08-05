@@ -1,3 +1,5 @@
+#Fungsi untuk mengidentifikasi kandidat properti untuk refaktorisasi
+#Sesuikan dengan analisis DVR (Distinct Value Ratio) untuk menentukan properti yang memiliki DVR < 1%
 class IdentifyCandidateProperty:
     DVR_THRESHOLD = 1.0  # dalam persen
     DEFAULT_EXCLUDE = []  # unique identifier, bukan kandidat refaktorisasi
